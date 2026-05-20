@@ -87,7 +87,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 .doc-name{font-size:9.5pt;font-weight:700;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;line-height:1.2;}
 .doc-addr{font-size:9pt;font-family:Constantia,"Times New Roman",Georgia,serif;color:#000;line-height:1.55;margin-top:0.3mm;}
 .doc-email{color:#2e74b5;font-weight:700;text-decoration:none;white-space:nowrap;font-size:9pt;}
-.rp-date{font-size:8.5pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;white-space:nowrap;color:#000;}
+.rp-date{font-size:7pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;white-space:nowrap;color:#000;text-align:right;}
 .sanatorio{font-size:5.5pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;text-align:right;margin-bottom:1mm;color:#555;}
 .pf{border:0.6pt solid #555;padding:0.8mm 2mm;margin-bottom:2mm;font-family:Constantia,"Times New Roman",Georgia,serif;color:#000;}
 .pf-row{display:flex;align-items:baseline;padding:0.9mm 0;border-bottom:0.4pt solid #bbb;white-space:nowrap;overflow:hidden;min-height:5mm;}
@@ -823,7 +823,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
     <div class="fg"><label>Obra Social</label><input id="i-os" type="text" list="obras-sociales" autocomplete="off" placeholder="OSDE / PAMI" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>Plan</label><input id="i-pl" type="text" list="planes" autocomplete="off" placeholder="UNICO / ADULTO" oninput="toUp(this);sync()"></div>
     <div class="fg"><label>N&#186; Afiliado</label><input id="i-af" type="text" placeholder="123456789" oninput="toUp(this);sync()"></div>
-    <div class="fg fg-xs"><label>H/C</label><input id="i-hc" type="text" placeholder="HC-001" oninput="toUp(this);sync()"></div>
+    <div class="fg fg-xs"><label>Edad</label><input id="i-hc" type="text" placeholder="65 años" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>IDX</label><input id="i-idx" type="text" list="idx-cie" autocomplete="off" placeholder="J06.9 — Buscar CIE-11..." oninput="toUp(this);sync()"></div>
   </div>
   <!-- SIEMPRE VISIBLE: cabecera meds + filas 1 y 2 -->
@@ -900,7 +900,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <div class="pf">
           <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q1-nb"></span></div>
           <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q1-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q1-pl"></span></div>
-          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q1-af"></span><span class="pf-sep"></span><span class="pf-lb">H/C:&nbsp;</span><span class="pf-val" id="q1-hc"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q1-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q1-hc"></span></div>
         </div>
         <div class="it">INDICACIONES:</div>
         <div class="mc" id="q1m"></div>
@@ -929,7 +929,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <div class="pf">
           <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q2-nb"></span></div>
           <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q2-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q2-pl"></span></div>
-          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q2-af"></span><span class="pf-sep"></span><span class="pf-lb">H/C:&nbsp;</span><span class="pf-val" id="q2-hc"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q2-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q2-hc"></span></div>
         </div>
         <div class="it">INDICACIONES:</div>
         <div class="mc" id="q2m"></div>
@@ -958,7 +958,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <div class="pf">
           <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q3-nb"></span></div>
           <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q3-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q3-pl"></span></div>
-          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q3-af"></span><span class="pf-sep"></span><span class="pf-lb">H/C:&nbsp;</span><span class="pf-val" id="q3-hc"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q3-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q3-hc"></span></div>
         </div>
         <div class="it">INDICACIONES:</div>
         <div class="mc" id="q3m"></div>
@@ -987,7 +987,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <div class="pf">
           <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q4-nb"></span></div>
           <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q4-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q4-pl"></span></div>
-          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q4-af"></span><span class="pf-sep"></span><span class="pf-lb">H/C:&nbsp;</span><span class="pf-val" id="q4-hc"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q4-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q4-hc"></span></div>
         </div>
         <div class="it">INDICACIONES:</div>
         <div class="mc" id="q4m"></div>
@@ -1167,9 +1167,14 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function today(){
   const d=new Date();
-  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  const fecha=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  const hora=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' Hs.';
+  return fecha+' '+hora;
 }
-document.querySelectorAll('.rp-date').forEach(e=>e.textContent='FECHA: '+today());
+function refreshFechaHora(){
+  const d=new Date();const fecha=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();const hora=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' Hs.';document.querySelectorAll('.rp-date').forEach(e=>e.innerHTML='FECHA: '+fecha+' <strong>'+hora+'</strong>');
+}
+refreshFechaHora();
 
 function toUp(el){
   const pos=el.selectionStart,len=el.value.length;
@@ -1447,6 +1452,7 @@ function abrirInternacion(){
 
 
 function imprimirRecetas(){
+  refreshFechaHora();
   /* Inyectar @page portrait */
   const st = document.createElement('style');
   st.id = '__rec_page__';
@@ -1735,6 +1741,7 @@ function resetForm(){
   for(let q=1;q<=4;q++){
     if(_modoQ[q]==='lab'){ restaurarIndicaciones(q); }
   }
+  refreshFechaHora();
   sync();
   document.getElementById('i-nb').focus();
 }
