@@ -305,17 +305,48 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 @media print{#registro-wrap{display:none!important;}}
 
 /* ─── MODAL PIN ─── */
-#pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,12,26,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
-#pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.25);border-radius:12px;padding:32px 36px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:320px;box-shadow:0 8px 40px rgba(0,0,0,0.8);}
-#pin-box h2{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#90caf9;margin-bottom:6px;}
-#pin-box p{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:20px;line-height:1.5;}
-#pin-input{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:18px;padding:10px 14px;outline:none;text-align:center;width:160px;letter-spacing:6px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;}
-#pin-input:focus{border-color:#42a5f5;}
-#pin-btn-ok{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;}
+#pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,10,22,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
+#pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.18);border-radius:14px;padding:36px 40px 30px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:300px;box-shadow:0 12px 60px rgba(0,0,0,0.9);}
+#pin-logo{width:64px;height:auto;margin-bottom:18px;opacity:0.9;}
+#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#90caf9;margin-bottom:6px;}
+#pin-box p{font-size:10.5px;color:rgba(255,255,255,0.3);margin-bottom:22px;line-height:1.6;}
+#pin-input{
+  background:transparent;
+  border:none;
+  border-bottom:2px solid rgba(255,255,255,0.18);
+  border-radius:0;
+  color:#fff;
+  font-family:'Courier New',Courier,monospace;
+  font-size:22px;
+  padding:8px 4px;
+  outline:none;
+  text-align:center;
+  width:140px;
+  letter-spacing:8px;
+  margin-bottom:6px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  transition:border-color 0.2s;
+}
+#pin-input:focus{border-bottom-color:#42a5f5;}
+#pin-input.pin-ok{border-bottom-color:#66bb6a;}
+#pin-input.pin-error-field{border-bottom-color:#ef5350;}
+@keyframes pinShake{
+  0%,100%{transform:translateX(0);}
+  15%{transform:translateX(-8px);}
+  30%{transform:translateX(8px);}
+  45%{transform:translateX(-6px);}
+  60%{transform:translateX(6px);}
+  75%{transform:translateX(-3px);}
+  90%{transform:translateX(3px);}
+}
+#pin-input.shake{animation:pinShake 0.45s ease;}
+#pin-btn-ok{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
 #pin-btn-ok:hover{background:linear-gradient(135deg,#1976d2,#42a5f5);}
-#pin-btn-skip{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
-#pin-btn-skip:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);}
-#pin-error{color:#ef9a9a;font-size:10px;margin-top:8px;min-height:14px;letter-spacing:0.5px;}
+#pin-btn-skip{background:transparent;color:rgba(255,255,255,0.3);border:none;border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.2s;}
+#pin-btn-skip:hover{color:rgba(255,255,255,0.6);}
+#pin-error{color:#ef9a9a;font-size:10px;margin-top:6px;margin-bottom:16px;min-height:14px;letter-spacing:0.5px;}
 #pin-medicos{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
 .pin-medico-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);font-family:Arial,sans-serif;font-size:10px;padding:8px 14px;cursor:pointer;text-align:left;transition:all 0.15s;}
 .pin-medico-btn:hover{background:rgba(144,202,249,0.1);border-color:rgba(144,202,249,0.3);color:#fff;}
@@ -1151,11 +1182,12 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 <!-- MODAL PIN -->
 <div id="pin-overlay">
   <div id="pin-box">
-    <h2>&#128274; Inicio de Guardia</h2>
-    <p>Ingresá el PIN o iniciá sin sello</p>
-    <input type="password" id="pin-input" maxlength="6" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" oninput="pinInputChange()" onkeydown="if(event.key==='Enter')validarPin()">
+    <img id="pin-logo" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo%20RECETAS.png?raw=true" alt="Logo">
+    <h2>Sanatorio Mariano Acosta</h2>
+    <p>Ingresá tu código para iniciar</p>
+    <input type="password" id="pin-input" placeholder="" oninput="pinInputChange()" onkeydown="if(event.key==='Enter')validarPin()">
     <div id="pin-error"></div>
-    <div style="margin-top:16px;">
+    <div>
       <button id="pin-btn-ok" onclick="validarPin()">&#10003;&nbsp; Ingresar</button>
       <button id="pin-btn-skip" onclick="saltarPin()">Sin sello</button>
     </div>
@@ -1190,29 +1222,43 @@ let _selloActivo = null; /* null = sin sello */
 function seleccionarMedico(btn, key){} /* no-op, mantenido por compatibilidad */
 
 function pinInputChange(){
+  const input = document.getElementById('pin-input');
+  input.classList.remove('pin-error-field','shake');
   document.getElementById('pin-error').textContent='';
 }
 
 function validarPin(){
-  const pin = document.getElementById('pin-input').value.trim();
-  /* Buscar el sello que corresponde al PIN ingresado */
+  const input = document.getElementById('pin-input');
+  const pin = input.value.trim();
+  if(pin === ''){
+    saltarPin();
+    return;
+  }
   let encontrado = null;
   for(const key of Object.keys(SELLOS)){
     if(SELLOS[key].pin === pin){ encontrado = SELLOS[key].url; break; }
   }
-  if(pin === ''){
-    /* PIN vacío = sin sello, igual que saltarPin */
-    saltarPin();
-    return;
-  }
   if(encontrado){
-    _selloActivo = encontrado;
-    aplicarSello(encontrado);
-    cerrarPinModal();
+    /* Flash verde → cerrar */
+    input.classList.remove('pin-error-field','shake');
+    input.classList.add('pin-ok');
+    setTimeout(()=>{
+      _selloActivo = encontrado;
+      aplicarSello(encontrado);
+      cerrarPinModal();
+    }, 350);
   } else {
-    document.getElementById('pin-error').textContent='PIN incorrecto';
-    document.getElementById('pin-input').value='';
-    document.getElementById('pin-input').focus();
+    /* Shake + borde rojo + mensaje genérico */
+    input.classList.remove('pin-ok');
+    input.classList.add('pin-error-field','shake');
+    document.getElementById('pin-error').textContent='Código no válido';
+    input.value='';
+    /* Quitar shake al terminar la animación */
+    input.addEventListener('animationend', function h(){
+      input.classList.remove('shake');
+      input.removeEventListener('animationend',h);
+    });
+    input.focus();
   }
 }
 
@@ -1239,17 +1285,21 @@ function aplicarSello(url){
 function cerrarPinModal(){
   const overlay = document.getElementById('pin-overlay');
   if(overlay) overlay.style.display='none';
-  document.getElementById('pin-input').value='';
+  const input = document.getElementById('pin-input');
+  input.value='';
+  input.classList.remove('pin-ok','pin-error-field','shake');
   _medicoSeleccionado = null;
 }
 
 function abrirPinModal(){
   const overlay = document.getElementById('pin-overlay');
   if(overlay) overlay.style.display='flex';
+  const input = document.getElementById('pin-input');
   document.getElementById('pin-error').textContent='';
-  document.getElementById('pin-input').value='';
+  input.value='';
+  input.classList.remove('pin-ok','pin-error-field','shake');
   _medicoSeleccionado = null;
-  setTimeout(()=>document.getElementById('pin-input').focus(), 100);
+  setTimeout(()=>input.focus(), 100);
 }
 
 /* Logo en base64 - original completo del archivo fuente */
