@@ -304,6 +304,23 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
 @media print{#registro-wrap{display:none!important;}}
 
+/* ─── MODAL PIN ─── */
+#pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,12,26,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
+#pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.25);border-radius:12px;padding:32px 36px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:320px;box-shadow:0 8px 40px rgba(0,0,0,0.8);}
+#pin-box h2{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#90caf9;margin-bottom:6px;}
+#pin-box p{font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:20px;line-height:1.5;}
+#pin-input{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:18px;padding:10px 14px;outline:none;text-align:center;width:160px;letter-spacing:6px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;}
+#pin-input:focus{border-color:#42a5f5;}
+#pin-btn-ok{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;}
+#pin-btn-ok:hover{background:linear-gradient(135deg,#1976d2,#42a5f5);}
+#pin-btn-skip{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
+#pin-btn-skip:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);}
+#pin-error{color:#ef9a9a;font-size:10px;margin-top:8px;min-height:14px;letter-spacing:0.5px;}
+#pin-medicos{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.pin-medico-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);font-family:Arial,sans-serif;font-size:10px;padding:8px 14px;cursor:pointer;text-align:left;transition:all 0.15s;}
+.pin-medico-btn:hover{background:rgba(144,202,249,0.1);border-color:rgba(144,202,249,0.3);color:#fff;}
+.pin-medico-btn.seleccionado{background:rgba(21,101,192,0.3);border-color:#42a5f5;color:#fff;}
+
 /* ─── INPUT DATALIST INTERNACIÓN ─── */
 .ied-input{
   width:100%;height:100%;
@@ -1014,6 +1031,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   </div>
   <div id="int-preview">
    <div class="int-a4">
+    <img id="int-sello-img" src="" alt="Sello" style="display:none;">
 
     <!-- FILA 1: LOGO + TÍTULO -->
     <div class="int-row1">
@@ -1130,6 +1148,20 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   </div>
 </div>
 
+<!-- MODAL PIN -->
+<div id="pin-overlay">
+  <div id="pin-box">
+    <h2>&#128274; Inicio de Guardia</h2>
+    <p>Ingresá el PIN o iniciá sin sello</p>
+    <input type="password" id="pin-input" maxlength="6" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" oninput="pinInputChange()" onkeydown="if(event.key==='Enter')validarPin()">
+    <div id="pin-error"></div>
+    <div style="margin-top:16px;">
+      <button id="pin-btn-ok" onclick="validarPin()">&#10003;&nbsp; Ingresar</button>
+      <button id="pin-btn-skip" onclick="saltarPin()">Sin sello</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL LABORATORIO -->
 <div id="lab-modal">
   <div id="lab-box">
@@ -1146,6 +1178,80 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 </div>
 
 <script>
+/* ─── SISTEMA DE PIN / SELLOS ─── */
+const SELLOS = {
+  silvio:    { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true', pin:'123456', nombre:'Dr. Silvio Romero' },
+  lisdellys: { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLO%20LISDELLYS.png?raw=true',       pin:'010101', nombre:'Dra. Lisdellys' },
+  ana:       { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLO%20ANA%20OROSCO.png?raw=true',    pin:'020202', nombre:'Dra. Ana Orosco' }
+};
+let _medicoSeleccionado = null;
+let _selloActivo = null; /* null = sin sello */
+
+function seleccionarMedico(btn, key){} /* no-op, mantenido por compatibilidad */
+
+function pinInputChange(){
+  document.getElementById('pin-error').textContent='';
+}
+
+function validarPin(){
+  const pin = document.getElementById('pin-input').value.trim();
+  /* Buscar el sello que corresponde al PIN ingresado */
+  let encontrado = null;
+  for(const key of Object.keys(SELLOS)){
+    if(SELLOS[key].pin === pin){ encontrado = SELLOS[key].url; break; }
+  }
+  if(pin === ''){
+    /* PIN vacío = sin sello, igual que saltarPin */
+    saltarPin();
+    return;
+  }
+  if(encontrado){
+    _selloActivo = encontrado;
+    aplicarSello(encontrado);
+    cerrarPinModal();
+  } else {
+    document.getElementById('pin-error').textContent='PIN incorrecto';
+    document.getElementById('pin-input').value='';
+    document.getElementById('pin-input').focus();
+  }
+}
+
+function saltarPin(){
+  _selloActivo = null;
+  aplicarSello(null);
+  cerrarPinModal();
+}
+
+function aplicarSello(url){
+  /* Recetas: todos los .rc-sello */
+  document.querySelectorAll('.rc-sello').forEach(img=>{
+    if(url){ img.src=url; img.style.display=''; }
+    else { img.src=''; img.style.display='none'; }
+  });
+  /* Internación */
+  const intSello = document.getElementById('int-sello-img');
+  if(intSello){
+    if(url){ intSello.src=url; intSello.style.display=''; }
+    else { intSello.src=''; intSello.style.display='none'; }
+  }
+}
+
+function cerrarPinModal(){
+  const overlay = document.getElementById('pin-overlay');
+  if(overlay) overlay.style.display='none';
+  document.getElementById('pin-input').value='';
+  _medicoSeleccionado = null;
+}
+
+function abrirPinModal(){
+  const overlay = document.getElementById('pin-overlay');
+  if(overlay) overlay.style.display='flex';
+  document.getElementById('pin-error').textContent='';
+  document.getElementById('pin-input').value='';
+  _medicoSeleccionado = null;
+  setTimeout(()=>document.getElementById('pin-input').focus(), 100);
+}
+
 /* Logo en base64 - original completo del archivo fuente */
 const LB64="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo%20RECETAS.png?raw=true";
 document.querySelectorAll('.logo-img').forEach(e=>e.src=LB64);
@@ -1162,6 +1268,8 @@ document.addEventListener('DOMContentLoaded',function(){
   if(exp){ exp.classList.add('collapsed'); }
   if(btn){ btn.innerHTML='&#9660; Expandir'; }
   _panelExpanded=false;
+  /* Sellos ocultos hasta que se ingrese PIN */
+  aplicarSello(null);
 });
 
 
@@ -1398,6 +1506,10 @@ function limpiarRegistro(){
   _registroOpen = false;
   const lista = document.getElementById('registro-lista');
   if(lista) lista.style.display = 'none';
+  /* Pedir nuevo PIN para la próxima guardia */
+  aplicarSello(null);
+  _selloActivo = null;
+  setTimeout(abrirPinModal, 200);
 }
 
 /* ─── PANEL COLAPSAR/EXPANDIR ─── */
