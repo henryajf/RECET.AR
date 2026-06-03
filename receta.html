@@ -8,13 +8,13 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
-#panel{background:#1a1a2e;color:#fff;padding:10px 18px 8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
+#panel{background:#18181b;color:#fff;padding:10px 18px 8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
 /* ── FILA SIEMPRE VISIBLE ── */
 #panel-top{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;}
 #panel h1{width:100%;font-size:9px;letter-spacing:1.5px;text-transform:none;color:rgba(255,255,255,0.28);margin-bottom:4px;font-family:Arial,sans-serif;font-weight:400;font-style:italic;display:flex;align-items:center;justify-content:space-between;}
 /* ── BOTÓN COLAPSAR ── */
 #btn-collapse{
-  background:linear-gradient(135deg,#f57c00,#ff9800);
+  background:linear-gradient(135deg,#7c3aed,#a78bfa);
   border:none;
   border-radius:6px;
   color:#fff;
@@ -25,17 +25,17 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   font-family:Arial,sans-serif;
   white-space:nowrap;
   transition:all 0.2s;
-  box-shadow:0 2px 6px rgba(255,152,0,0.4);
+  box-shadow:0 2px 6px rgba(124,58,237,0.4);
   letter-spacing:0.5px;
 }
 #btn-collapse:hover{
-  background:linear-gradient(135deg,#e65100,#f57c00);
-  box-shadow:0 3px 10px rgba(255,152,0,0.6);
+  background:linear-gradient(135deg,#6d28d9,#7c3aed);
+  box-shadow:0 3px 10px rgba(124,58,237,0.6);
   transform:translateY(-1px);
 }
 #btn-collapse:active{
   transform:translateY(0);
-  box-shadow:0 1px 4px rgba(255,152,0,0.3);
+  box-shadow:0 1px 4px rgba(124,58,237,0.3);
 }
 /* ── ZONA COLAPSABLE (medicamentos) ── */
 #panel-expanded{overflow:hidden;transition:max-height 0.35s ease, opacity 0.25s ease;max-height:500px;opacity:1;}
@@ -43,21 +43,21 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 /* ── FILAS SIEMPRE VISIBLES: datos paciente + 2 meds + especial ── */
 #panel-always{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:6px;}
 .fg{display:flex;flex-direction:column;gap:3px;min-width:90px;flex:1;}
-.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#90caf9;font-family:Arial,sans-serif;}
+.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#c4b5fd;font-family:Arial,sans-serif;}
 .fg input{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:5px 8px;outline:none;text-transform:uppercase;}
-.fg input:focus{border-color:#42a5f5;background:rgba(255,255,255,0.15);}
+.fg input:focus{border-color:#a78bfa;background:rgba(255,255,255,0.15);}
 .fg input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
 .fg-wide{min-width:190px;flex:3;}
 .fg-xs{max-width:90px;}
 #ms{width:100%;background:rgba(255,255,255,0.06);border-radius:4px;padding:9px 11px;margin-top:6px;}
-.mt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#90caf9;margin-bottom:7px;font-family:Arial,sans-serif;}
+.mt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;margin-bottom:7px;font-family:Arial,sans-serif;}
 .mr{display:grid;grid-template-columns:16px 1fr 1.6fr 200px;gap:5px;margin-bottom:5px;align-items:center;}
-.mr .n{font-size:11px;color:#90caf9;font-family:Arial,sans-serif;text-align:center;}
+.mr .n{font-size:11px;color:#c4b5fd;font-family:Arial,sans-serif;text-align:center;}
 .mr input.farm,.mr input.ind{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
-.mr input:focus{border-color:#42a5f5;}
+.mr input:focus{border-color:#a78bfa;}
 .mr input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
-.mr input.extra{background:#8b0000;border:1px solid #c62828;border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
-.mr input.extra:focus{border-color:#ef9a9a;background:#a00000;}
+.mr input.extra{background:#4c1d95;border:1px solid #7c3aed;border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
+.mr input.extra:focus{border-color:#c4b5fd;background:#5b21b6;}
 .mr input.extra::placeholder{color:rgba(255,200,200,0.5);text-transform:none;}
 
 /* Filas 3-5 ocultas en panel-expanded.collapsed (ya manejado por overflow:hidden/max-height) */
@@ -70,10 +70,10 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 }
 .btn-group-left{display:flex;gap:6px;align-items:center;}
 .btn-group-right{display:flex;gap:6px;align-items:center;}
-#btnp{background:#1565c0;color:#fff;border:none;border-radius:4px;padding:8px 16px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
-#btnp:hover{background:#1976d2;}
-#btnreset{background:#b71c1c;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
-#btnreset:hover{background:#c62828;}
+#btnp{background:#16a34a;color:#fff;border:none;border-radius:4px;padding:8px 16px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnp:hover{background:#15803d;}
+#btnreset{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnreset:hover{background:#b91c1c;}
 #preview{padding:18px;display:flex;flex-direction:column;align-items:center;gap:18px;}
 .page-a4{width:210mm;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,0.2);}
 .grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:148.5mm 148.5mm;width:100%;height:297mm;}
@@ -113,15 +113,15 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
 
 /* ─── BOTÓN INTERNACIÓN ─── */
-#btnint{background:#4a148c;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
-#btnint:hover{background:#6a1b9a;}
+#btnint{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnint:hover{background:#6d28d9;}
 /* ─── OVERLAY ─── */
 #int-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#909090;z-index:500;overflow:auto;}
 #int-overlay.open{display:block;}
-#int-bar{background:#1a1a2e;color:#fff;padding:8px 18px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:501;}
-#int-bar h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#90caf9;flex:1;font-family:Arial,sans-serif;margin:0;}
-#btnint-print{background:#1565c0;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
-#btnint-close{background:#b71c1c;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
+#int-bar{background:#18181b;color:#fff;padding:8px 18px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:501;}
+#int-bar h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;flex:1;font-family:Arial,sans-serif;margin:0;}
+#btnint-print{background:#16a34a;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
+#btnint-close{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
 /* PÁGINA A4 HORIZONTAL */
 #int-preview{padding:14px;display:flex;justify-content:center;min-height:calc(100vh - 48px);}
 .int-a4{
@@ -275,16 +275,16 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   body.printing-internacion { }
 }
 /* ─── BOTÓN LABORATORIO ─── */
-#btnlab{background:#1b5e20;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
-#btnlab:hover{background:#2e7d32;}
+#btnlab{background:#15803d;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnlab:hover{background:#16a34a;}
 
 /* ─── MODAL SELECTOR CUADRANTE ─── */
 #lab-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;}
 #lab-modal.open{display:flex;}
-#lab-box{background:#1a1a2e;border:1px solid #42a5f5;border-radius:8px;padding:20px 28px;text-align:center;color:#fff;font-family:Arial,sans-serif;}
-#lab-box h2{font-size:11px;letter-spacing:2px;color:#90caf9;text-transform:uppercase;margin-bottom:14px;}
-.lab-btn-q{background:#1565c0;color:#fff;border:none;border-radius:4px;padding:9px 18px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin:4px;text-transform:uppercase;}
-.lab-btn-q:hover{background:#1976d2;}
+#lab-box{background:#18181b;border:1px solid #a78bfa;border-radius:8px;padding:20px 28px;text-align:center;color:#fff;font-family:Arial,sans-serif;}
+#lab-box h2{font-size:11px;letter-spacing:2px;color:#c4b5fd;text-transform:uppercase;margin-bottom:14px;}
+.lab-btn-q{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:9px 18px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin:4px;text-transform:uppercase;}
+.lab-btn-q:hover{background:#6d28d9;}
 #lab-cancel{background:#555;color:#fff;border:none;border-radius:4px;padding:7px 16px;font-family:Arial,sans-serif;font-size:10px;cursor:pointer;margin-top:10px;text-transform:uppercase;}
 #lab-cancel:hover{background:#777;}
 
@@ -307,7 +307,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 #pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,10,22,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
 #pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.18);border-radius:14px;padding:36px 40px 30px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:300px;box-shadow:0 12px 60px rgba(0,0,0,0.9);}
 #pin-logo{width:64px;height:auto;margin-bottom:18px;opacity:0.9;}
-#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#90caf9;margin-bottom:6px;}
+#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c4b5fd;margin-bottom:6px;}
 #pin-box p{font-size:10.5px;color:rgba(255,255,255,0.3);margin-bottom:22px;line-height:1.6;}
 #pin-input{
   background:transparent;
@@ -328,7 +328,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   margin-right:auto;
   transition:border-color 0.2s;
 }
-#pin-input:focus{border-bottom-color:#42a5f5;}
+#pin-input:focus{border-bottom-color:#a78bfa;}
 #pin-input.pin-ok{border-bottom-color:#66bb6a;}
 #pin-input.pin-error-field{border-bottom-color:#ef5350;}
 @keyframes pinShake{
@@ -341,15 +341,15 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   90%{transform:translateX(3px);}
 }
 #pin-input.shake{animation:pinShake 0.45s ease;}
-#pin-btn-ok{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
-#pin-btn-ok:hover{background:linear-gradient(135deg,#1976d2,#42a5f5);}
+#pin-btn-ok{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
+#pin-btn-ok:hover{background:linear-gradient(135deg,#6d28d9,#a78bfa);}
 #pin-btn-skip{background:transparent;color:rgba(255,255,255,0.3);border:none;border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.2s;}
 #pin-btn-skip:hover{color:rgba(255,255,255,0.6);}
 #pin-error{color:#ef9a9a;font-size:10px;margin-top:6px;margin-bottom:16px;min-height:14px;letter-spacing:0.5px;}
 #pin-medicos{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
 .pin-medico-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);font-family:Arial,sans-serif;font-size:10px;padding:8px 14px;cursor:pointer;text-align:left;transition:all 0.15s;}
-.pin-medico-btn:hover{background:rgba(144,202,249,0.1);border-color:rgba(144,202,249,0.3);color:#fff;}
-.pin-medico-btn.seleccionado{background:rgba(21,101,192,0.3);border-color:#42a5f5;color:#fff;}
+.pin-medico-btn:hover{background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.3);color:#fff;}
+.pin-medico-btn.seleccionado{background:rgba(124,58,237,0.3);border-color:#a78bfa;color:#fff;}
 
 /* ─── INPUT DATALIST INTERNACIÓN ─── */
 .ied-input{
@@ -415,7 +415,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 .modo-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:3px;
   color:rgba(255,255,255,0.5);font-size:9px;font-family:Arial,sans-serif;
   padding:2px 8px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
-.modo-btn.activo{background:#1b5e20;border-color:#2e7d32;color:#fff;}
+.modo-btn.activo{background:#7c3aed;border-color:#a78bfa;color:#fff;}
 
 @media print{
   .lq-ck{border:.8px solid #000!important;}
@@ -903,7 +903,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
                  border-radius:4px;color:rgba(255,255,255,0.45);font-size:9px;
                  padding:2px 8px;cursor:pointer;font-family:Arial,sans-serif;
                  white-space:nowrap;display:flex;align-items:center;gap:4px;">
-          &#128203; <span id="registro-contador" style="color:#90caf9;font-weight:700;">0</span>
+          &#128203; <span id="registro-contador" style="color:#c4b5fd;font-weight:700;">0</span>
         </button>
         <!-- Dropdown lista -->
         <div id="registro-lista"
@@ -918,7 +918,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
               &#128203; Registro de turno
             </span>
             <button onclick="limpiarRegistro()"
-              style="background:#b71c1c;border:none;
+              style="background:#dc2626;border:none;
                      border-radius:4px;color:#fff;font-size:9px;font-weight:700;
                      padding:3px 10px;cursor:pointer;font-family:Arial,sans-serif;
                      letter-spacing:0.5px;box-shadow:0 1px 4px rgba(183,28,28,0.5);">
@@ -1010,7 +1010,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
       <input type="file" id="input-orden" accept="application/pdf" style="display:none" onchange="importarOrden(this)">
       <button id="btnorden" onclick="document.getElementById('input-orden').click()"
         title="Importar datos del paciente desde PDF de orden médica FPS"
-        style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:#fff;border:none;border-radius:4px;
+        style="background:linear-gradient(135deg,#15803d,#16a34a);color:#fff;border:none;border-radius:4px;
                padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;
                letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;
                box-shadow:0 2px 6px rgba(46,125,50,0.4);">
@@ -1605,11 +1605,11 @@ function renderRegistro(){
     const esActivo = (i === _idxRecargado);
     const rowBg    = esActivo ? 'background:rgba(144,202,249,0.08);' : '';
     const btnLabel = esActivo ? '&#10003; En panel' : '&#8617; Recargar';
-    const btnBg    = esActivo ? '#0d3b5e' : '#1b5e20';
+    const btnBg    = esActivo ? '#0d3b5e' : '#15803d';
     const btnTitle = esActivo ? 'Este paciente ya está cargado en el panel' : 'Recargar datos del paciente';
     return '<tr style="'+rowBg+'">'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.25);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.num+'</td>'+
-      '<td style="padding:3px 8px;color:#90caf9;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.hora+'</td>'+
+      '<td style="padding:3px 8px;color:#c4b5fd;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.hora+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.85);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.nb+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.os+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.af+'</td>'+
@@ -2159,7 +2159,7 @@ function _toastOrden(msg){
     Object.assign(t.style,{
       position:'fixed',bottom:'24px',left:'50%',
       transform:'translateX(-50%) translateY(10px)',
-      background:'#1b5e20',color:'#fff',
+      background:'#15803d',color:'#fff',
       padding:'9px 22px',borderRadius:'8px',
       fontFamily:'Arial,sans-serif',fontSize:'12px',
       fontWeight:'700',letterSpacing:'0.4px',
@@ -2347,7 +2347,7 @@ function _tryAutocomplete(target) {
   if (!miEl || miEl.value.trim() !== '') return;
   const val = target.value.trim().toUpperCase();
   if (!val) return;
-  const key = Object.keys(VADEMECUM).find(k => val === k || val.includes(k) || k.includes(val));
+  const key = Object.keys(VADEMECUM).find(k => val === k);
   if (!key) return;
   miEl.value = VADEMECUM[key];
   if (typeof sync === 'function') sync();
