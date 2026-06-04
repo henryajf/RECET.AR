@@ -914,6 +914,15 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
                          color:rgba(255,255,255,0.3);font-family:Arial,sans-serif;">
               &#128203; Registro de turno
             </span>
+            <button onclick="imprimirLibro()"
+              title="Imprimir registro de pacientes para el libro físico"
+              style="background:#7c3aed;border:none;
+                     border-radius:4px;color:#fff;font-size:9px;font-weight:700;
+                     padding:3px 10px;cursor:pointer;font-family:Arial,sans-serif;
+                     letter-spacing:0.5px;box-shadow:0 1px 4px rgba(124,58,237,0.4);
+                     margin-right:4px;">
+              &#128218; Imprimir libro
+            </button>
             <button onclick="limpiarRegistro()"
               style="background:#dc2626;border:none;
                      border-radius:4px;color:#fff;font-size:9px;font-weight:700;
@@ -1306,7 +1315,11 @@ function enviarDatosASheets() {
     afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
     edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
     idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
-    medicamentos: medicamentosArray.join(' | ')
+    medicamentos: medicamentosArray.join(' | '),
+    ex0: (document.getElementById('ex0') || {}).value?.toUpperCase() || '',
+    ex1: (document.getElementById('ex1') || {}).value?.toUpperCase() || '',
+    ex2: (document.getElementById('ex2') || {}).value?.toUpperCase() || '',
+    ex3: (document.getElementById('ex3') || {}).value?.toUpperCase() || ''
   };
 
   fetch(url, {
@@ -1565,7 +1578,12 @@ function registrarPaciente(){
   const osPlan = [os, pl].filter(Boolean).join(' / ');
   const now = new Date();
   const hora = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase()});
+  const ex0v=(document.getElementById('ex0')||{}).value?.trim()||'';
+  const ex1v=(document.getElementById('ex1')||{}).value?.trim()||'';
+  const ex2v=(document.getElementById('ex2')||{}).value?.trim()||'';
+  const ex3v=(document.getElementById('ex3')||{}).value?.trim()||'';
+  const exAll=[ex0v,ex1v,ex2v,ex3v].filter(Boolean).join(' | ') || '';
+  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase(), ex:exAll.toUpperCase()});
   renderRegistro();
 }
 
@@ -1652,6 +1670,59 @@ document.addEventListener('click', function(e){
     if(lista) lista.style.display = 'none';
   }
 });
+
+function imprimirLibro(){
+  if(_registro.length === 0){
+    alert('No hay pacientes registrados en esta guardia.');
+    return;
+  }
+  const fecha = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const hora  = new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+
+  let filas = _registro.map(p => `
+    <tr>
+      <td>${p.num}</td>
+      <td>${p.hora}</td>
+      <td>${p.nb}</td>
+      <td>${p.os||'—'}</td>
+      <td>${p.af||'—'}</td>
+      <td>${p.idx||'—'}</td>
+      <td>${p.ex||'—'}</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Libro de Guardia — ${fecha}</title>
+  <style>
+    @page { size: A4 landscape; margin: 12mm 10mm; }
+    body { font-family: Arial, sans-serif; font-size: 9pt; color: #000; }
+    h2 { font-size: 11pt; margin: 0 0 2mm; }
+    p  { font-size: 8pt; margin: 0 0 4mm; color: #444; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #18181b; color: #fff; font-size: 8pt; padding: 4px 6px;
+         text-align: left; letter-spacing: 0.5px; }
+    td { font-size: 8.5pt; padding: 4px 6px; border-bottom: 0.4pt solid #ccc;
+         vertical-align: top; }
+    tr:nth-child(even) td { background: #f5f5f5; }
+    .total { margin-top: 6mm; font-size: 9pt; font-weight: bold; }
+    @media print { button { display: none; } }
+  </style></head><body>
+  <h2>&#128218; LIBRO DE GUARDIA — ${fecha} &nbsp; ${hora} hs.</h2>
+  <p>Sanatorio Privado Mariano Acosta &nbsp;|&nbsp; Total de pacientes: <strong>${_registro.length}</strong></p>
+  <table>
+    <thead><tr>
+      <th>#</th><th>Hora</th><th>Apellido y Nombre</th>
+      <th>O. Social / Plan</th><th>N° Afiliado</th>
+      <th>Diagnóstico (IDX)</th><th>Estudios / Especial</th>
+    </tr></thead>
+    <tbody>${filas}</tbody>
+  </table>
+  <p class="total">Total atendidos: ${_registro.length} &nbsp;&nbsp; Impreso: ${fecha} ${hora} hs.</p>
+  <script>window.onload=()=>window.print();<\/script>
+  </body></html>`;
+
+  const w = window.open('','_blank','width=900,height=600');
+  if(w){ w.document.write(html); w.document.close(); }
+}
 
 function limpiarRegistro(){
   if(_registro.length === 0){ return; }
