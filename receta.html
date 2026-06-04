@@ -1,3 +1,8 @@
+¡A chambear se ha dicho! Aquí nadie es flojo.
+
+Te dejo el código HTML completo y ensamblado con la integración a Google Sheets inyectada exactamente donde debe estar (`imprimirRecetas`, `resetForm` y la función principal al final). Solo cópialo, pégalo en tu archivo y estará listo para registrar en tu base de datos.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -616,7 +621,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="RADIOGRAFÍA DE PIE">
 </datalist>
 
-<!-- DATALISTS INTERNACIÓN -->
 <datalist id="int-fluido">
   <option value="SOL 0.9% 1000CC VEV A RAZÓN DE 14 GOTAS X'//">
   <option value="SOL 0.9% 1000CC VEV A RAZÓN DE 21 GOTAS X'//">
@@ -895,7 +899,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <h1>
     <span style="opacity:0.7;">Recetas &mdash; Dr. Henry Jaramillo Forti</span>
     <div style="display:flex;align-items:center;gap:6px;">
-      <!-- Mini registro -->
       <div id="registro-wrap" style="position:relative;">
         <button id="btn-registro-toggle" onclick="toggleRegistro()"
           title="Registro de turno"
@@ -905,7 +908,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
                  white-space:nowrap;display:flex;align-items:center;gap:4px;">
           &#128203; <span id="registro-contador" style="color:#c4b5fd;font-weight:700;">0</span>
         </button>
-        <!-- Dropdown lista -->
         <div id="registro-lista"
           style="display:none;position:absolute;top:calc(100% + 4px);right:0;
                  background:#0d1117;border:1px solid rgba(255,255,255,0.1);
@@ -963,7 +965,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
       <button id="btn-collapse" onclick="togglePanel()" title="Colapsar/Expandir panel">&#9650; Colapsar</button>
     </div>
   </h1>
-  <!-- SIEMPRE VISIBLE: datos del paciente + 2 meds + especial -->
   <div id="panel-always">
     <div class="fg fg-wide"><label>Apellido y Nombre</label><input id="i-nb" type="text" placeholder="Garcia, Juan Carlos" oninput="toUp(this);sync()"></div>
     <div class="fg"><label>Obra Social</label><input id="i-os" type="text" list="obras-sociales" autocomplete="off" placeholder="OSDE / PAMI" oninput="toUp(this);sync()"></div>
@@ -972,7 +973,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
     <div class="fg fg-xs"><label>Edad</label><input id="i-hc" type="text" placeholder="65 años" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>IDX</label><input id="i-idx" type="text" list="idx-cie" autocomplete="off" placeholder="J06.9 — Buscar CIE-11..." oninput="toUp(this);sync()"></div>
   </div>
-  <!-- SIEMPRE VISIBLE: cabecera meds + filas 1 y 2 -->
   <div id="ms">
     <div class="mt">&#128138; Medicamentos (5) &nbsp;|&nbsp; &#128997; Columna roja = estudios / indicaciones especiales por cuadrante</div>
     <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
@@ -999,7 +999,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
     </div>
 
     <div id="mrows-always"></div>
-    <!-- ZONA COLAPSABLE: filas 3-5 -->
     <div id="panel-expanded">
       <div id="mrows-extra"></div>
     </div>
@@ -1030,7 +1029,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <div class="page-a4">
     <div class="grid">
 
-      <!-- Q1 -->
       <div class="rc" id="rc-q1">
         <div class="rp-head">
           <div class="rp-head-left">
@@ -1059,7 +1057,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
       </div>
 
-      <!-- Q2 -->
       <div class="rc" id="rc-q2">
         <div class="rp-head">
           <div class="rp-head-left">
@@ -1088,7 +1085,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
       </div>
 
-      <!-- Q3 -->
       <div class="rc" id="rc-q3">
         <div class="rp-head">
           <div class="rp-head-left">
@@ -1117,7 +1113,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
       </div>
 
-      <!-- Q4 -->
       <div class="rc" id="rc-q4">
         <div class="rp-head">
           <div class="rp-head-left">
@@ -1151,7 +1146,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 </div>
 
 
-<!-- OVERLAY INTERNACIÓN -->
 <div id="int-overlay">
   <div id="int-bar">
     <h2>&#127973; Hoja de Indicaciones M&eacute;dicas &mdash; Internaci&oacute;n</h2>
@@ -1162,7 +1156,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
    <div class="int-a4">
     <img id="int-sello-img" src="" alt="Sello" style="display:none;">
 
-    <!-- FILA 1: LOGO + TÍTULO -->
     <div class="int-row1">
       <div class="int-row1-logo">
         <img class="int-head-logo" id="int-logo" src="" alt="Logo">
@@ -1170,7 +1163,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
     </div>
 
-    <!-- FILA 2: APELLIDO Y NOMBRE | DNI | CAMA -->
     <div class="int-pac">
       <div class="int-pac-left">
         <span style="white-space:nowrap;">APELLIDO Y NOMBRE:&nbsp;</span>
@@ -1185,7 +1177,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
       </div>
     </div>
 
-    <!-- FILA 3: DIAGNÓSTICO | CAMA (misma estructura que fila paciente) -->
     <div class="int-pac">
       <div class="int-pac-left">
         <span style="white-space:nowrap;">DIAGN&Oacute;STICO: 1)&nbsp;</span>
@@ -1197,7 +1188,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
       </div>
     </div>
 
-    <!-- TABLA 30 COLUMNAS -->
     <table class="itbl">
       <colgroup>
         <col class="c0">
@@ -1212,7 +1202,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
       </colgroup>
       <tbody id="int-tbody">
 
-        <!-- FILA 2: DIETA | VÍAS | HORARIOS -->
         <tr>
           <td class="c0" style="padding:0;height:4.5mm;border:0.4pt solid #000;">
             <div style="display:flex;align-items:center;width:100%;height:100%;padding:0.3mm 1.2mm;box-sizing:border-box;">
@@ -1226,7 +1215,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
           <td colspan="25" class="th-gr">HORARIOS</td>
         </tr>
 
-        <!-- FILA 3: FLUIDOTERAPIA | V M O SC | horas -->
         <tr>
           <td class="c0" style="font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0.8mm 1.5mm;">FLUIDOTERAPIA:</td>
           <td class="th-s c1">V</td>
@@ -1248,16 +1236,9 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
           <td class="th-s c29">14</td>
         </tr>
 
-        <!-- FLUIDOTERAPIA - 2 filas editables -->
-        <!-- ANTIBIOTICOTERAPIA -->
         <tr class="tr-sec" id="sec-antibio"><td class="c0" colspan="30">ANTIBIOTICOTERAPIA:</td></tr>
-        <!-- MEDICACIÓN ENDOVENOSA -->
         <tr class="tr-sec" id="sec-ev"><td class="c0" colspan="30">MEDICACI&Oacute;N ENDOVENOSA:</td></tr>
-        <!-- MEDICACIÓN VIA ORAL -->
         <tr class="tr-sec" id="sec-oral"><td class="c0" colspan="30">MEDICACI&Oacute;N VIA ORAL:</td></tr>
-        <!-- filas editables generadas por buildIntRows() -->
-
-        <!-- CONTROLES FIJOS -->
         <tr class="tr-fix"><td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">CURACIONES DIARIAS</div></td></tr>
         <tr class="tr-fix">
           <td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">COLOCACI&Oacute;N DE SONDA VESICAL:&nbsp;
@@ -1277,7 +1258,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   </div>
 </div>
 
-<!-- MODAL PIN -->
 <div id="pin-overlay">
   <div id="pin-box">
     <img id="pin-logo" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo%20RECETAS.png?raw=true" alt="Logo">
@@ -1292,7 +1272,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   </div>
 </div>
 
-<!-- MODAL LABORATORIO -->
 <div id="lab-modal">
   <div id="lab-box">
     <h2>&#128203; Insertar Orden de Prácticas en cuadrante</h2>
@@ -1308,6 +1287,44 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 </div>
 
 <script>
+/* ─── ENVIAR DATOS A GOOGLE SHEETS ─── */
+let _registroEnviadoASheets = false; 
+
+function enviarDatosASheets() {
+  const nombre = (document.getElementById('i-nb') || {}).value;
+  if (!nombre || _registroEnviadoASheets) return;
+
+  const url = "https://script.google.com/macros/s/AKfycbw6dNlEZo92WmijVk2E949RXKW749XJbsCrPgzkgslt85n_E-a89EeT_KXxiAGLUV3yCw/exec"; 
+
+  let medicamentosArray = [];
+  for(let i=0; i<5; i++){
+    let med = document.getElementById('mn'+i)?.value || '';
+    let ind = document.getElementById('mi'+i)?.value || '';
+    if (med) medicamentosArray.push(`${med} (${ind})`);
+  }
+
+  const payload = {
+    fecha: new Date().toLocaleString('es-AR'),
+    nombre: nombre.toUpperCase(),
+    os: (document.getElementById('i-os') || {}).value.toUpperCase() || '',
+    plan: (document.getElementById('i-pl') || {}).value.toUpperCase() || '',
+    afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
+    edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
+    idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
+    medicamentos: medicamentosArray.join(' | ')
+  };
+
+  fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error("Error al registrar en Sheets:", err));
+
+  _registroEnviadoASheets = true; 
+}
+
+
 /* ─── SISTEMA DE PIN / SELLOS ─── */
 const SELLOS = {
   silvio:    { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true', pin:'123456', nombre:'Dr. Silvio Romero' },
@@ -1708,6 +1725,8 @@ function abrirInternacion(){
 
 
 function imprimirRecetas(){
+  enviarDatosASheets(); 
+  
   refreshFechaHora();
   /* Inyectar @page portrait */
   const st = document.createElement('style');
@@ -1723,6 +1742,7 @@ function imprimirRecetas(){
     if(el) el.parentNode.removeChild(el);
   }, 1000);
 }
+
 function imprimirInternacion(){
   /* Inyectar @page landscape */
   const st = document.createElement('style');
@@ -1980,8 +2000,13 @@ function _syncLabQuadrants(){
 
 
 function resetForm(){
+  enviarDatosASheets(); 
+  
   registrarPaciente(); /* Actualiza IDX si recargado, o registra si es nuevo */
   _idxRecargado = -1;  /* El siguiente paciente será siempre nuevo */
+  
+  _registroEnviadoASheets = false; 
+
   ['i-nb','i-os','i-pl','i-af','i-hc','i-idx'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
@@ -2364,42 +2389,8 @@ document.addEventListener('input', function(e) {
   clearTimeout(_acTimers[t.id]);
   _acTimers[t.id] = setTimeout(() => _tryAutocomplete(t), 120);
 }, true);
-  /* ─── ENVIAR DATOS A GOOGLE SHEETS ─── */
-let _registroEnviadoASheets = false; 
-
-function enviarDatosASheets() {
-  const nombre = (document.getElementById('i-nb') || {}).value;
-  if (!nombre || _registroEnviadoASheets) return;
-
-  const url = "https://script.google.com/macros/s/AKfycbw6dNlEZo92WmijVk2E949RXKW749XJbsCrPgzkgslt85n_E-a89EeT_KXxiAGLUV3yCw/exec"; 
-
-  let medicamentosArray = [];
-  for(let i=0; i<5; i++){
-    let med = document.getElementById('mn'+i)?.value || '';
-    let ind = document.getElementById('mi'+i)?.value || '';
-    if (med) medicamentosArray.push(`${med} (${ind})`);
-  }
-
-  const payload = {
-    fecha: new Date().toLocaleString('es-AR'),
-    nombre: nombre.toUpperCase(),
-    os: (document.getElementById('i-os') || {}).value.toUpperCase() || '',
-    plan: (document.getElementById('i-pl') || {}).value.toUpperCase() || '',
-    afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
-    edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
-    idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
-    medicamentos: medicamentosArray.join(' | ')
-  };
-
-  fetch(url, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(err => console.error("Error al registrar en Sheets:", err));
-
-  _registroEnviadoASheets = true; 
-}
 </script>
 </body>
 </html>
+
+```
