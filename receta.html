@@ -2364,6 +2364,42 @@ document.addEventListener('input', function(e) {
   clearTimeout(_acTimers[t.id]);
   _acTimers[t.id] = setTimeout(() => _tryAutocomplete(t), 120);
 }, true);
+  /* ─── ENVIAR DATOS A GOOGLE SHEETS ─── */
+let _registroEnviadoASheets = false; 
+
+function enviarDatosASheets() {
+  const nombre = (document.getElementById('i-nb') || {}).value;
+  if (!nombre || _registroEnviadoASheets) return;
+
+  const url = "https://script.google.com/macros/s/AKfycbw6dNlEZo92WmijVk2E949RXKW749XJbsCrPgzkgslt85n_E-a89EeT_KXxiAGLUV3yCw/exec"; 
+
+  let medicamentosArray = [];
+  for(let i=0; i<5; i++){
+    let med = document.getElementById('mn'+i)?.value || '';
+    let ind = document.getElementById('mi'+i)?.value || '';
+    if (med) medicamentosArray.push(`${med} (${ind})`);
+  }
+
+  const payload = {
+    fecha: new Date().toLocaleString('es-AR'),
+    nombre: nombre.toUpperCase(),
+    os: (document.getElementById('i-os') || {}).value.toUpperCase() || '',
+    plan: (document.getElementById('i-pl') || {}).value.toUpperCase() || '',
+    afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
+    edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
+    idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
+    medicamentos: medicamentosArray.join(' | ')
+  };
+
+  fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error("Error al registrar en Sheets:", err));
+
+  _registroEnviadoASheets = true; 
+}
 </script>
 </body>
 </html>
