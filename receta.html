@@ -1578,12 +1578,7 @@ function registrarPaciente(){
   const osPlan = [os, pl].filter(Boolean).join(' / ');
   const now = new Date();
   const hora = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  const ex0v=(document.getElementById('ex0')||{}).value?.trim()||'';
-  const ex1v=(document.getElementById('ex1')||{}).value?.trim()||'';
-  const ex2v=(document.getElementById('ex2')||{}).value?.trim()||'';
-  const ex3v=(document.getElementById('ex3')||{}).value?.trim()||'';
-  const exAll=[ex0v,ex1v,ex2v,ex3v].filter(Boolean).join(' | ') || '';
-  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase(), ex:exAll.toUpperCase()});
+  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase()});
   renderRegistro();
 }
 
@@ -1687,7 +1682,6 @@ function imprimirLibro(){
       <td>${p.os||'—'}</td>
       <td>${p.af||'—'}</td>
       <td>${p.idx||'—'}</td>
-      <td>${p.ex||'—'}</td>
     </tr>`).join('');
 
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
@@ -1712,7 +1706,7 @@ function imprimirLibro(){
     <thead><tr>
       <th>#</th><th>Hora</th><th>Apellido y Nombre</th>
       <th>O. Social / Plan</th><th>N° Afiliado</th>
-      <th>Diagnóstico (IDX)</th><th>Estudios / Especial</th>
+      <th>Diagnóstico (IDX)</th>
     </tr></thead>
     <tbody>${filas}</tbody>
   </table>
