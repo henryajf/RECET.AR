@@ -1037,6 +1037,12 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="MD12 — PALPITACIONES">
   <option value="MB44 — ALTERACIÓN DEL ESTADO DE CONSCIENCIA / CONFUSIÓN AGUDA">
   <option value="ND56 — DOLOR LUMBAR AGUDO (DEBUT EN URGENCIAS)">
+  <option value="BE00.0 — SÍNCOPE Y COLAPSO">
+  <option value="CA41.0 — BRONQUITIS AGUDA">
+  <option value="DA62.0 — ESTREÑIMIENTO">
+  <option value="MD92.1 — DOLOR TORÁCICO">
+  <option value="CA22.0 — EPOC CON EXACERBACIÓN AGUDA">
+  <option value="CA01 — INFLUENZA (GRIPE)">
 </datalist>
 
 
@@ -2600,6 +2606,193 @@ document.addEventListener('input', function(e) {
   clearTimeout(_acTimers[t.id]);
   _acTimers[t.id] = setTimeout(() => _tryAutocomplete(t), 120);
 }, true);
+
+/* ─── PROTOCOLOS DIAGNÓSTICOS CIE-11 ─── */
+const PROTOCOLOS = {
+  /* Claves: fragmentos del código o descripción que aparecen en i-idx */
+  "CA40.0": {
+    meds: [
+      { n: "AMOXICILINA / ÁCIDO CLAVULÁNICO 875/125MG", i: "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS" },
+      { n: "IBUPROFENO 600MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SÓLO SI HAY DOLOR O FIEBRE)" },
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SI HAY INTOLERANCIA A AINE)" },
+      { n: "N-ACETILCISTEÍNA 600MG",                    i: "TOMAR (1) SOBRE CADA 24 HORAS POR 7 DÍAS" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN ABUNDANTE (MÍN. 2.5-3 LITROS/DÍA). CONSULTA INMEDIATA ANTE FALTA DE AIRE O FIEBRE > 48 HS." }
+    ]
+  },
+  "CA22.0": {
+    meds: [
+      { n: "SALBUTAMOL / IPRATROPIO AEROSOL",           i: "INHALAR (2) PUFFS CADA 6 HORAS O SEGÚN NECESIDAD EN CRISIS" },
+      { n: "PREDNISONA 40MG",                           i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 5 DÍAS" },
+      { n: "AZITROMICINA 500MG",                        i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 3 DÍAS (SI HAY SIGNOS DE INFECCIÓN BACTERIANA)" },
+      { n: "OXÍGENO SUPLEMENTARIO",                     i: "SI SATURACIÓN < 90%, INDICAR USO DOMICILIARIO SEGÚN PROTOCOLO" },
+      { n: "RECOMENDACIONES",                           i: "CESE TABÁQUICO, EVITAR HUMO/POLVO, HIDRATACIÓN 2 L/DÍA PARA FLUIDIFICAR SECRECIONES Y USO CORRECTO DE INHALADORES CON CÁMARA ESPACIADORA." }
+    ]
+  },
+  "1A40": {
+    meds: [
+      { n: "SALES DE REHIDRATACIÓN ORAL (SRO)",         i: "DISOLVER 1 SOBRE EN 1 LITRO DE AGUA, CONSUMIR A DEMANDA (2-3 LITROS/DÍA)" },
+      { n: "METOCLOPRAMIDA 10MG",                       i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SI HAY VÓMITOS)" },
+      { n: "DIMEHIDRINATO 50MG",                        i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (ALTERNATIVA SI HAY MAREOS/VÓMITOS)" },
+      { n: "PROBIÓTICOS (SACCHAROMYCES BOULARDII)",     i: "TOMAR (1) CÁPSULA CADA 12 HORAS POR 5 DÍAS" },
+      { n: "RECOMENDACIONES",                           i: "DIETA BLANDA (ARROZ, POLLO HERVIDO, BANANA, MANZANA). EVITAR LÁCTEOS, GASEOSAS Y ALCOHOL. HIDRATACIÓN FRACCIONADA PARA MEJOR TOLERANCIA." }
+    ]
+  },
+  "CA01": {
+    meds: [
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS" },
+      { n: "ANTIGRIPAL (PARACETAMOL+FENILEFRINA+CLORFENAMINA)", i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 3-5 DÍAS" },
+      { n: "MIEL CON LIMÓN",                            i: "TOMAR (1) CUCHARADA CADA 8 HORAS PARA CALMAR LA TOS" },
+      { n: "SOLUCIÓN SALINA SPRAY NASAL",               i: "APLICAR (1-2) PUFFS EN CADA FOSA NASAL CADA 6 HORAS" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO, AISLAMIENTO RELATIVO (BARBIJO EN LUGARES CERRADOS), VENTILACIÓN DE AMBIENTES E HIDRATACIÓN CONSTANTE 2-3 LITROS/DÍA." }
+    ]
+  },
+  "DA62.0": {
+    meds: [
+      { n: "LACTULOSA JARABE",                          i: "TOMAR 15-30 ML EN AYUNAS (AJUSTAR SEGÚN RESPUESTA)" },
+      { n: "MACROGOL 3350",                             i: "DISOLVER (1) SOBRE EN AGUA Y TOMAR CADA 24 HORAS" },
+      { n: "FIBRA (PSYLLIUM)",                          i: "TOMAR (1) SOBRE CADA 24 HORAS CON ABUNDANTE AGUA" },
+      { n: "RECOMENDACIONES",                           i: "AUMENTAR CONSUMO DE AGUA A 2.5 L/DÍA (SIN AGUA LA FIBRA EMPEORA EL CUADRO), DIETA RICA EN FIBRAS Y ACTIVIDAD FÍSICA DIARIA." }
+    ]
+  },
+  "BE00.0": {
+    meds: [
+      { n: "SOLUCIÓN FISIOLÓGICA 0.9% 500ML",           i: "SUPERVISAR HIDRATACIÓN ORAL. REPOSO EN DECÚBITO SUPINO CON PIERNAS ELEVADAS HASTA RECUPERACIÓN COMPLETA" },
+      { n: "METOCLOPRAMIDA 10MG",                       i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS SI HAY NÁUSEAS O VÓMITOS ASOCIADOS" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS SI HAY CEFALEA POSTCAÍDA (CON LAS COMIDAS)" },
+      { n: "SALES DE REHIDRATACIÓN ORAL (SRO)",         i: "DISOLVER 1 SOBRE EN 1 LITRO DE AGUA Y CONSUMIR EN LAS PRIMERAS 2 HORAS" },
+      { n: "RECOMENDACIONES",                           i: "EVITAR BIPEDESTACIÓN BRUSCA, AUMENTAR INGESTA DE LÍQUIDOS Y SAL. NO CONDUCIR HASTA EVALUACIÓN. CONSULTA URGENTE SI SE REPITE O ASOCIA PALPITACIONES O PÉRDIDA DE CONSCIENCIA PROLONGADA." }
+    ]
+  },
+  "CA41.0": {
+    meds: [
+      { n: "AMOXICILINA 500MG",                         i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 5-7 DÍAS (SOLO SI HAY SOSPECHA BACTERIANA)" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS (PARA FIEBRE Y DOLOR)" },
+      { n: "N-ACETILCISTEÍNA 600MG",                    i: "TOMAR (1) SOBRE DISUELTO EN AGUA CADA 24 HORAS POR 7 DÍAS (MUCOLÍTICO)" },
+      { n: "SALBUTAMOL PUFF 100MCG",                    i: "INHALAR (2) PUFFS CADA 6-8 HORAS SEGÚN NECESIDAD SI HAY BRONCOESPASMO" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN 2-3 L/DÍA, EVITAR TABACO Y AMBIENTES FRÍOS. CONSULTAR SI FIEBRE > 38.5°C MÁS DE 48 HS O EXPECTORACIÓN PURULENTA." }
+    ]
+  },
+  "MD92.1": {
+    meds: [
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (PRIMERA LÍNEA ANALGÉSICA, SEGURA EN CARDÍACOS)" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS SI ORIGEN MUSCULOESQUELÉTICO (EVITAR EN SOSPECHA CARDÍACA)" },
+      { n: "OMEPRAZOL 20MG",                            i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MIN ANTES DEL DESAYUNO (PROTECCIÓN GÁSTRICA CON AINES)" },
+      { n: "DIAZEPAM 5MG",                              i: "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 3 DÍAS SI ORIGEN ANSIOSO O MUSCULOESQUELÉTICO" },
+      { n: "RECOMENDACIONES",                           i: "CONSULTA INMEDIATA A GUARDIA SI EL DOLOR IRRADIA A BRAZO O MANDÍBULA, SE ACOMPAÑA DE DISNEA O SUDORACIÓN FRÍA. EVITAR ESFUERZOS HASTA DESCARTAR CAUSA CARDÍACA." }
+    ]
+  },
+  "CA00.0": {
+    meds: [
+      { n: "PARACETAMOL 500MG",                         i: "TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS SEGÚN FIEBRE O MALESTAR. MÁXIMO 4G/DÍA" },
+      { n: "LORATADINA 10MG",                           i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS PARA ALIVIO DE CONGESTIÓN Y RINORREA" },
+      { n: "SOLUCIÓN SALINA SPRAY NASAL",               i: "APLICAR (2) PUFFS EN CADA FOSA NASAL CADA 6-8 HORAS PARA DESOBSTRUIR VÍA AÉREA" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS SI HAY DOLOR DE GARGANTA O CEFALEA" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO, HIDRATACIÓN 2-3 L/DÍA, LAVADOS NASALES CON SOLUCIÓN SALINA. NO REQUIERE ANTIBIÓTICOS (CAUSA VIRAL). CONSULTAR SI FIEBRE PERSISTE MÁS DE 72 HS." }
+    ]
+  }
+};
+
+/* Mapeo adicional: códigos o fragmentos alternativos → misma clave de protocolo */
+const PROTO_ALIAS = {
+  "CA40.Z":  "CA40.0",  /* Neumonía no especificada → protocolo NAC */
+  "CA22.1":  "CA22.0",  /* EPOC con exacerbación (otra notación) */
+  "ME04.0":  "DA62.0",  /* Estreñimiento (código ICD-10 legacy) */
+  "DA62":    "DA62.0",
+  "1D00":    "CA01",    /* Gripe identificada */
+  "8B22":    "BE00.0",  /* Síncope (código legacy) */
+  "MA01":    "BE00.0",  /* Síncope vasovagal */
+  "R55":     "BE00.0",  /* Síncope (ICD-10) */
+  "CA41":    "CA41.0",  /* Bronquitis aguda sin decimal */
+  "J20":     "CA41.0",  /* Bronquitis aguda (ICD-10) */
+  "MD92":    "MD92.1",  /* Dolor torácico sin decimal */
+  "MD10":    "MD92.1",  /* Dolor torácico no especificado */
+  "R07":     "MD92.1",  /* Dolor torácico (ICD-10) */
+  "CA00":    "CA00.0",  /* Rinofaringitis sin decimal */
+  "J00":     "CA00.0",  /* Rinofaringitis aguda (ICD-10) */
+};
+
+/* Expandir panel si está colapsado */
+function _expandirPanel(){
+  const exp = document.getElementById('panel-expanded');
+  const btn = document.getElementById('btn-collapse');
+  if(exp && exp.classList.contains('collapsed')){
+    exp.classList.remove('collapsed');
+    if(btn) btn.innerHTML = '&#9650; Colapsar';
+    _panelExpanded = true;
+  }
+}
+
+/* Función principal: aplica protocolo según valor del campo IDX */
+function _aplicarProtocolo(valorIdx){
+  const val = (valorIdx || '').toUpperCase().trim();
+  if(!val) return;
+
+  /* Buscar clave directa o alias */
+  let clave = null;
+  for(const k of Object.keys(PROTOCOLOS)){
+    if(val.indexOf(k) !== -1){ clave = k; break; }
+  }
+  if(!clave){
+    for(const [alias, dest] of Object.entries(PROTO_ALIAS)){
+      if(val.indexOf(alias) !== -1){ clave = dest; break; }
+    }
+  }
+  if(!clave) return; /* Diagnóstico sin protocolo definido → no hace nada */
+
+  const proto = PROTOCOLOS[clave];
+  if(!proto || !proto.meds) return;
+
+  /* Verificar si ya hay medicamentos cargados → preguntar antes de pisar */
+  let hayMeds = false;
+  for(let i = 0; i < N; i++){
+    const el = document.getElementById('mn' + i);
+    if(el && el.value.trim() !== ''){ hayMeds = true; break; }
+  }
+  if(hayMeds){
+    if(!confirm('⚠️ Ya hay medicamentos cargados.\n¿Reemplazar con el protocolo de:\n' + val + '?')) return;
+  }
+
+  /* Limpiar todos los campos primero */
+  for(let i = 0; i < N; i++){
+    const mn = document.getElementById('mn' + i);
+    const mi = document.getElementById('mi' + i);
+    if(mn) mn.value = '';
+    if(mi) mi.value = '';
+  }
+
+  /* Cargar protocolo */
+  const meds = proto.meds.slice(0, N);
+  meds.forEach(function(med, i){
+    const mn = document.getElementById('mn' + i);
+    const mi = document.getElementById('mi' + i);
+    if(mn) mn.value = med.n;
+    if(mi) mi.value = med.i;
+  });
+
+  /* Expandir panel para que se vean todas las filas */
+  _expandirPanel();
+
+  sync();
+}
+
+/* Listener: se dispara al seleccionar/escribir en el campo IDX */
+(function(){
+  const idxEl = document.getElementById('i-idx');
+  if(!idxEl) return;
+
+  /* change: cuando el usuario selecciona de la datalist o sale del campo */
+  idxEl.addEventListener('change', function(){
+    _aplicarProtocolo(this.value);
+  });
+
+  /* También escuchar input con debounce para cuando tipea directo */
+  let _idxTimer = null;
+  idxEl.addEventListener('input', function(){
+    const v = this.value;
+    clearTimeout(_idxTimer);
+    _idxTimer = setTimeout(function(){ _aplicarProtocolo(v); }, 600);
+  });
+})();
 </script>
 </body>
 </html>
