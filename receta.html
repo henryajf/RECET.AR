@@ -531,12 +531,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="CARVEDILOL 6.25MG">
   <option value="CARVEDILOL 12.5MG">
   <option value="CARVEDILOL 25MG">
-  <option value="CLORURO DE POTASIO 10MEQ/10ML AMP">
-  <option value="CLORURO DE POTASIO 20MEQ/10ML AMP">
-  <option value="CLORURO DE SODIO 0.9% 100ML">
-  <option value="CLORURO DE SODIO 0.9% 250ML">
-  <option value="CLORURO DE SODIO 0.9% 500ML">
-  <option value="CLORURO DE SODIO 0.9% 1000ML">
   <option value="DIGOXINA 0.25MG COMP">
   <option value="DIGOXINA 0.5MG/2ML AMP">
   <option value="DIPIRONA 500MG COMP">
@@ -555,10 +549,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="LIDOCAINA GEL 2% TUBO">
   <option value="METOCLOPRAMIDA 10MG COMP (RELIVERAN)">
   <option value="METOCLOPRAMIDA 10MG/2ML AMP (RELIVERAN)">
-  <option value="SOL. FISIOLOGICA 0.9% 10ML AMP">
-  <option value="SOL. FISIOLOGICA 0.9% 100ML">
-  <option value="SOL. FISIOLOGICA 0.9% 250ML">
-  <option value="SOL. FISIOLOGICA 0.9% 500ML">
   <option value="SOL. FISIOLOGICA P/ NEBULIZAR 3ML MONODOSIS">
   <option value="SULFATO DE MAGNESIO 10% 10ML AMP">
   <option value="SULFATO DE MAGNESIO 25% 10ML AMP">
@@ -905,8 +895,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="R53 — MALESTAR Y FATIGA">
   <option value="Z03.9 — OBSERVACIÓN POR SOSPECHA DE ENFERMEDAD">
 </datalist>
-
-
 
 <div id="panel">
   <h1>
@@ -2288,7 +2276,7 @@ function _toastOrden(msg){
 const VADEMECUM = {
   "AAS 100MG":                                  "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
   "AAS 325MG":                                  "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
-  "ACETILCISTEINA 600MG":                       "DISOLVER (1) SOBRE EN AGUA. TOMAR CADA 12 HORAS POR 5 DÍAS",
+  "ACETILCISTEINA 600MG":                       "DISOLVER (1) SOBRE EN AGUA. TOMAR CADA 12 HORAS POR 5 DÍAS. SI ES EFERVESCENTE TOMAR (1) AL DIA",
   "ACIDO FOLICO 1MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
   "ACIDO FOLICO 5MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
   "ALOPURINOL 100MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
@@ -2439,7 +2427,6 @@ const VADEMECUM = {
   "TRIMETOPRIMA-SULFAMETOXAZOL 160/800MG":      "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7-10 DÍAS",
   "VITAMINA D3 1000UI":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
   "VITAMINA D3 5000UI":                         "TOMAR (1) COMPRIMIDO POR SEMANA CON LAS COMIDAS",
-  "WARFARINA 5MG":                              "TOMAR SEGÚN ESQUEMA INDICADO. CONTROL DE RIN PERIÓDICO"
 };
 
 function _tryAutocomplete(target) {
@@ -2477,7 +2464,7 @@ const PROTOCOLOS = {
       { n: "IBUPROFENO 600MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SÓLO SI HAY DOLOR O FIEBRE)" },
       { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SI HAY INTOLERANCIA A AINE)" },
       { n: "N-ACETILCISTEÍNA 600MG",                    i: "TOMAR (1) SOBRE CADA 24 HORAS POR 7 DÍAS" },
-      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN ABUNDANTE (MÍN. 2.5-3 LITROS/DÍA). CONSULTA INMEDIATA ANTE FALTA DE AIRE O FIEBRE > 48 HS." }
+      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN ABUNDANTE (MÍN. 2.5-3 L/DÍA). CONSULTA INMEDIATA ANTE FALTA DE AIRE O FIEBRE > 48 HS." }
     ]
   },
   "CA22.0": {
