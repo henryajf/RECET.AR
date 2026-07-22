@@ -132,17 +132,16 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   background:#fff;
   box-shadow:0 2px 16px rgba(0,0,0,.35);
   box-sizing:border-box;
-  font-family:Calibri,"Segoe UI",Arial,sans-serif;
+  font-family:'Arial Narrow',Arial,sans-serif;
   align-self:flex-start;
 }
 /* FILA 1: LOGO + DIAGNÓSTICO + FECHA */
 .int-row1{
   display:flex;align-items:center;
-  border-bottom:0.4pt solid #000;
-  background:#e8e8e8;
+  background:#fff;
   padding:0mm 3mm;
-  min-height:18mm;
-  max-height:18mm;
+  min-height:16mm;
+  max-height:16mm;
 }
 .int-row1-logo{
   flex-shrink:0;
@@ -153,27 +152,27 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 .int-row1-title{
   flex:1;text-align:center;
   font-size:10pt;font-weight:700;
-  font-family:Calibri,"Segoe UI",Arial,sans-serif;
+  font-family:'Arial Narrow',Arial,sans-serif;
   letter-spacing:3px;text-transform:uppercase;
   color:#000;
 }
 .int-lbl{font-size:7.5pt;font-weight:700;white-space:nowrap;}
 .int-head-diagval{
-  display:inline;font-size:7.5pt;font-family:Calibri,Arial,sans-serif;
+  display:inline;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;
   outline:none;flex:1;min-width:40mm;
   border-bottom:0.4pt solid #000;text-transform:uppercase;
 }
 .int-head-diagval:empty::before{content:"Diagnóstico...";color:#bbb;font-style:italic;font-weight:400;}
 .int-head-diagval:focus{background:#fffde7;}
 /* FILA PACIENTE - fondo gris como docx */
-.int-pac{display:flex;border-bottom:0.4pt solid #000;background:#F2F2F2;}
+.int-pac{display:flex;border-bottom:0.4pt solid #000;border-left:0.4pt solid #000;border-right:0.4pt solid #000;background:#F2F2F2;}
 .int-pac-left{flex:5;border-right:0.4pt solid #000;padding:0.2mm 2mm;font-size:7.5pt;font-weight:700;display:flex;align-items:center;gap:1mm;}
 .int-pac-right{flex:1;padding:0.2mm 2mm;font-size:7.5pt;font-weight:700;display:flex;align-items:center;gap:1mm;}
-.int-pac-val{flex:1;outline:none;border:none;border-bottom:0.4pt solid #000;font-size:7.5pt;font-weight:700;font-family:Calibri,Arial,sans-serif;text-transform:uppercase;background:transparent;min-width:0;}
+.int-pac-val{flex:1;outline:none;border:none;border-bottom:0.4pt solid #000;font-size:8pt;font-weight:700;font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;background:transparent;min-width:0;}
 .int-pac-val:empty::before{content:attr(data-ph);color:#bbb;font-weight:400;font-style:italic;}
 .int-pac-val:focus{background:#fffde7;}
 /* TABLA - 30 columnas exactas del docx */
-.itbl{width:100%;border-collapse:collapse;table-layout:fixed;font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:7.5pt;height:auto;}
+.itbl{width:100%;border-collapse:collapse;table-layout:fixed;font-family:'Arial Narrow',Arial,sans-serif;font-size:8pt;height:auto;}
 .itbl td,.itbl th{border:0.4pt solid #000;padding:0;vertical-align:middle;box-sizing:border-box;overflow:hidden;text-align:left;}
 .tr-norm td{overflow:visible !important;white-space:nowrap;}
 /* anchos proporcionales exactos del docx (% sobre 100%) */
@@ -194,22 +193,22 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 .itbl .c27{width:2.05%;} .itbl .c28{width:1.78%;}
 .itbl .c29{width:2.43%;}
 /* encabezados grupales gris */
-.th-gr{background:#d0d0d0;font-size:7.5pt;font-weight:700;text-align:center;border:0.4pt solid #000;padding:0;height:4.5mm;vertical-align:middle;}
+.th-gr{background:#fff;font-size:8pt;font-weight:700;text-align:center;border:0.4pt solid #000;padding:0;height:4.5mm;vertical-align:middle;}
 /* sub-encabezados con dígitos apilados */
-.th-s{background:#e2e2e2;font-size:5.5pt;font-weight:700;text-align:center;border:0.4pt solid #000;padding:0;line-height:1.1;white-space:nowrap;height:4.5mm;vertical-align:middle;}
+.th-s{background:#fff;font-size:6pt;font-weight:400;text-align:center;border:0.4pt solid #000;padding:0;line-height:1.1;white-space:nowrap;height:4.5mm;vertical-align:middle;}
 /* sección bold */
-.tr-sec td{font-size:7pt;font-weight:700;border:0.4pt solid #000;padding:0;background:#fff;height:3.5mm;vertical-align:middle;}
+.tr-sec td{font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0;background:#fff;height:3.5mm;vertical-align:middle;}
 /* editable */
 .tr-ed td.c0{padding:0;height:4.5mm;}
-.ied{display:block;width:100%;height:100%;min-height:4.5mm;outline:none;padding:0.1mm 1.5mm;box-sizing:border-box;font-size:7.5pt;font-family:Calibri,Arial,sans-serif;text-transform:uppercase;}
+.ied{display:block;width:100%;height:100%;min-height:4.5mm;outline:none;padding:0.1mm 1.5mm;box-sizing:border-box;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;}
 .ied:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;text-transform:none;font-size:9pt;}
 .ied:focus{background:#fffde7;}
 /* grilla vacía */
 .cg{border:0.4pt solid #000;padding:0;height:4.5mm;}
 /* filas fijas */
-.tr-fix  td{font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
-.tr-norm td{font-size:7pt;font-weight:400;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
-.tr-bold-u td{font-size:6.5pt;font-weight:700;text-decoration:underline;border:0.4pt solid #000;padding:0;height:5.5mm;vertical-align:middle;}
+.tr-fix  td{font-size:8pt;font-weight:700;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
+.tr-norm td{font-size:7.5pt;font-weight:400;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
+.tr-bold-u td{font-size:7pt;font-weight:700;text-decoration:underline;border:0.4pt solid #000;padding:0;height:5.5mm;vertical-align:middle;}
 /* firma */
 /* IMPRESIÓN */
 
@@ -231,7 +230,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   body.printing-internacion .itbl{height:auto !important;}
   body.printing-internacion .int-a4{
     box-shadow:none !important;
-    border:0.4pt solid #000 !important;
     width:285mm !important;
     height:auto !important;
     min-height:0 !important;
@@ -1173,26 +1171,25 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
     </div>
 
-    <div class="int-pac">
-      <div class="int-pac-left">
-        <span style="white-space:nowrap;">APELLIDO Y NOMBRE:&nbsp;</span>
-        <span class="int-pac-val" id="int-nb" contenteditable="true" data-ph="GARCIA, JUAN CARLOS"></span>
-        &nbsp;&nbsp;
-        <span style="white-space:nowrap;">D.N.I.:&nbsp;</span>
-        <span class="int-pac-val" id="int-dni" contenteditable="true" data-ph="00000000"></span>
-      </div>
-      <div class="int-pac-right">
-        <span style="white-space:nowrap;">FECHA:&nbsp;</span>
-        <span id="int-fecha" style="font-weight:700;font-size:8pt;"></span>
+    <div class="int-pac" style="border-top:0.4pt solid #000;">
+      <div class="int-pac-left" style="flex:0 0 100%;border-right:none;">
+        <span style="white-space:nowrap;">DIAGN&Oacute;STICO:&nbsp;</span>
+        <span class="int-pac-val" id="int-dx" contenteditable="true" data-ph="Ingrese diagn&oacute;stico..." style="flex:0 0 55%;"></span>
+        <span style="white-space:nowrap;margin-left:auto;">FECHA:&nbsp;</span>
+        <span id="int-fecha" style="font-weight:700;font-size:8pt;white-space:nowrap;"></span>
       </div>
     </div>
 
-    <div class="int-pac">
-      <div class="int-pac-left">
-        <span style="white-space:nowrap;">DIAGN&Oacute;STICO: 1)&nbsp;</span>
-        <span class="int-pac-val" id="int-dx" contenteditable="true" data-ph="Ingrese diagn&oacute;stico..."></span>
+    <div class="int-pac" style="border-bottom:none;">
+      <div class="int-pac-left" style="flex:0 0 57.7%;">
+        <span style="white-space:nowrap;">APELLIDO Y NOMBRE:&nbsp;</span>
+        <span class="int-pac-val" id="int-nb" contenteditable="true" data-ph="GARCIA, JUAN CARLOS"></span>
       </div>
-      <div class="int-pac-right">
+      <div class="int-pac-left" style="flex:0 0 30.6%;">
+        <span style="white-space:nowrap;">D.N.I.:&nbsp;</span>
+        <span class="int-pac-val" id="int-dni" contenteditable="true" data-ph="00000000"></span>
+      </div>
+      <div class="int-pac-right" style="flex:0 0 11.7%;">
         <span>CAMA&nbsp;</span>
         <span class="int-pac-val" id="int-cama" contenteditable="true" data-ph=""></span>
       </div>
@@ -1215,9 +1212,9 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <tr>
           <td class="c0" style="padding:0;height:4.5mm;border:0.4pt solid #000;">
             <div style="display:flex;align-items:center;width:100%;height:100%;padding:0.3mm 1.2mm;box-sizing:border-box;">
-              <strong style="flex-shrink:0;font-size:7pt;white-space:nowrap;">DIETA:&nbsp;</strong>
+              <span style="flex-shrink:0;font-size:8pt;font-weight:400;white-space:nowrap;">DIETA:&nbsp;</span>
               <input type="text" id="int-dieta" placeholder="NVO / BLANDA..." value="NVO"
-                style="flex:1;border:none;outline:none;font-size:7.5pt;font-family:Calibri,Arial,sans-serif;
+                style="flex:1;border:none;outline:none;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;
                        text-transform:uppercase;background:transparent;color:#000;padding:0;height:auto;">
             </div>
           </td>
@@ -1249,16 +1246,15 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <tr class="tr-sec" id="sec-antibio"><td class="c0" colspan="30">ANTIBIOTICOTERAPIA:</td></tr>
         <tr class="tr-sec" id="sec-ev"><td class="c0" colspan="30">MEDICACI&Oacute;N ENDOVENOSA:</td></tr>
         <tr class="tr-sec" id="sec-oral"><td class="c0" colspan="30">MEDICACI&Oacute;N VIA ORAL:</td></tr>
-        <tr class="tr-fix"><td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">CURACIONES DIARIAS</div></td></tr>
         <tr class="tr-fix">
-          <td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">COLOCACI&Oacute;N DE SONDA VESICAL:&nbsp;
+          <td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">COLOCACI&Oacute;N DE SONDA VESICAL:&nbsp;
             <label style="font-weight:400;margin-right:6mm;"><input type="radio" name="int-sonda" value="NO">&nbsp;NO</label>
             <label style="font-weight:400;"><input type="radio" name="int-sonda" value="SI">&nbsp;S&Iacute;</label>
-          </div></td>
+          </div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td>
         </tr>
-        <tr class="tr-fix"><td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">O&#178; H&Uacute;MEDO 2LTS X CN SI SAT &lt; 92%</div></td></tr>
-        <tr class="tr-fix"><td colspan="30" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">HGT: CORRECCI&Oacute;N CON INSULINA CORRIENTE SEG&Uacute;N TABLA</div></td></tr>
-        <tr class="tr-norm"><td colspan="30" style="height:4.5mm;font-size:7pt;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;font-size:7pt;">150-200: 4 UDS &nbsp;//&nbsp; 201-250: 6 UDS &nbsp;//&nbsp; 251-300: 8 UDS &nbsp;//&nbsp; 351-400: 12 UDS &nbsp;&nbsp;&nbsp;<strong style="text-decoration:underline;">&gt;400 AVISAR A M&Eacute;DICO</strong></div></td></tr>
+        <tr class="tr-fix"><td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">O&#178; H&Uacute;MEDO 2LTS X CN SI SAT &lt; 92%</div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
+        <tr class="tr-fix"><td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">HGT: CORRECCI&Oacute;N CON INSULINA CORRIENTE SEG&Uacute;N TABLA</div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
+        <tr class="tr-norm"><td class="c0" style="height:4.5mm;font-size:7pt;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;font-size:7pt;">150-200: 4 UDS &nbsp;//&nbsp; 201-250: 6 UDS &nbsp;//&nbsp; 251-300: 8 UDS &nbsp;//&nbsp; 351-400: 12 UDS &nbsp;&nbsp;&nbsp;<strong style="text-decoration:underline;">&gt;400 AVISAR A M&Eacute;DICO</strong></div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
 
       </tbody>
     </table>
@@ -1853,13 +1849,13 @@ function cerrarInternacion(){
       +(list?' list="'+list+'"':'')+' placeholder="'+(ph||'')+'"'
       +' style="width:100%;height:100%;border:none;outline:none;padding:'+pad
       +';box-sizing:border-box;font-size:'+fs
-      +';font-family:Calibri,Arial,sans-serif;text-transform:uppercase;background:transparent;">'
+      +';font-family:"Arial Narrow",Arial,sans-serif;text-transform:uppercase;background:transparent;">'
       +'</td>'+gridCells()+'</tr>';
   }
 
   /* Header de sección */
   function sec(label){
-    return '<tr class="tr-sec"><td class="c0" colspan="30">'+label+'</td></tr>';
+    return '<tr class="tr-sec"><td class="c0">'+label+'</td>'+gridCells()+'</tr>';
   }
 
   const html = ''
