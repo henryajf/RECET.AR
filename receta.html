@@ -1,1 +1,2657 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Recetas Dr. Henry Jaramillo Forti</title>
+<link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/henryajf/FILES-RECET.AR-@main/favicon.ico">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
+#panel{background:#18181b;color:#fff;padding:10px 18px 8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
+/* ── FILA SIEMPRE VISIBLE ── */
+#panel-top{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;}
+#panel h1{width:100%;font-size:9px;letter-spacing:1.5px;text-transform:none;color:rgba(255,255,255,0.28);margin-bottom:4px;font-family:Arial,sans-serif;font-weight:400;font-style:italic;display:flex;align-items:center;justify-content:space-between;}
+/* ── BOTÓN COLAPSAR ── */
+#btn-collapse{
+  background:linear-gradient(135deg,#7c3aed,#a78bfa);
+  border:none;
+  border-radius:6px;
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
+  padding:4px 14px;
+  cursor:pointer;
+  font-family:Arial,sans-serif;
+  white-space:nowrap;
+  transition:all 0.2s;
+  box-shadow:0 2px 6px rgba(124,58,237,0.4);
+  letter-spacing:0.5px;
+}
+#btn-collapse:hover{
+  background:linear-gradient(135deg,#6d28d9,#7c3aed);
+  box-shadow:0 3px 10px rgba(124,58,237,0.6);
+  transform:translateY(-1px);
+}
+#btn-collapse:active{
+  transform:translateY(0);
+  box-shadow:0 1px 4px rgba(124,58,237,0.3);
+}
+/* ── ZONA COLAPSABLE (medicamentos) ── */
+#panel-expanded{overflow:hidden;transition:max-height 0.35s ease, opacity 0.25s ease;max-height:500px;opacity:1;}
+#panel-expanded.collapsed{max-height:0 !important;opacity:0;pointer-events:none;margin:0;padding:0;}
+/* ── FILAS SIEMPRE VISIBLES: datos paciente + 2 meds + especial ── */
+#panel-always{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:6px;}
+.fg{display:flex;flex-direction:column;gap:3px;min-width:90px;flex:1;}
+.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#c4b5fd;font-family:Arial,sans-serif;}
+.fg input{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:5px 8px;outline:none;text-transform:uppercase;}
+.fg input:focus{border-color:#a78bfa;background:rgba(255,255,255,0.15);}
+.fg input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
+.fg-wide{min-width:190px;flex:3;}
+.fg-xs{max-width:90px;}
+#ms{width:100%;background:rgba(255,255,255,0.06);border-radius:4px;padding:9px 11px;margin-top:6px;}
+.mt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;margin-bottom:7px;font-family:Arial,sans-serif;}
+.mr{display:grid;grid-template-columns:16px 1fr 1.6fr 200px;gap:5px;margin-bottom:5px;align-items:center;}
+.mr .n{font-size:11px;color:#c4b5fd;font-family:Arial,sans-serif;text-align:center;}
+.mr input.farm,.mr input.ind{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
+.mr input:focus{border-color:#a78bfa;}
+.mr input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
+.mr input.extra{background:#4c1d95;border:1px solid #7c3aed;border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
+.mr input.extra:focus{border-color:#c4b5fd;background:#5b21b6;}
+.mr input.extra::placeholder{color:rgba(255,200,200,0.5);text-transform:none;}
+
+/* Filas 3-5 ocultas en panel-expanded.collapsed (ya manejado por overflow:hidden/max-height) */
+.btn-group{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:6px;
+  gap:6px;
+}
+.btn-group-left{display:flex;gap:6px;align-items:center;}
+.btn-group-right{display:flex;gap:6px;align-items:center;}
+#btnp{background:#16a34a;color:#fff;border:none;border-radius:4px;padding:8px 16px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnp:hover{background:#15803d;}
+#btnreset{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnreset:hover{background:#b91c1c;}
+#preview{padding:18px;display:flex;flex-direction:column;align-items:center;gap:18px;}
+.page-a4{width:210mm;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,0.2);}
+.grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:148.5mm 148.5mm;width:100%;height:297mm;}
+.rc{border:0.4pt solid #ccc;padding:4mm 5mm 0 5mm;display:flex;flex-direction:column;overflow:hidden;}
+/* Q3 y Q4 ocultos por defecto — se muestran solo si tienen datos */
+#rc-q3,#rc-q4{visibility:hidden;border-color:transparent;}
+#rc-q3.has-data,#rc-q4.has-data{visibility:visible;border-color:#ccc;}
+.rp-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8mm;}
+.rp-head-left{display:flex;gap:2mm;align-items:flex-start;}
+.logo-img{width:14mm;height:auto;flex-shrink:0;}
+.doc-name{font-size:9.5pt;font-weight:700;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;line-height:1.2;}
+.doc-addr{font-size:9pt;font-family:Constantia,"Times New Roman",Georgia,serif;color:#000;line-height:1.55;margin-top:0.3mm;}
+.doc-email{color:#2e74b5;font-weight:700;text-decoration:none;white-space:nowrap;font-size:9pt;}
+.rp-date{font-size:7pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;white-space:nowrap;color:#000;text-align:right;}
+.sanatorio{font-size:5.5pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;text-align:right;margin-bottom:1mm;color:#555;}
+.pf{border:0.6pt solid #555;padding:0.8mm 2mm;margin-bottom:2mm;font-family:Constantia,"Times New Roman",Georgia,serif;color:#000;}
+.pf-row{display:flex;align-items:baseline;padding:0.9mm 0;border-bottom:0.4pt solid #bbb;white-space:nowrap;overflow:hidden;min-height:5mm;}
+.pf-row-last{border-bottom:none;}
+.pf-lb{font-size:6.5pt;font-family:Constantia,"Times New Roman",Georgia,serif;flex-shrink:0;color:#000;}
+.pf-val{font-size:7.5pt;font-weight:700;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase;}
+.pf-sep{flex-shrink:0;width:4mm;}
+.it{font-size:8.5pt;font-weight:700;letter-spacing:0.5px;font-family:Calibri,"Segoe UI",Arial,sans-serif;margin-bottom:2mm;text-transform:uppercase;}
+.mc{flex:1;overflow:hidden;}
+.ml{font-size:10.5pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;margin-bottom:2mm;line-height:1.3;color:#000;text-transform:uppercase;}
+.ml .mn{font-weight:700;}
+.ml .mp{font-size:9.5pt;color:#222;margin-left:4mm;display:block;}
+.extra-block{display:none;}
+.rc-special .mc{display:none;}
+.rc-special .extra-block{display:flex;flex:1;align-items:center;justify-content:center;padding:3mm;}
+.extra-text{font-size:13pt;font-weight:700;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;text-align:center;text-transform:uppercase;line-height:1.4;white-space:pre-wrap;word-break:break-word;}
+.idx-bar{font-size:8.5pt;font-weight:400;letter-spacing:0.5px;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;padding:1mm 0;display:flex;align-items:baseline;white-space:nowrap;text-transform:uppercase;}
+.idx-lb{font-size:8.5pt;font-weight:400;font-family:Calibri,"Segoe UI",Arial,sans-serif;flex-shrink:0;letter-spacing:0.5px;}
+.idx-val{font-size:8.5pt;font-weight:400;font-family:Calibri,"Segoe UI",Arial,sans-serif;flex:1;text-transform:uppercase;letter-spacing:0.5px;}
+.rp-footer{border-top:0.8pt solid #222;padding-top:1mm;padding-bottom:1.5mm;}
+.imp-tit{font-size:6.5pt;font-weight:700;text-align:center;letter-spacing:1.5px;text-transform:uppercase;font-family:Calibri,"Segoe UI",Arial,sans-serif;margin-bottom:0.5mm;color:#000;}
+.imp-txt{font-size:5.5pt;color:#111;line-height:1.6;font-family:Calibri,"Segoe UI",Arial,sans-serif;text-align:center;}
+
+
+/* ─── BOTÓN INTERNACIÓN ─── */
+#btnint{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnint:hover{background:#6d28d9;}
+/* ─── OVERLAY ─── */
+#int-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#909090;z-index:500;overflow:auto;}
+#int-overlay.open{display:block;}
+#int-bar{background:#18181b;color:#fff;padding:8px 18px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:501;}
+#int-bar h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;flex:1;font-family:Arial,sans-serif;margin:0;}
+#btnint-print{background:#16a34a;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
+#btnint-close{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
+/* PÁGINA A4 HORIZONTAL */
+#int-preview{padding:14px;display:flex;justify-content:center;min-height:calc(100vh - 48px);}
+.int-a4{
+  position:relative;
+  width:285mm;
+  height:auto;
+  min-height:0;
+  background:#fff;
+  box-shadow:0 2px 16px rgba(0,0,0,.35);
+  box-sizing:border-box;
+  font-family:'Arial Narrow',Arial,sans-serif;
+  align-self:flex-start;
+}
+/* FILA 1: LOGO + DIAGNÓSTICO + FECHA */
+.int-row1{
+  display:flex;align-items:center;
+  background:#fff;
+  padding:0mm 3mm;
+  min-height:16mm;
+  max-height:16mm;
+}
+.int-row1-logo{
+  flex-shrink:0;
+  display:flex;align-items:center;
+  padding-right:3mm;margin-right:3mm;
+}
+.int-head-logo{width:44mm;height:auto;max-height:16mm;object-fit:contain;}
+.int-row1-title{
+  flex:1;text-align:center;
+  font-size:10pt;font-weight:700;
+  font-family:'Arial Narrow',Arial,sans-serif;
+  letter-spacing:3px;text-transform:uppercase;
+  color:#000;
+}
+.int-lbl{font-size:7.5pt;font-weight:700;white-space:nowrap;}
+.int-head-diagval{
+  display:inline;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;
+  outline:none;flex:1;min-width:40mm;
+  border-bottom:0.4pt solid #000;text-transform:uppercase;
+}
+.int-head-diagval:empty::before{content:"Diagnóstico...";color:#bbb;font-style:italic;font-weight:400;}
+.int-head-diagval:focus{background:#fffde7;}
+/* FILA PACIENTE - fondo gris como docx */
+.int-pac{display:flex;border-bottom:0.4pt solid #000;border-left:0.4pt solid #000;border-right:0.4pt solid #000;background:#F2F2F2;}
+.int-pac-left{flex:5;border-right:0.4pt solid #000;padding:0.2mm 2mm;font-size:7.5pt;font-weight:700;display:flex;align-items:center;gap:1mm;}
+.int-pac-right{flex:1;padding:0.2mm 2mm;font-size:7.5pt;font-weight:700;display:flex;align-items:center;gap:1mm;}
+.int-pac-val{flex:1;outline:none;border:none;border-bottom:0.4pt solid #000;font-size:8pt;font-weight:700;font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;background:transparent;min-width:0;}
+.int-pac-val:empty::before{content:attr(data-ph);color:#bbb;font-weight:400;font-style:italic;}
+.int-pac-val:focus{background:#fffde7;}
+/* TABLA - 30 columnas exactas del docx */
+.itbl{width:100%;border-collapse:collapse;table-layout:fixed;font-family:'Arial Narrow',Arial,sans-serif;font-size:8pt;height:auto;}
+.itbl td,.itbl th{border:0.4pt solid #000;padding:0;vertical-align:middle;box-sizing:border-box;overflow:hidden;text-align:left;}
+.tr-norm td{overflow:visible !important;white-space:nowrap;}
+/* anchos proporcionales exactos del docx (% sobre 100%) */
+.itbl .c0{width:44.1%;}
+.itbl .c1,.itbl .c2,.itbl .c3{width:1.83%;}
+.itbl .c4{width:2.23%;}
+.itbl .c5{width:2.05%;}  .itbl .c6{width:1.78%;}
+.itbl .c7{width:2.05%;}  .itbl .c8{width:1.78%;}
+.itbl .c9{width:2.05%;}  .itbl .c10{width:1.78%;}
+.itbl .c11{width:2.05%;} .itbl .c12{width:1.78%;}
+.itbl .c13{width:2.05%;} .itbl .c14{width:1.78%;}
+.itbl .c15{width:2.05%;} .itbl .c16{width:1.78%;}
+.itbl .c17{width:2.05%;} .itbl .c18{width:1.78%;}
+.itbl .c19{width:2.05%;} .itbl .c20{width:1.78%;}
+.itbl .c21{width:2.05%;} .itbl .c22{width:1.78%;}
+.itbl .c23{width:2.05%;} .itbl .c24{width:1.49%;}
+.itbl .c25{width:2.14%;} .itbl .c26{width:1.78%;}
+.itbl .c27{width:2.05%;} .itbl .c28{width:1.78%;}
+.itbl .c29{width:2.43%;}
+/* encabezados grupales gris */
+.th-gr{background:#fff;font-size:8pt;font-weight:700;text-align:center;border:0.4pt solid #000;padding:0;height:4.5mm;vertical-align:middle;}
+/* sub-encabezados con dígitos apilados */
+.th-s{background:#fff;font-size:6pt;font-weight:400;text-align:center;border:0.4pt solid #000;padding:0;line-height:1.1;white-space:nowrap;height:4.5mm;vertical-align:middle;}
+/* sección bold */
+.tr-sec td{font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0;background:#fff;height:3.5mm;vertical-align:middle;}
+/* editable */
+.tr-ed td.c0{padding:0;height:4.5mm;}
+.ied{display:block;width:100%;height:100%;min-height:4.5mm;outline:none;padding:0.1mm 1.5mm;box-sizing:border-box;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;}
+.ied:empty::before{content:attr(data-ph);color:#ccc;font-style:italic;text-transform:none;font-size:9pt;}
+.ied:focus{background:#fffde7;}
+/* grilla vacía */
+.cg{border:0.4pt solid #000;padding:0;height:4.5mm;}
+/* filas fijas */
+.tr-fix  td{font-size:8pt;font-weight:700;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
+.tr-norm td{font-size:7.5pt;font-weight:400;border:0.4pt solid #000;padding:0;height:4.5mm;min-height:4.5mm;vertical-align:middle;}
+.tr-bold-u td{font-size:7pt;font-weight:700;text-decoration:underline;border:0.4pt solid #000;padding:0;height:5.5mm;vertical-align:middle;}
+/* firma */
+/* IMPRESIÓN */
+
+/* ─── IMPRESIÓN RECETAS (portrait A4) ─── */
+@media print{
+  /* Por defecto si no hay clase especial → recetas portrait */
+  @page{ size:A4 portrait; margin:0; }
+
+  body.printing-recetas > *:not(#preview){ display:none !important; }
+  body.printing-recetas #panel{ display:none !important; }
+  body.printing-recetas #preview{ padding:0 !important; gap:0 !important; }
+  body.printing-recetas .page-a4{ box-shadow:none !important; }
+
+  /* ─── IMPRESIÓN INTERNACIÓN (landscape A4) ─── */
+  body.printing-internacion > *:not(#int-overlay){ display:none !important; }
+  body.printing-internacion #int-overlay{ display:block !important; background:white !important; overflow:visible !important; padding:0 !important; margin:0 !important; }
+  body.printing-internacion #int-bar{ display:none !important; }
+  body.printing-internacion #int-preview{ padding:0 !important; margin:0 !important; min-height:auto !important; display:block !important; width:285mm !important; }
+  body.printing-internacion .itbl{height:auto !important;}
+  body.printing-internacion .int-a4{
+    box-shadow:none !important;
+    width:285mm !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0 auto !important;
+    display:block !important;
+    overflow:visible !important;
+    text-align:left !important;
+    print-color-adjust:exact !important;
+    -webkit-print-color-adjust:exact !important;
+  }
+  .itbl{
+    height:auto !important;
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+  }
+  .itbl tr{
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+  }
+  .tr-fix td,.tr-norm td,.tr-sec td,.tr-ed td,.th-gr,.th-s{
+    print-color-adjust:exact !important;
+    -webkit-print-color-adjust:exact !important;
+  }
+  .int-row1,.int-pac{
+    print-color-adjust:exact !important;
+    -webkit-print-color-adjust:exact !important;
+  }
+  body.printing-internacion .ied:focus,
+  body.printing-internacion .int-pac-val:focus,
+  body.printing-internacion .int-head-diagval:focus{ background:transparent !important; }
+
+  /* ─── LABORATORIO checkboxes ─── */
+  .lab-check{ border:0.8pt solid #000 !important; width:3.5mm !important; height:3.5mm !important; display:inline-flex !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .lab-check.marcado{ background:#000 !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .lab-check.marcado::after{ content:"" !important; display:block !important; width:1.8mm !important; height:1mm !important; border-left:0.6pt solid #fff !important; border-bottom:0.6pt solid #fff !important; transform:rotate(-45deg) translateY(-0.3mm) !important; }
+}
+
+/* @page landscape solo cuando imprimimos internación */
+@media print{
+  body.printing-internacion { }
+}
+/* ─── BOTÓN LABORATORIO ─── */
+#btnlab{background:#15803d;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnlab:hover{background:#16a34a;}
+
+/* ─── MODAL SELECTOR CUADRANTE ─── */
+#lab-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;}
+#lab-modal.open{display:flex;}
+#lab-box{background:#18181b;border:1px solid #a78bfa;border-radius:8px;padding:20px 28px;text-align:center;color:#fff;font-family:Arial,sans-serif;}
+#lab-box h2{font-size:11px;letter-spacing:2px;color:#c4b5fd;text-transform:uppercase;margin-bottom:14px;}
+.lab-btn-q{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:9px 18px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin:4px;text-transform:uppercase;}
+.lab-btn-q:hover{background:#6d28d9;}
+#lab-cancel{background:#555;color:#fff;border:none;border-radius:4px;padding:7px 16px;font-family:Arial,sans-serif;font-size:10px;cursor:pointer;margin-top:10px;text-transform:uppercase;}
+#lab-cancel:hover{background:#777;}
+
+/* ─── CHECKBOXES EN CUADRANTE ─── */
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 3mm;padding:1mm 0;}
+.lab-item{display:flex;align-items:center;gap:1.5mm;font-size:10.5pt;font-family:Calibri,"Segoe UI",Arial,sans-serif;color:#000;text-transform:uppercase;white-space:nowrap;}
+.lab-item input[type=checkbox]{display:none;}
+.lab-check{width:3.5mm;height:3.5mm;border:0.8pt solid #000;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;background:#fff;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.lab-check.marcado{background:#000 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.lab-check.marcado::after{content:"";display:block;width:1.8mm;height:1mm;border-left:0.6pt solid #fff;border-bottom:0.6pt solid #fff;transform:rotate(-45deg) translateY(-0.3mm);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+/* Checkboxes visibles al imprimir */
+
+
+
+
+@media print{#registro-wrap{display:none!important;}}
+
+/* ─── MODAL PIN ─── */
+#pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,10,22,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
+#pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.18);border-radius:14px;padding:36px 40px 30px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:300px;box-shadow:0 12px 60px rgba(0,0,0,0.9);}
+#pin-logo{width:64px;height:auto;margin-bottom:18px;opacity:0.9;}
+#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c4b5fd;margin-bottom:6px;}
+#pin-box p{font-size:10.5px;color:rgba(255,255,255,0.3);margin-bottom:22px;line-height:1.6;}
+#pin-input{
+  background:transparent;
+  border:none;
+  border-bottom:2px solid rgba(255,255,255,0.18);
+  border-radius:0;
+  color:#fff;
+  font-family:'Courier New',Courier,monospace;
+  font-size:22px;
+  padding:8px 4px;
+  outline:none;
+  text-align:center;
+  width:140px;
+  letter-spacing:8px;
+  margin-bottom:6px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  transition:border-color 0.2s;
+}
+#pin-input:focus{border-bottom-color:#a78bfa;}
+#pin-input.pin-ok{border-bottom-color:#66bb6a;}
+#pin-input.pin-error-field{border-bottom-color:#ef5350;}
+@keyframes pinShake{
+  0%,100%{transform:translateX(0);}
+  15%{transform:translateX(-8px);}
+  30%{transform:translateX(8px);}
+  45%{transform:translateX(-6px);}
+  60%{transform:translateX(6px);}
+  75%{transform:translateX(-3px);}
+  90%{transform:translateX(3px);}
+}
+#pin-input.shake{animation:pinShake 0.45s ease;}
+#pin-btn-ok{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
+#pin-btn-ok:hover{background:linear-gradient(135deg,#6d28d9,#a78bfa);}
+#pin-btn-skip{background:transparent;color:rgba(255,255,255,0.3);border:none;border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.2s;}
+#pin-btn-skip:hover{color:rgba(255,255,255,0.6);}
+#pin-error{color:#ef9a9a;font-size:10px;margin-top:6px;margin-bottom:16px;min-height:14px;letter-spacing:0.5px;}
+#pin-medicos{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.pin-medico-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);font-family:Arial,sans-serif;font-size:10px;padding:8px 14px;cursor:pointer;text-align:left;transition:all 0.15s;}
+.pin-medico-btn:hover{background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.3);color:#fff;}
+.pin-medico-btn.seleccionado{background:rgba(124,58,237,0.3);border-color:#a78bfa;color:#fff;}
+
+/* ─── INPUT DATALIST INTERNACIÓN ─── */
+.ied-input{
+  width:100%;height:100%;
+  border:none;outline:none;
+  padding:0.3mm 1.2mm;
+  box-sizing:border-box;
+  font-size:7.5pt;
+  font-family:Calibri,"Segoe UI",Arial,sans-serif;
+  text-transform:uppercase;
+  background:transparent;
+  color:#000;
+}
+.ied-input::placeholder{color:#bbb;font-style:italic;text-transform:none;font-size:6.5pt;}
+.ied-input:focus{background:#fffde7;}
+@media print{.ied-input:focus{background:transparent!important;}}
+
+/* ─── LABORATORIO CUADRANTE COMPLETO (estilos de RECETAS_LAB_4_CUADRANTES_7) ─── */
+/* Prefijo lq- para evitar colisiones */
+.lq-wrap{display:flex;flex-direction:column;height:100%;overflow:hidden;padding:0;position:relative;}
+.lq-hd{display:flex;justify-content:space-between;align-items:center;flex-shrink:0;margin-bottom:1.5mm;}
+.lq-hd img{height:32px;width:auto;}
+.lq-tb{text-align:right;line-height:1.2;}
+.lq-tm{font-size:9.9pt;font-weight:800;letter-spacing:.4px;text-transform:uppercase;}
+.lq-ts{font-size:8.3pt;font-style:italic;color:#444;}
+.lq-dr{display:flex;justify-content:flex-end;align-items:baseline;gap:4px;flex-shrink:0;margin-bottom:1.5mm;}
+.lq-dr label{font-size:7.7pt;font-weight:700;}
+.lq-dv{font-size:7.7pt;min-width:20mm;border-bottom:.7px solid #000;text-align:center;padding-bottom:1px;}
+.lq-sb{background:#111;color:#fff;font-size:7.2pt;font-weight:700;letter-spacing:.9px;text-transform:uppercase;text-align:center;padding:2.5px 0;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.lq-pb{flex-shrink:0;display:flex;flex-direction:column;gap:1.8mm;padding:1.5mm 0;}
+.lq-fr{display:flex;align-items:flex-end;gap:4px;}
+.lq-fl{font-size:7.7pt;font-weight:700;white-space:nowrap;line-height:1;}
+.lq-fi{flex:1;border-bottom:.7px solid #000;height:12px;font-size:7.7pt;font-weight:700;padding-bottom:1px;text-transform:uppercase;}
+.lq-sg{flex-shrink:0;padding:1mm 0 1.5mm;}
+.lq-gr{display:grid;grid-template-columns:1fr 1fr;column-gap:2.5mm;}
+.lq-sr{display:flex;align-items:center;justify-content:space-between;padding:1.8px 0;border-bottom:.4px solid #e4e4e4;gap:3px;}
+.lq-sn{font-size:7.7pt;flex:1;line-height:1.25;}
+.lq-sc{font-size:6.6pt;color:#777;}
+.lq-ck{width:10px;height:10px;border:.8px solid #000;flex-shrink:0;border-radius:1px;cursor:pointer;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.lq-ck.marcado{background:#000!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.lq-ob{flex-shrink:0;padding:1mm 0 1.5mm;}
+.lq-wl{border-bottom:.5px solid #c0c0c0;height:12px;margin-bottom:1mm;}
+.lq-st{position:absolute;bottom:10mm;right:4mm;text-align:right;padding-top:1.5mm;border-top:.5px solid #000;width:50mm;}
+.lq-sn1{font-size:9.9pt;font-weight:700;color:#1a3a7a;text-transform:uppercase;letter-spacing:.2px;line-height:1.35;}
+.lq-sn2{font-size:7.7pt;font-weight:700;color:#1a3a7a;line-height:1.4;}
+.lq-sn3{font-size:7.7pt;font-weight:700;color:#1a3a7a;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2mm;}
+.lq-ss{display:inline-block;font-size:6.6pt;color:#555;padding-top:2px;min-width:32mm;text-align:center;}
+
+/* Modo laboratorio en cuadrante: ocultar secciones de indicaciones */
+.rc.modo-lab .it{display:none;}
+.rc.modo-lab .mc{display:none;}
+.rc.modo-lab .extra-block{display:none;}
+.rc.modo-lab .idx-bar{display:none;}
+.rc.modo-lab .rp-footer{display:none;}
+.rc.modo-lab .pf{display:none;}
+.rc.modo-lab .rp-head{display:none;}
+.rc.modo-lab .sanatorio{display:none;}
+/* En modo lab el contenedor lq-wrap ocupa todo */
+.rc.modo-lab .lq-outer{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+
+/* Botones modo en panel */
+.modo-btn-group{display:flex;gap:3px;margin-bottom:4px;}
+.modo-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:3px;
+  color:rgba(255,255,255,0.5);font-size:9px;font-family:Arial,sans-serif;
+  padding:2px 8px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
+.modo-btn.activo{background:#7c3aed;border-color:#a78bfa;color:#fff;}
+
+@media print{
+  .lq-ck{border:.8px solid #000!important;}
+  .lq-ck.marcado{background:#000!important;}
+  .lq-sb{background:#111!important;color:#fff!important;}
+  /* Ocultar botones de modo al imprimir */
+  .modo-btn, [id^="btn-modo"]{display:none!important;}
+  /* Cuadrante en modo lab: asegurar que lq-outer ocupe todo el rc */
+  .rc.modo-lab{padding:4mm 5mm 0 5mm;}
+  .rc.modo-lab .lq-outer{height:100%;display:flex;flex-direction:column;}
+}
+
+/* ─── SELLO MÉDICO (recetas + internación) ─── */
+.rc{position:relative;}
+.rc-sello{
+  position:absolute;
+  bottom:20mm;
+  right:4mm;
+  width:36mm;
+  height:auto;
+  opacity:0.92;
+  pointer-events:none;
+  z-index:10;
+  mix-blend-mode:multiply;
+  background:transparent;
+}
+/* Sello en hoja de internación */
+#int-sello-img{
+  position:absolute;
+  bottom:20mm;
+  right:5mm;
+  width:44mm;
+  height:auto;
+  opacity:0.92;
+  pointer-events:none;
+  z-index:10;
+  mix-blend-mode:multiply;
+  background:transparent;
+}
+@media print{
+  .rc-sello{opacity:1!important;}
+  #int-sello-img{opacity:1!important;}
+}
+</style>
+</head>
+<body>
+<div id="maint-overlay" style="position:fixed;inset:0;z-index:99999;background:#1a0505;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div style="max-width:440px;width:100%;background:rgba(255,255,255,0.04);border:1.5px solid #dc2626;border-radius:14px;padding:36px 28px;text-align:center;box-shadow:0 0 0 1px rgba(220,38,38,0.25),0 10px 40px rgba(0,0,0,0.6);">
+    <div style="font-size:42px;margin-bottom:10px;">&#9888;&#65039;</div>
+    <h1 style="font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:#fca5a5;letter-spacing:0.5px;margin-bottom:10px;text-transform:uppercase;">Sistema no disponible</h1>
+    <p style="font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:14px;color:#fecaca;line-height:1.55;margin-bottom:8px;">
+      Estamos realizando ajustes. En unos minutos estar&aacute; disponible nuevamente.
+    </p>
+    <p style="font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:13px;color:#fca5a5;line-height:1.55;margin-bottom:22px;">
+      Verific&aacute; tu conexi&oacute;n a internet y recarg&aacute; la p&aacute;gina.
+    </p>
+    <button onclick="location.reload()" style="background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:6px;color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 22px;cursor:pointer;box-shadow:0 2px 8px rgba(220,38,38,0.5);">
+      Recargar p&aacute;gina
+    </button>
+  </div>
+</div>
+<datalist id="farmacos">
+  <option value="AAS 100MG"><option value="AAS 325MG"><option value="ACETILCISTEINA 600MG">
+  <option value="ACIDO FOLICO 1MG"><option value="ACIDO FOLICO 5MG"><option value="ALOPURINOL 100MG">
+  <option value="ALOPURINOL 300MG"><option value="ALPRAZOLAM 0.25MG"><option value="ALPRAZOLAM 0.5MG">
+  <option value="AMBROXOL 30MG"><option value="AMITRIPTILINA 25MG"><option value="AMLODIPINA 10MG">
+  <option value="AMLODIPINA 5MG"><option value="AMOXICILINA 500MG"><option value="AMOXICILINA 875MG">
+  <option value="AMOXICILINA-CLAVULANICO 875/125MG"><option value="ATENOLOL 100MG"><option value="ATENOLOL 50MG">
+  <option value="ATORVASTATINA 10MG"><option value="ATORVASTATINA 20MG"><option value="ATORVASTATINA 40MG">
+  <option value="AZITROMICINA 250MG"><option value="AZITROMICINA 500MG"><option value="BETAMETASONA 0.5MG">
+  <option value="BISMUTO SUBCITRATO 300MG"><option value="BISOPROLOL 10MG"><option value="BISOPROLOL 5MG">
+  <option value="BROMURO DE IPRATROPIO 20MCG INHALADOR"><option value="BUDESONIDA 200MCG INHALADOR">
+  <option value="CALCIO + VITAMINA D3 500/400"><option value="CARBAMAZEPINA 200MG">
+  <option value="CEFADROXILO 500MG"><option value="CEFALEXINA 500MG"><option value="CELECOXIB 100MG">
+  <option value="CELECOXIB 200MG"><option value="CETIRIZINA 10MG"><option value="CIPROFLOXACINA 500MG">
+  <option value="CIPROFLOXACINA 750MG"><option value="CLARITROMICINA 500MG"><option value="CLINDAMICINA 300MG">
+  <option value="CLINDAMICINA 600MG"><option value="CLONAZEPAM 0.5MG"><option value="CLONAZEPAM 1MG">
+  <option value="CLONAZEPAM 2MG"><option value="CLOPIDOGREL 75MG"><option value="CODEINA 30MG">
+  <option value="COLCHICINA 0.5MG"><option value="DABIGATRAN 110MG"><option value="DESLORATADINA 5MG">
+  <option value="DEXAMETASONA 4MG"><option value="DIAZEPAM 10MG"><option value="DIAZEPAM 5MG">
+  <option value="DICLOFENAC 100MG"><option value="DICLOFENAC 50MG"><option value="DICLOFENAC 75MG">
+  <option value="DOMPERIDONA 10MG"><option value="DOXICICLINA 100MG"><option value="EMPAGLIFLOZINA 10MG">
+  <option value="ENALAPRIL 10MG"><option value="ENALAPRIL 20MG"><option value="ENALAPRIL 5MG">
+  <option value="ENOXAPARINA 40MG SC"><option value="ENOXAPARINA 60MG SC"><option value="ESCITALOPRAM 10MG">
+  <option value="ESCITALOPRAM 20MG"><option value="ESOMEPRAZOL 40MG"><option value="ESPIRONOLACTONA 25MG">
+  <option value="ESPIRONOLACTONA 50MG"><option value="FAMOTIDINA 20MG"><option value="FENITOINA 100MG">
+  <option value="FEXOFENADINA 180MG"><option value="FLUOXETINA 20MG"><option value="FLUTICASONA 250MCG INHALADOR">
+  <option value="FUROSEMIDA 40MG"><option value="GLIBENCLAMIDA 5MG"><option value="GLIMEPIRIDA 2MG">
+  <option value="GLIMEPIRIDA 4MG"><option value="HIDROCLOROTIAZIDA 25MG"><option value="HIERRO FERROSO 100MG">
+  <option value="IBUPROFENO 400MG"><option value="IBUPROFENO 600MG"><option value="IBUPROFENO 800MG">
+  <option value="INSULINA NPH 100UI/ML"><option value="INSULINA REGULAR 100UI/ML">
+  <option value="KETOROLAC 10MG"><option value="KETOROLAC 30MG"><option value="LEVOFLOXACINA 500MG">
+  <option value="LEVOFLOXACINA 750MG"><option value="LEVOTIROXINA 100MCG"><option value="LEVOTIROXINA 50MCG">
+  <option value="LOPERAMIDA 2MG"><option value="LORATADINA 10MG"><option value="LORAZEPAM 1MG">
+  <option value="LORAZEPAM 2MG"><option value="LOSARTAN 100MG"><option value="LOSARTAN 50MG">
+  <option value="MELOXICAM 15MG"><option value="MELOXICAM 7.5MG"><option value="METAMIZOL 1G">
+  <option value="METAMIZOL 500MG"><option value="METFORMINA 1G"><option value="METFORMINA 500MG">
+  <option value="METFORMINA 850MG"><option value="METOCLOPRAMIDA 10MG"><option value="METRONIDAZOL 500MG">
+  <option value="MONTELUKAST 10MG"><option value="MORFINA 10MG"><option value="NAPROXENO 250MG">
+  <option value="NAPROXENO 500MG"><option value="OMEPRAZOL 20MG"><option value="OMEPRAZOL 40MG">
+  <option value="ONDANSETRON 4MG"><option value="ONDANSETRON 8MG"><option value="PANTOPRAZOL 40MG">
+  <option value="PARACETAMOL 1G"><option value="PARACETAMOL 500MG"><option value="PREDNISONA 20MG">
+  <option value="PREDNISONA 40MG"><option value="PREDNISONA 5MG"><option value="PREGABALINA 150MG">
+  <option value="PREGABALINA 75MG"><option value="RANITIDINA 150MG"><option value="RIVAROXABAN 20MG">
+  <option value="ROSUVASTATINA 10MG"><option value="ROSUVASTATINA 20MG"><option value="SALBUTAMOL 100MCG INHALADOR">
+  <option value="SALBUTAMOL 2MG"><option value="SERTRALINA 100MG"><option value="SERTRALINA 50MG">
+  <option value="SITAGLIPTINA 100MG"><option value="SUCRALFATO 1G"><option value="TICAGRELOR 90MG">
+  <option value="TRAMADOL 100MG"><option value="TRAMADOL 50MG">
+  <option value="TRIMETOPRIMA-SULFAMETOXAZOL 160/800MG"><option value="VITAMINA D3 1000UI">
+  <option value="VITAMINA D3 5000UI"><option value="WARFARINA 5MG">
+  <option value="ADRENALINA 1MG/ML AMP">
+  <option value="ADRENALINA 0.5MG/ML AMP">
+  <option value="ALPRAZOLAM 0.25MG (ALPLAX)">
+  <option value="ALPRAZOLAM 0.5MG (ALPLAX)">
+  <option value="ALPRAZOLAM 1MG (ALPLAX)">
+  <option value="ALPRAZOLAM 2MG (ALPLAX)">
+  <option value="AMIODARONA 200MG COMP">
+  <option value="AMIODARONA 150MG/3ML AMP">
+  <option value="ASPIRINA 100MG">
+  <option value="ASPIRINA 325MG">
+  <option value="ASPIRINA 500MG">
+  <option value="DIFENIDRAMINA 50MG/ML AMP (BENADRYL)">
+  <option value="DIFENIDRAMINA 50MG COMP (BENADRYL)">
+  <option value="BUSCAPINA 10MG COMP">
+  <option value="BUSCAPINA 20MG/ML AMP">
+  <option value="BUSCAPINA COMP 10MG + DIPIRONA 250MG">
+  <option value="CARVEDILOL 3.125MG">
+  <option value="CARVEDILOL 6.25MG">
+  <option value="CARVEDILOL 12.5MG">
+  <option value="CARVEDILOL 25MG">
+  <option value="DIGOXINA 0.25MG COMP">
+  <option value="DIGOXINA 0.5MG/2ML AMP">
+  <option value="DIPIRONA 500MG COMP">
+  <option value="DIPIRONA 1G/2ML AMP">
+  <option value="DIPIRONA 2.5G/5ML AMP">
+  <option value="GLUCOSADO 25% 20ML AMP">
+  <option value="GLUCOSADO 5% 250ML">
+  <option value="GLUCOSADO 5% 500ML">
+  <option value="GLUCOSADO 10% 250ML">
+  <option value="HEPARINA 5000UI/ML AMP">
+  <option value="HEPARINA 25000UI/5ML AMP">
+  <option value="HIDROCORTISONA 100MG AMP">
+  <option value="HIDROCORTISONA 500MG AMP">
+  <option value="LIDOCAINA 2% AMP 10ML">
+  <option value="LIDOCAINA 2% AMP 20ML">
+  <option value="LIDOCAINA GEL 2% TUBO">
+  <option value="METOCLOPRAMIDA 10MG COMP (RELIVERAN)">
+  <option value="METOCLOPRAMIDA 10MG/2ML AMP (RELIVERAN)">
+  <option value="SOL. FISIOLOGICA P/ NEBULIZAR 3ML MONODOSIS">
+  <option value="SULFATO DE MAGNESIO 10% 10ML AMP">
+  <option value="SULFATO DE MAGNESIO 25% 10ML AMP">
+  <option value="TIRAS REACTIVAS GLUCEMIA">
+  <option value="SALBUTAMOL PUFF 100MCG">
+  <option value="IPRATROPIO PUFF 20MCG">
+  <option value="FLUTICASONA PUFF 125MCG">
+  <option value="BUDESONIDA PUFF 200MCG">
+  <option value="ACETILCISTEÍNA 200MG (FLUIMUCIL)">
+  <option value="ACETILCISTEÍNA 600MG (FLUIMUCIL)">
+  <option value="AMBROXOL 30MG (MUCOSOLVAN)">
+  <option value="AMOXICILINA/ÁCIDO CLAVULÁNICO 500/125MG (AMOXIDAL DUO)">
+  <option value="AMOXICILINA/ÁCIDO CLAVULÁNICO 875/125MG (AMOXIDAL DUO)">
+  <option value="AZITROMICINA 500MG (AZITROX, ZITROMAX)">
+  <option value="AZITROMICINA 250MG (AZITROX, ZITROMAX)">
+  <option value="BENDIDAMINA SPRAY (TANTUM VERDE)">
+  <option value="BROMHEXINA 8MG">
+  <option value="BUDESONIDA 200MCG INHALADOR (PULMICORT)">
+  <option value="CETIRIZINA 10MG (ZYRTEC)">
+  <option value="CLARITROMICINA 500MG (KLARICID)">
+  <option value="CLONAZEPAM 0.5MG (RIVOTRIL)">
+  <option value="CLONAZEPAM 1MG (RIVOTRIL)">
+  <option value="CLONAZEPAM 2MG (RIVOTRIL)">
+  <option value="DESLORATADINA 5MG + BETAMETASONA 0.5MG (CORTICOTERAPIA)">
+  <option value="DOMPERIDONA 10MG (MOTILIUM)">
+  <option value="SACCHAROMYCES BOULARDII 250MG (FLORATIL)">
+  <option value="HIOSCINA/DIPIRONA 10MG/250MG (BUSCAPINA COMPUESTA)">
+  <option value="IBUPROFENO 400MG (ACTRON, ADVIL)">
+  <option value="IBUPROFENO 600MG (ACTRON, ADVIL)">
+  <option value="IBUPROFENO 800MG (ACTRON, ADVIL)">
+  <option value="LACTULOSA 3.3G/5ML (DUPHALAC)">
+  <option value="LEVOFLOXACINA 500MG (TAVANIC)">
+  <option value="LEVOFLOXACINA 750MG (TAVANIC)">
+  <option value="LOPERAMIDA 2MG (IDIAL)">
+  <option value="LORATADINA 10MG (CLARITYNE)">
+  <option value="METOCLOPRAMIDA 10MG (PRIMPERAN)">
+  <option value="MONTELUKAST 10MG (SINGULAIR)">
+  <option value="NAPROXENO 250MG (FLANAX)">
+  <option value="NAPROXENO 500MG (FLANAX)">
+  <option value="OMEPRAZOL 20MG (ULCOZOL, LOSEC)">
+  <option value="OMEPRAZOL 40MG (ULCOZOL, LOSEC)">
+  <option value="PARACETAMOL 500MG">
+  <option value="PARACETAMOL 1G">
+  <option value="PARACETAMOL/CLORFENAMINA/FENILEFRINA (QURA PLUS)">
+  <option value="POLIETILENGLICOL 13.8G (MOVICOL)">
+  <option value="SIMETICONA 80MG (FACTOR AG)">
+  <option value="TRIMEBUTINA 200MG (DEBRIDAT)">
+  <option value="ACETILCISTEINA 600MG EFERVESCENTE (ACEMUK)">
+  <option value="BENDIDAMINA SPRAY (ERNEX)">
+  <option value="BROMHEXINA JARABE 8MG/5ML">
+  <option value="BUDESONIDA/FORMOTEROL 200/6MCG INHALADOR">
+  <option value="DESLORATADINA/BETAMETASONA 5MG/0.6MG">
+  <option value="DOMPERIDONA 10MG + SIMETICONA 80MG">
+  <option value="FLORATIL 250MG (SACCHAROMYCES BOULARDII)">
+  <option value="LAGRIMAS ARTIFICIALES COLIRIO">
+  <option value="LACTULOSA JARABE 3.3G/5ML">
+  <option value="POLIETILENGLICOL 17G (MOVICOL)">
+</datalist>
+<datalist id="indicaciones">
+  <!-- PARACETAMOL -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS. MÁXIMO 3G/DÍA">
+  <option value="TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS. MÁXIMO 4G/DÍA">
+  <!-- IBUPROFENO / NAPROXENO / DICLOFENAC / KETOROLAC -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 3 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 5 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 8-12 HORAS POR 3 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 5 DÍAS">
+  <!-- ANTIBIÓTICOS: AMOXICILINA-CLAVULÁNICO / CLARITROMICINA / CLINDAMICINA -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS CON LAS COMIDAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 10 DÍAS CON LAS COMIDAS">
+  <!-- AZITROMICINA -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 3 DÍAS">
+  <option value="TOMAR (2) COMPRIMIDOS EL PRIMER DÍA, LUEGO (1) CADA 24 HORAS POR 4 DÍAS">
+  <!-- LEVOFLOXACINA (c/24h, no c/12h) -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 7 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 10 DÍAS">
+  <!-- OTROS ANTIBIÓTICOS (duración variable) -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 3 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 5 DÍAS">
+  <!-- ANTIHISTAMÍNICOS: CETIRIZINA / LORATADINA / DESLORATADINA / MONTELUKAST -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR LA NOCHE">
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR LA NOCHE POR 5 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR LA NOCHE POR 10 DÍAS">
+  <!-- DESLORATADINA/BETAMETASONA -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 5 DÍAS">
+  <!-- OMEPRAZOL / ESOMEPRAZOL / PANTOPRAZOL -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MINUTOS ANTES DEL DESAYUNO">
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS 30 MINUTOS ANTES DE LAS COMIDAS">
+  <!-- DOMPERIDONA / METOCLOPRAMIDA / TRIMEBUTINA -->
+  <option value="TOMAR (1) COMPRIMIDO 30 MINUTOS ANTES DE LAS COMIDAS, 3 VECES AL DÍA">
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS ANTES DE LAS COMIDAS POR 7 DÍAS">
+  <!-- BUSCAPINA COMPUESTA / HIOSCINA -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 3 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 5 DÍAS">
+  <!-- LOPERAMIDA -->
+  <option value="TOMAR (2) COMPRIMIDOS INICIAL, LUEGO (1) DESPUÉS DE CADA DEPOSICIÓN. MÁXIMO 8 COMP/DÍA POR 3 DÍAS">
+  <!-- FLORATIL / SACCHAROMYCES BOULARDII -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 3 DÍAS">
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 5 DÍAS">
+  <!-- ACETILCISTEINA COMPRIMIDO -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 10 DÍAS">
+  <!-- ACETILCISTEINA SOBRE / EFERVESCENTE (ACEMUK / FLUIMUCIL) -->
+  <option value="DISOLVER (1) SOBRE EN UN VASO DE AGUA. TOMAR CADA 24 HORAS POR 10 DÍAS">
+  <option value="DISOLVER (1) SOBRE EN UN VASO DE AGUA. TOMAR CADA 12 HORAS POR 5 DÍAS">
+  <option value="DISOLVER (1) COMPRIMIDO EFERVESCENTE EN UN VASO DE AGUA FRÍA. TOMAR CADA 24 HORAS POR 10 DÍAS">
+  <option value="DISOLVER (1) COMPRIMIDO EFERVESCENTE EN UN VASO DE AGUA FRÍA. TOMAR CADA 12 HORAS POR 5 DÍAS">
+  <!-- AMBROXOL / BROMHEXINA COMPRIMIDO -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 7 DÍAS">
+  <!-- AMBROXOL / BROMHEXINA JARABE -->
+  <option value="TOMAR 5ML CADA 8 HORAS POR 5 DÍAS">
+  <option value="TOMAR 5ML CADA 8 HORAS POR 7 DÍAS">
+  <!-- BENDIDAMINA SPRAY -->
+  <option value="APLICAR 4-6 PULVERIZACIONES EN LA GARGANTA CADA 6-8 HORAS POR 5 DÍAS">
+  <!-- BUDESONIDA / FLUTICASONA INHALADOR -->
+  <option value="INHALAR 2 PUFF CADA 12 HORAS">
+  <option value="INHALAR 2 PUFF CADA 12 HORAS POR 5 DÍAS, LUEGO 1 PUFF EN LA NOCHE POR 5 DÍAS MÁS">
+  <option value="INHALAR 2-3 PUFF CADA 12 HORAS POR 5 DÍAS, LUEGO 1 PUFF EN LA NOCHE POR 5 DÍAS MÁS">
+  <!-- BUDESONIDA/FORMOTEROL -->
+  <option value="INHALAR 2 PUFF CADA 12 HORAS. CONTINUAR MEDICACIÓN HABITUAL PARA EPOC">
+  <!-- SALBUTAMOL RESCATE -->
+  <option value="INHALAR 2-4 PUFF CADA 4-6 HORAS. MÁXIMO 8 PUFF/DÍA">
+  <!-- LÁGRIMAS ARTIFICIALES -->
+  <option value="COLOCAR 1-2 GOTAS EN AMBOS OJOS CADA 4-6 HORAS">
+  <!-- LACTULOSA -->
+  <option value="TOMAR 15ML VÍA ORAL CADA 24 HORAS (PREFERENTEMENTE CON EL DESAYUNO)">
+  <!-- POLIETILENGLICOL -->
+  <option value="DISOLVER 1 SOBRE DE 17G EN UN VASO DE AGUA. TOMAR VÍA ORAL CADA 24 HORAS">
+  <!-- CLONAZEPAM -->
+  <option value="TOMAR (1) COMPRIMIDO ANTES DE DORMIR">
+  <option value="TOMAR (1/2) COMPRIMIDO ANTES DE DORMIR">
+  <option value="TOMAR (1) COMPRIMIDO CADA 12 HORAS">
+  <option value="TOMAR (1/2) COMPRIMIDO CADA 12 HORAS">
+  <!-- QURA PLUS -->
+  <option value="TOMAR (1) COMPRIMIDO CADA 6 HORAS POR 5 DÍAS">
+  <!-- INDICACIONES GENERALES -->
+  <option value="AYUNO ABSOLUTO 24 A 48 HORAS">
+  <option value="HIDRATACIÓN ORAL ABUNDANTE (MÍNIMO 2 LITROS DE AGUA POR DÍA)">
+  <option value="REPOSO DEPORTIVO Y LABORAL SEGÚN TOLERANCIA">
+  <option value="EVITAR AMBIENTES CON HUMO Y CAMBIOS BRUSCOS DE TEMPERATURA">
+  <option value="CONTINUAR MEDICACIÓN HABITUAL">
+  <option value="OXIGENOTERAPIA DOMICILIARIA SEGÚN REQUERIMIENTO">
+</datalist>
+<datalist id="obras-sociales">
+  <option value="PARTICULAR">
+  <option value="PAMI">
+  <option value="IOMA">
+  <option value="PREMEDIC">
+  <option value="OS RELOJEROS">
+  <option value="GALENO">
+  <option value="OSMEDICA">
+  <option value="BAYRES">
+</datalist>
+
+<datalist id="planes">
+  <option value="UNICO">
+  <option value="ADULTO">
+</datalist>
+
+<datalist id="estudios-especiales">
+  <option value="SOLICITUD DE INTERNACION">
+  <option value="RX DE TORAX">
+  <option value="ELECTROCARDIOGRAMA">
+  <option value="I/C GASTROENTEROLOGIA">
+  <option value="I/C TRAUMATOLOGIA">
+  <option value="PERFIL ISQUEMICO: TROPONINA T O I, CPK TOTAL, CK-MB">
+  <option value="BLOKIUM B12 IM">
+  <option value="RADIOGRAFÍA DE TÓRAX">
+  <option value="RADIOGRAFÍA DE RAQUIS CERVICAL">
+  <option value="RADIOGRAFÍA DE RAQUIS DORSAL">
+  <option value="RADIOGRAFÍA DE RAQUIS LUMBAR">
+  <option value="RADIOGRAFÍA DE RAQUIS SACRA">
+  <option value="RADIOGRAFÍA DE RAQUIS LUMBO-SACRA">
+  <option value="RADIOGRAFÍA DE PELVIS">
+  <option value="RADIOGRAFÍA DE HOMBRO">
+  <option value="RADIOGRAFÍA DE CODO">
+  <option value="RADIOGRAFÍA DE MUÑECA">
+  <option value="RADIOGRAFÍA DE MANO">
+  <option value="RADIOGRAFÍA DE CADERA">
+  <option value="RADIOGRAFÍA DE RODILLA">
+  <option value="RADIOGRAFÍA DE TOBILLO">
+  <option value="RADIOGRAFÍA DE PIE">
+</datalist>
+
+<datalist id="int-fluido">
+  <option value="SOL 0.9% 1000CC VEV A RAZÓN DE 14 GOTAS X'//">
+  <option value="SOL 0.9% 1000CC VEV A RAZÓN DE 21 GOTAS X'//">
+  <option value="SOL 0.9% 500CC VEV A RAZÓN DE 14 GOTAS X'//">
+  <option value="DEXT 5% 1000CC VEV A RAZÓN DE 14 GOTAS X'//">
+  <option value="DEXT 5% 1000CC VEV A RAZÓN DE 21 GOTAS X'//">
+  <option value="RINGER LACTATO 1000CC VEV A RAZÓN DE 14 GOTAS X'//">
+  <option value="//">
+</datalist>
+<datalist id="int-antibio">
+  <option value="CEFAZOLINA 1GR VEV C/8H">
+  <option value="CEFTRIAXONA 1GR VEV C/12H">
+  <option value="CIPROFLOXACINA 200MG VEV C/12H">
+  <option value="AMPICILINA/SULBACTAM 1.5GR VEV C/8H">
+  <option value="METRONIDAZOL 500MG VEV C/8H">
+  <option value="CLINDAMICINA 600MG VEV C/8H">
+  <option value="GENTAMICINA 80MG VEV C/8H">
+  <option value="VANCOMICINA 1GR VEV C/12H">
+</datalist>
+<datalist id="int-ev">
+  <option value="RANITIDINA 50MG VEV OD">
+  <option value="DIPIRONA 1GR VEV C/8H SOS FIEBRE">
+  <option value="METOCLOPRAMIDA 10MG VEV C/8H SOS NÁUSEAS/VÓMITOS">
+  <option value="KETOROLAC 30MG VEV C/8H SOS DOLOR">
+  <option value="BUSCAPINA 1 AMP VEV C/8H SOS DOLOR ABDOMINAL">
+  <option value="PARACETAMOL 1GR VEV C/12H SOS FIEBRE">
+  <option value="OMEPRAZOL 40MG VEV OD">
+  <option value="HIDROCORTISONA 100MG VEV C/8H">
+  <option value="DEXAMETASONA 8MG VEV OD">
+  <option value="MORFINA 2MG VEV C/4H SOS DOLOR">
+  <option value="TRAMADOL 100MG VEV C/8H SOS DOLOR">
+  <option value="FUROSEMIDA 20MG VEV OD">
+</datalist>
+<datalist id="int-oral">
+  <option value="METFORMINA 850MG VO C/12H">
+  <option value="ATORVASTATINA 20MG VO OD NOCHE">
+  <option value="LOSARTAN 50MG VO OD">
+  <option value="ENALAPRIL 10MG VO C/12H">
+  <option value="CARVEDILOL 6.25MG VO C/12H">
+  <option value="ATENOLOL 50MG VO OD">
+  <option value="OMEPRAZOL 20MG VO OD EN AYUNAS">
+  <option value="AMLODIPINA 5MG VO OD">
+  <option value="LEVOTIROXINA 50MCG VO OD EN AYUNAS">
+  <option value="ASPIRINA 100MG VO OD">
+  <option value="ÁCIDO ACETILSALICÍLICO (AAS) 325MG VO MASTICADO STAT">
+  <option value="CLOPIDOGREL 300MG VO STAT">
+  <option value="CLOPIDOGREL 600MG VO STAT">
+  <option value="ATORVASTATINA 80MG VO STAT">
+</datalist>
+
+
+<datalist id="idx-cie">
+  <option value="CA40.0 — NEUMONÍA BACTERIANA ADQUIRIDA EN LA COMUNIDAD">
+  <option value="CA22.0 — EPOC CON EXACERBACIÓN AGUDA">
+  <option value="1A40 — GASTROENTERITIS O COLITIS DE ORIGEN INFECCIOSO">
+  <option value="CA01 — INFLUENZA (GRIPE)">
+  <option value="DA62.0 — ESTREÑIMIENTO">
+  <option value="BE00.0 — SÍNCOPE Y COLAPSO">
+  <option value="CA41.0 — BRONQUITIS AGUDA">
+  <option value="MD92.1 — DOLOR TORÁCICO">
+  <option value="CA00.0 — RINOFARINGITIS AGUDA (RESFRIADO COMÚN)">
+  <option value="BA83.1 — IAM CON ELEVACIÓN DEL ST (STEMI)">
+  <option value="BA83.0 — IAM SIN ELEVACIÓN DEL ST (NSTEMI)">
+  <option value="BA85 — ANGINA INESTABLE">
+  <option value="BA42.0 — INSUFICIENCIA CARDÍACA AGUDA / DESCOMPENSADA">
+  <option value="BA41.00 — EMERGENCIA HIPERTENSIVA (CON DAÑO DE ÓRGANO)">
+  <option value="BA41.01 — URGENCIA HIPERTENSIVA (SIN DAÑO DE ÓRGANO)">
+  <option value="BA00 — HIPERTENSIÓN ESENCIAL PRIMARIA">
+  <option value="BA80.0 — FIBRILACIÓN AURICULAR CON RESPUESTA VENTRICULAR RÁPIDA">
+  <option value="BA84 — TAQUICARDIA SUPRAVENTRICULAR">
+  <option value="BA86 — TAQUICARDIA VENTRICULAR">
+  <option value="BA87 — FIBRILACIÓN VENTRICULAR / PARO CARDÍACO">
+  <option value="BA90 — TROMBOSIS VENOSA PROFUNDA (TVP)">
+  <option value="BA41.1 — DISECCIÓN AÓRTICA AGUDA">
+  <option value="MG43 — PARO CARDIORRESPIRATORIO">
+  <option value="MD12 — PALPITACIONES">
+  <option value="CA02 — INSUFICIENCIA RESPIRATORIA AGUDA">
+  <option value="CA20.1 — CRISIS ASMÁTICA GRAVE / STATUS ASMATICUS">
+  <option value="CA70 — NEUMOTÓRAX ESPONTÁNEO">
+  <option value="MD30.0 — INSUFICIENCIA RESPIRATORIA AGUDA">
+  <option value="CB00.0 — FARINGITIS AGUDA / AMIGDALITIS">
+  <option value="CB01 — SINUSITIS AGUDA">
+  <option value="1B10 — TUBERCULOSIS PULMONAR">
+  <option value="8B20.0 — ACV ISQUÉMICO AGUDO">
+  <option value="8B01.0 — HEMORRAGIA INTRACEREBRAL ESPONTÁNEA">
+  <option value="8B02.0 — HEMORRAGIA SUBARACNOIDEA">
+  <option value="8B21 — AIT (ACCIDENTE ISQUÉMICO TRANSITORIO)">
+  <option value="8A60.0 — CRISIS EPILÉPTICA AISLADA">
+  <option value="8A60.2 — STATUS EPILÉPTICO">
+  <option value="8B80.0 — MIGRAÑA CON AURA (CRISIS AGUDA)">
+  <option value="8A80 — MIGRAÑA">
+  <option value="8C80.0 — VÉRTIGO POSICIONAL PAROXÍSTICO BENIGNO">
+  <option value="MB44 — ALTERACIÓN DEL ESTADO DE CONSCIENCIA / CONFUSIÓN AGUDA">
+  <option value="8D60 — MENINGITIS BACTERIANA AGUDA">
+  <option value="DC31.0 — APENDICITIS AGUDA SIN PERFORACIÓN">
+  <option value="DC31.1 — APENDICITIS AGUDA PERFORADA">
+  <option value="DC81.0 — COLECISTITIS AGUDA">
+  <option value="DC80.0 — CÓLICO BILIAR">
+  <option value="DB93.0 — PANCREATITIS AGUDA">
+  <option value="DD93.0 — HEMORRAGIA DIGESTIVA ALTA">
+  <option value="DD95.0 — HEMORRAGIA DIGESTIVA BAJA">
+  <option value="DC50 — OBSTRUCCIÓN INTESTINAL">
+  <option value="DA90.0 — GASTROENTERITIS AGUDA INFECCIOSA">
+  <option value="ME00.0 — DOLOR ABDOMINAL AGUDO">
+  <option value="GB60.0 — INJURIA RENAL AGUDA (IRA)">
+  <option value="GC00.0 — CÓLICO RENAL / URETEROLITIASIS">
+  <option value="GC01.0 — RETENCIÓN URINARIA AGUDA">
+  <option value="1C10.0 — CISTITIS AGUDA BACTERIANA">
+  <option value="1C11.0 — PIELONEFRITIS AGUDA">
+  <option value="5A11.10 — CETOACIDOSIS DIABÉTICA">
+  <option value="5A10.40 — ESTADO HIPEROSMOLAR NO CETÓSICO">
+  <option value="5A20.0 — HIPOGLUCEMIA GRAVE SINTOMÁTICA">
+  <option value="5C71.0 — HIPONATREMIA AGUDA SINTOMÁTICA">
+  <option value="5C72.0 — HIPERKALEMIA AGUDA">
+  <option value="5C73.0 — HIPOKALEMIA CON MANIFESTACIONES">
+  <option value="E86 — DESHIDRATACIÓN / DEPLECIÓN DE VOLUMEN">
+  <option value="MG50.0 — SEPSIS (SIN FOCO ESPECIFICADO)">
+  <option value="MG50.1 — SHOCK SÉPTICO">
+  <option value="1G40 — COVID-19">
+  <option value="1A92.0 — DENGUE SIN SIGNOS DE ALARMA">
+  <option value="1A92.1 — DENGUE CON SIGNOS DE ALARMA / GRAVE">
+  <option value="1C81.0 — CELULITIS INFECCIOSA / ERISIPELA">
+  <option value="KB2A — FIEBRE DE ORIGEN DESCONOCIDO (FOD)">
+  <option value="NE01 — POLITRAUMATISMO">
+  <option value="NA21 — TRAUMATISMO CRANEOENCEFÁLICO LEVE / CONCUSIÓN">
+  <option value="NA22 — TRAUMATISMO CRANEOENCEFÁLICO GRAVE">
+  <option value="NB30 — FRACTURA DE MUÑECA / RADIO DISTAL">
+  <option value="NB40 — FRACTURA DE TOBILLO">
+  <option value="NB50 — FRACTURA DE CADERA (FÉMUR PROXIMAL)">
+  <option value="NC30 — FRACTURA COSTAL">
+  <option value="ND52 — ESGUINCE DE TOBILLO">
+  <option value="ND56 — DOLOR LUMBAR AGUDO">
+  <option value="NA06 — HERIDA CORTANTE / LACERACIÓN">
+  <option value="NF40 — QUEMADURAS">
+  <option value="T78.1 — SHOCK ANAFILÁCTICO">
+  <option value="4A8Z — REACCIÓN ALÉRGICA NO ESPECIFICADA">
+  <option value="L50.9 — URTICARIA">
+  <option value="J30.4 — RINITIS ALÉRGICA">
+  <option value="H10.9 — CONJUNTIVITIS">
+  <option value="H66.9 — OTITIS MEDIA">
+  <option value="H60.9 — OTITIS EXTERNA">
+  <option value="R04.0 — EPISTAXIS">
+  <option value="JA24.0 — PREECLAMPSIA SEVERA">
+  <option value="JA25.0 — ECLAMPSIA">
+  <option value="JA00 — ABORTO ESPONTÁNEO">
+  <option value="JB00 — EMBARAZO ECTÓPICO ROTO">
+  <option value="GA10.0 — ENFERMEDAD PÉLVICA INFLAMATORIA AGUDA">
+  <option value="F41.0 — TRASTORNO DE PÁNICO">
+  <option value="F41.9 — TRASTORNO DE ANSIEDAD">
+  <option value="F32.9 — EPISODIO DEPRESIVO">
+  <option value="R45.1 — AGITACIÓN PSICOMOTRIZ">
+  <option value="NF01.0 — INTOXICACIÓN POR BENZODIACEPINAS">
+  <option value="NF01.1 — INTOXICACIÓN POR OPIOIDES">
+  <option value="NF01.5 — INTOXICACIÓN POR ALCOHOL ETÍLICO">
+  <option value="NF03 — SOBREDOSIS / INTENTO DE AUTOELIMINACIÓN">
+  <option value="MD30.1 — DISNEA AGUDA NO ESPECIFICADA">
+  <option value="MD81 — DOLOR ABDOMINAL AGUDO NO ESPECIFICADO">
+  <option value="MA01.0 — SÍNCOPE VASOVAGAL">
+  <option value="MG22 — SHOCK NO ESPECIFICADO">
+  <option value="R50.9 — FIEBRE NO ESPECIFICADA">
+  <option value="R53 — MALESTAR Y FATIGA">
+  <option value="Z03.9 — OBSERVACIÓN POR SOSPECHA DE ENFERMEDAD">
+</datalist>
+
+<div id="panel">
+  <h1>
+    <span style="opacity:0.7;">Recetas &mdash; Dr. Henry Jaramillo Forti</span>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <div id="registro-wrap" style="position:relative;">
+        <button id="btn-registro-toggle" onclick="toggleRegistro()"
+          title="Registro de turno"
+          style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);
+                 border-radius:4px;color:rgba(255,255,255,0.45);font-size:9px;
+                 padding:2px 8px;cursor:pointer;font-family:Arial,sans-serif;
+                 white-space:nowrap;display:flex;align-items:center;gap:4px;">
+          &#128203; <span id="registro-contador" style="color:#c4b5fd;font-weight:700;">0</span>
+        </button>
+        <div id="registro-lista"
+          style="display:none;position:absolute;top:calc(100% + 4px);right:0;
+                 background:#0d1117;border:1px solid rgba(255,255,255,0.1);
+                 border-radius:6px;min-width:520px;max-height:200px;
+                 overflow-y:auto;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+          <div style="display:flex;justify-content:space-between;align-items:center;
+                      padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;
+                         color:rgba(255,255,255,0.3);font-family:Arial,sans-serif;">
+              &#128203; Registro de turno
+            </span>
+            <button onclick="imprimirLibro()"
+              title="Imprimir registro de pacientes para el libro físico"
+              style="background:#7c3aed;border:none;
+                     border-radius:4px;color:#fff;font-size:9px;font-weight:700;
+                     padding:3px 10px;cursor:pointer;font-family:Arial,sans-serif;
+                     letter-spacing:0.5px;box-shadow:0 1px 4px rgba(124,58,237,0.4);
+                     margin-right:4px;">
+              &#128218; Imprimir libro
+            </button>
+            <button onclick="limpiarRegistro()"
+              style="background:#dc2626;border:none;
+                     border-radius:4px;color:#fff;font-size:9px;font-weight:700;
+                     padding:3px 10px;cursor:pointer;font-family:Arial,sans-serif;
+                     letter-spacing:0.5px;box-shadow:0 1px 4px rgba(183,28,28,0.5);">
+              &#128465; Fin de guardia
+            </button>
+          </div>
+          <table id="registro-tabla"
+            style="width:100%;border-collapse:collapse;font-size:9.5px;
+                   font-family:Calibri,Arial,sans-serif;">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">#</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">Hora</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">Nombre</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">O.Social / Plan</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">Afiliado</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">IDX</th>
+                <th style="padding:3px 8px;border-bottom:1px solid rgba(255,255,255,0.07);"></th>
+              </tr>
+            </thead>
+            <tbody id="registro-body"></tbody>
+          </table>
+          <div id="registro-empty"
+            style="padding:10px;text-align:center;color:rgba(255,255,255,0.2);
+                   font-size:9px;font-family:Arial,sans-serif;font-style:italic;">
+            Sin pacientes registrados
+          </div>
+        </div>
+      </div>
+      <button id="btn-collapse" onclick="togglePanel()" title="Colapsar/Expandir panel">&#9650; Colapsar</button>
+    </div>
+  </h1>
+  <div id="panel-always">
+    <div class="fg fg-wide"><label>Apellido y Nombre</label><input id="i-nb" type="text" placeholder="Garcia, Juan Carlos" oninput="toUp(this);sync()"></div>
+    <div class="fg"><label>Obra Social</label><input id="i-os" type="text" list="obras-sociales" autocomplete="off" placeholder="OSDE / PAMI" oninput="toUp(this);sync()"></div>
+    <div class="fg fg-xs"><label>Plan</label><input id="i-pl" type="text" list="planes" autocomplete="off" placeholder="UNICO / ADULTO" oninput="toUp(this);sync()"></div>
+    <div class="fg"><label>N&#186; Afiliado</label><input id="i-af" type="text" placeholder="123456789" oninput="toUp(this);sync()"></div>
+    <div class="fg fg-xs"><label>Edad</label><input id="i-hc" type="text" placeholder="65 años" oninput="toUp(this);sync()"></div>
+    <div class="fg fg-xs"><label>IDX</label><input id="i-idx" type="text" list="idx-cie" autocomplete="off" placeholder="J06.9 — Buscar CIE-11..." oninput="toUp(this);sync()"></div>
+  </div>
+  <div id="ms">
+    <div class="mt">&#128138; Medicamentos (5) &nbsp;|&nbsp; &#128997; Columna roja = estudios / indicaciones especiales por cuadrante</div>
+    <div style="display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Modo Q1:</span>
+        <button id="btn-modo-ind-q1" class="modo-btn activo" onclick="restaurarIndicaciones(1)">Indicaciones</button>
+        <button id="btn-modo-lab-q1" class="modo-btn" onclick="insertarLab(1);cerrarModalLab&&null;">&#128203; Lab</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Modo Q2:</span>
+        <button id="btn-modo-ind-q2" class="modo-btn activo" onclick="restaurarIndicaciones(2)">Indicaciones</button>
+        <button id="btn-modo-lab-q2" class="modo-btn" onclick="insertarLab(2);cerrarModalLab&&null;">&#128203; Lab</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Modo Q3:</span>
+        <button id="btn-modo-ind-q3" class="modo-btn activo" onclick="restaurarIndicaciones(3)">Indicaciones</button>
+        <button id="btn-modo-lab-q3" class="modo-btn" onclick="insertarLab(3);cerrarModalLab&&null;">&#128203; Lab</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <span style="font-size:9px;color:rgba(255,255,255,0.4);font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:0.5px;">Modo Q4:</span>
+        <button id="btn-modo-ind-q4" class="modo-btn activo" onclick="restaurarIndicaciones(4)">Indicaciones</button>
+        <button id="btn-modo-lab-q4" class="modo-btn" onclick="insertarLab(4);cerrarModalLab&&null;">&#128203; Lab</button>
+      </div>
+    </div>
+
+    <div id="mrows-always"></div>
+    <div id="panel-expanded">
+      <div id="mrows-extra"></div>
+    </div>
+  </div>
+  <div class="btn-group">
+    <div class="btn-group-left">
+      <button id="btnreset" onclick="resetForm()">&#10006;&nbsp; Nuevo Paciente</button>
+      <input type="file" id="input-orden" accept="application/pdf" style="display:none" onchange="importarOrden(this)">
+      <button id="btnorden" onclick="document.getElementById('input-orden').click()"
+        title="Importar datos del paciente desde PDF de orden médica FPS"
+        style="background:linear-gradient(135deg,#15803d,#16a34a);color:#fff;border:none;border-radius:4px;
+               padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;
+               letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;
+               box-shadow:0 2px 6px rgba(46,125,50,0.4);">
+        &#128228;&nbsp; Bono Interno
+      </button>
+    </div>
+    <div class="btn-group-right">
+      <button id="btnint" onclick="abrirInternacion()">&#127973;&nbsp; Internaci&oacute;n</button>
+      <button id="btnlab" onclick="abrirModalLab()">&#128203;&nbsp; Laboratorio</button>
+      <button id="btnp" onclick="imprimirRecetas()">&#128424;&nbsp; Imprimir</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="preview">
+  <div class="page-a4">
+    <div class="grid">
+
+      <div class="rc" id="rc-q1">
+        <div class="rp-head">
+          <div class="rp-head-left">
+            <img class="logo-img" src="" alt="Logo">
+            <div class="doc-info">
+              <div class="doc-name">MARIANO ACOSTA</div>
+              <div class="doc-addr">TRES SARGENTOS 540<br>(B1724CKB) M. ACOSTA. MERLO<br><span class="doc-email">macosta&#64;figueroaparedes&#46;com&#46;ar</span><br>TELEFONO: (0220) 499-6262</div>
+            </div>
+          </div>
+          <div class="rp-date" id="q1-date"></div>
+        </div>
+        <div class="sanatorio">Sanatorio Privado Mariano Acosta S.A</div>
+        <div class="pf">
+          <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q1-nb"></span></div>
+          <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q1-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q1-pl"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q1-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q1-hc"></span></div>
+        </div>
+        <div class="it">INDICACIONES:</div>
+        <div class="mc" id="q1m"></div>
+        <div class="extra-block"><div class="extra-text" id="q1-extra"></div></div>
+        <div class="idx-bar"><span class="idx-lb">IDX:&nbsp;</span><span class="idx-val" id="q1-idx-mirror"></span></div>
+        <div class="rp-footer">
+          <div class="imp-tit">IMPORTANTE</div>
+          <div class="imp-txt">El diagn&#243;stico y el tratamiento en el servicio de guardia son los iniciales, de emergencia. Y sus susceptibles de cambiar seg&#250;n evoluci&#243;n. Se puede requerir de ex&#225;menes adicionales que aclaren con mayor precisi&#243;n su cuadro cl&#237;nico. Egresado de la guardia Ud. deber&#225; consultar al Especialista o m&#233;dico de cabecera para el control y tratamiento del mismo.</div>
+        </div>
+        <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
+      </div>
+
+      <div class="rc" id="rc-q2">
+        <div class="rp-head">
+          <div class="rp-head-left">
+            <img class="logo-img" src="" alt="Logo">
+            <div class="doc-info">
+              <div class="doc-name">MARIANO ACOSTA</div>
+              <div class="doc-addr">TRES SARGENTOS 540<br>(B1724CKB) M. ACOSTA. MERLO<br><span class="doc-email">macosta&#64;figueroaparedes&#46;com&#46;ar</span><br>TELEFONO: (0220) 499-6262</div>
+            </div>
+          </div>
+          <div class="rp-date" id="q2-date"></div>
+        </div>
+        <div class="sanatorio">Sanatorio Privado Mariano Acosta S.A</div>
+        <div class="pf">
+          <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q2-nb"></span></div>
+          <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q2-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q2-pl"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q2-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q2-hc"></span></div>
+        </div>
+        <div class="it">INDICACIONES:</div>
+        <div class="mc" id="q2m"></div>
+        <div class="extra-block"><div class="extra-text" id="q2-extra"></div></div>
+        <div class="idx-bar"><span class="idx-lb">IDX:&nbsp;</span><span class="idx-val" id="q2-idx-mirror"></span></div>
+        <div class="rp-footer">
+          <div class="imp-tit">IMPORTANTE</div>
+          <div class="imp-txt">El diagn&#243;stico y el tratamiento en el servicio de guardia son los iniciales, de emergencia. Y sus susceptibles de cambiar seg&#250;n evoluci&#243;n. Se puede requerir de ex&#225;menes adicionales que aclaren con mayor precisi&#243;n su cuadro cl&#237;nico. Egresado de la guardia Ud. deber&#225; consultar al Especialista o m&#233;dico de cabecera para el control y tratamiento del mismo.</div>
+        </div>
+        <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
+      </div>
+
+      <div class="rc" id="rc-q3">
+        <div class="rp-head">
+          <div class="rp-head-left">
+            <img class="logo-img" src="" alt="Logo">
+            <div class="doc-info">
+              <div class="doc-name">MARIANO ACOSTA</div>
+              <div class="doc-addr">TRES SARGENTOS 540<br>(B1724CKB) M. ACOSTA. MERLO<br><span class="doc-email">macosta&#64;figueroaparedes&#46;com&#46;ar</span><br>TELEFONO: (0220) 499-6262</div>
+            </div>
+          </div>
+          <div class="rp-date" id="q3-date"></div>
+        </div>
+        <div class="sanatorio">Sanatorio Privado Mariano Acosta S.A</div>
+        <div class="pf">
+          <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q3-nb"></span></div>
+          <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q3-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q3-pl"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q3-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q3-hc"></span></div>
+        </div>
+        <div class="it">INDICACIONES:</div>
+        <div class="mc" id="q3m"></div>
+        <div class="extra-block"><div class="extra-text" id="q3-extra"></div></div>
+        <div class="idx-bar"><span class="idx-lb">IDX:&nbsp;</span><span class="idx-val" id="q3-idx-mirror"></span></div>
+        <div class="rp-footer">
+          <div class="imp-tit">IMPORTANTE</div>
+          <div class="imp-txt">El diagn&#243;stico y el tratamiento en el servicio de guardia son los iniciales, de emergencia. Y sus susceptibles de cambiar seg&#250;n evoluci&#243;n. Se puede requerir de ex&#225;menes adicionales que aclaren con mayor precisi&#243;n su cuadro cl&#237;nico. Egresado de la guardia Ud. deber&#225; consultar al Especialista o m&#233;dico de cabecera para el control y tratamiento del mismo.</div>
+        </div>
+        <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
+      </div>
+
+      <div class="rc" id="rc-q4">
+        <div class="rp-head">
+          <div class="rp-head-left">
+            <img class="logo-img" src="" alt="Logo">
+            <div class="doc-info">
+              <div class="doc-name">MARIANO ACOSTA</div>
+              <div class="doc-addr">TRES SARGENTOS 540<br>(B1724CKB) M. ACOSTA. MERLO<br><span class="doc-email">macosta&#64;figueroaparedes&#46;com&#46;ar</span><br>TELEFONO: (0220) 499-6262</div>
+            </div>
+          </div>
+          <div class="rp-date" id="q4-date"></div>
+        </div>
+        <div class="sanatorio">Sanatorio Privado Mariano Acosta S.A</div>
+        <div class="pf">
+          <div class="pf-row"><span class="pf-lb">APELLIDO Y NOMBRE:&nbsp;</span><span class="pf-val" id="q4-nb"></span></div>
+          <div class="pf-row"><span class="pf-lb">O. SOCIAL:&nbsp;</span><span class="pf-val" id="q4-os"></span><span class="pf-sep"></span><span class="pf-lb">PLAN:&nbsp;</span><span class="pf-val" id="q4-pl"></span></div>
+          <div class="pf-row pf-row-last"><span class="pf-lb">AFILIADO N&#176;:&nbsp;</span><span class="pf-val" id="q4-af"></span><span class="pf-sep"></span><span class="pf-lb">EDAD:&nbsp;</span><span class="pf-val" id="q4-hc"></span></div>
+        </div>
+        <div class="it">INDICACIONES:</div>
+        <div class="mc" id="q4m"></div>
+        <div class="extra-block"><div class="extra-text" id="q4-extra"></div></div>
+        <div class="idx-bar"><span class="idx-lb">IDX:&nbsp;</span><span class="idx-val" id="q4-idx-mirror"></span></div>
+        <div class="rp-footer">
+          <div class="imp-tit">IMPORTANTE</div>
+          <div class="imp-txt">El diagn&#243;stico y el tratamiento en el servicio de guardia son los iniciales, de emergencia. Y sus susceptibles de cambiar seg&#250;n evoluci&#243;n. Se puede requerir de ex&#225;menes adicionales que aclaren con mayor precisi&#243;n su cuadro cl&#237;nico. Egresado de la guardia Ud. deber&#225; consultar al Especialista o m&#233;dico de cabecera para el control y tratamiento del mismo.</div>
+        </div>
+        <img class="rc-sello" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true" alt="Sello">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div id="int-overlay">
+  <div id="int-bar">
+    <h2>&#127973; Hoja de Indicaciones M&eacute;dicas &mdash; Internaci&oacute;n</h2>
+    <button id="btnint-print" onclick="imprimirInternacion()" title="Antes de imprimir: desactivar Encabezados y pies de página en Más opciones del diálogo de impresión">&#128424;&nbsp; Imprimir&nbsp;<span style="font-size:8px;opacity:0.7;">(sin encabezados)</span></button>
+    <button id="btnint-close" onclick="cerrarInternacion()">&#10006;&nbsp; Cerrar</button>
+  </div>
+  <div id="int-preview">
+   <div class="int-a4">
+    <img id="int-sello-img" src="" alt="Sello" style="display:none;">
+
+    <div class="int-row1">
+      <div class="int-row1-logo">
+        <img class="int-head-logo" id="int-logo" src="" alt="Logo">
+      </div>
+
+    </div>
+
+    <div class="int-pac" style="border-top:0.4pt solid #000;">
+      <div class="int-pac-left" style="flex:0 0 100%;border-right:none;">
+        <span style="white-space:nowrap;">DIAGN&Oacute;STICO:&nbsp;</span>
+        <span class="int-pac-val" id="int-dx" contenteditable="true" data-ph="Ingrese diagn&oacute;stico..." style="flex:0 0 55%;"></span>
+        <span style="white-space:nowrap;margin-left:auto;">FECHA:&nbsp;</span>
+        <span id="int-fecha" style="font-weight:700;font-size:8pt;white-space:nowrap;"></span>
+      </div>
+    </div>
+
+    <div class="int-pac" style="border-bottom:none;">
+      <div class="int-pac-left" style="flex:0 0 57.7%;">
+        <span style="white-space:nowrap;">APELLIDO Y NOMBRE:&nbsp;</span>
+        <span class="int-pac-val" id="int-nb" contenteditable="true" data-ph="GARCIA, JUAN CARLOS"></span>
+      </div>
+      <div class="int-pac-left" style="flex:0 0 30.6%;">
+        <span style="white-space:nowrap;">D.N.I.:&nbsp;</span>
+        <span class="int-pac-val" id="int-dni" contenteditable="true" data-ph="00000000"></span>
+      </div>
+      <div class="int-pac-right" style="flex:0 0 11.7%;">
+        <span>CAMA&nbsp;</span>
+        <span class="int-pac-val" id="int-cama" contenteditable="true" data-ph=""></span>
+      </div>
+    </div>
+
+    <table class="itbl">
+      <colgroup>
+        <col class="c0">
+        <col class="c1"><col class="c2"><col class="c3"><col class="c4">
+        <col class="c5"><col class="c6"><col class="c7"><col class="c8">
+        <col class="c9"><col class="c10"><col class="c11"><col class="c12">
+        <col class="c13"><col class="c14"><col class="c15"><col class="c16">
+        <col class="c17"><col class="c18"><col class="c19"><col class="c20">
+        <col class="c21"><col class="c22"><col class="c23"><col class="c24">
+        <col class="c25"><col class="c26"><col class="c27"><col class="c28">
+        <col class="c29">
+      </colgroup>
+      <tbody id="int-tbody">
+
+        <tr>
+          <td class="c0" style="padding:0;height:4.5mm;border:0.4pt solid #000;">
+            <div style="display:flex;align-items:center;width:100%;height:100%;padding:0.3mm 1.2mm;box-sizing:border-box;">
+              <span style="flex-shrink:0;font-size:8pt;font-weight:400;white-space:nowrap;">DIETA:&nbsp;</span>
+              <input type="text" id="int-dieta" placeholder="NVO / BLANDA..." value="NVO"
+                style="flex:1;border:none;outline:none;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;
+                       text-transform:uppercase;background:transparent;color:#000;padding:0;height:auto;">
+            </div>
+          </td>
+          <td colspan="4" class="th-gr">V&Iacute;AS</td>
+          <td colspan="25" class="th-gr">HORARIOS</td>
+        </tr>
+
+        <tr>
+          <td class="c0" style="font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0.8mm 1.5mm;">FLUIDOTERAPIA:</td>
+          <td class="th-s c1">V</td>
+          <td class="th-s c2">M</td>
+          <td class="th-s c3">O</td>
+          <td class="th-s c4">SC</td>
+          <td class="th-s c5">14</td><td class="th-s c6"></td>
+          <td class="th-s c7">16</td><td class="th-s c8"></td>
+          <td class="th-s c9">18</td><td class="th-s c10"></td>
+          <td class="th-s c11">20</td><td class="th-s c12"></td>
+          <td class="th-s c13">22</td><td class="th-s c14"></td>
+          <td class="th-s c15">24</td><td class="th-s c16"></td>
+          <td class="th-s c17">02</td><td class="th-s c18"></td>
+          <td class="th-s c19">04</td><td class="th-s c20"></td>
+          <td class="th-s c21">06</td><td class="th-s c22"></td>
+          <td class="th-s c23">08</td><td class="th-s c24"></td>
+          <td class="th-s c25">10</td><td class="th-s c26"></td>
+          <td class="th-s c27">12</td><td class="th-s c28"></td>
+          <td class="th-s c29">14</td>
+        </tr>
+
+        <tr class="tr-sec" id="sec-antibio"><td class="c0" colspan="30">ANTIBIOTICOTERAPIA:</td></tr>
+        <tr class="tr-sec" id="sec-ev"><td class="c0" colspan="30">MEDICACI&Oacute;N ENDOVENOSA:</td></tr>
+        <tr class="tr-sec" id="sec-oral"><td class="c0" colspan="30">MEDICACI&Oacute;N VIA ORAL:</td></tr>
+        <tr class="tr-fix">
+          <td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">COLOCACI&Oacute;N DE SONDA VESICAL:&nbsp;
+            <label style="font-weight:400;margin-right:6mm;"><input type="radio" name="int-sonda" value="NO">&nbsp;NO</label>
+            <label style="font-weight:400;"><input type="radio" name="int-sonda" value="SI">&nbsp;S&Iacute;</label>
+          </div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td>
+        </tr>
+        <tr class="tr-fix"><td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">O&#178; H&Uacute;MEDO 2LTS X CN SI SAT &lt; 92%</div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
+        <tr class="tr-fix"><td class="c0" style="height:4.5mm;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;">HGT: CORRECCI&Oacute;N CON INSULINA CORRIENTE SEG&Uacute;N TABLA</div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
+        <tr class="tr-norm"><td class="c0" style="height:4.5mm;font-size:7pt;"><div style="padding:0mm 1.5mm;height:100%;display:flex;align-items:center;white-space:nowrap;font-size:7pt;">150-200: 4 UDS &nbsp;//&nbsp; 201-250: 6 UDS &nbsp;//&nbsp; 251-300: 8 UDS &nbsp;//&nbsp; 351-400: 12 UDS &nbsp;&nbsp;&nbsp;<strong style="text-decoration:underline;">&gt;400 AVISAR A M&Eacute;DICO</strong></div></td><td class="cg c1"></td><td class="cg c2"></td><td class="cg c3"></td><td class="cg c4"></td><td class="cg c5"></td><td class="cg c6"></td><td class="cg c7"></td><td class="cg c8"></td><td class="cg c9"></td><td class="cg c10"></td><td class="cg c11"></td><td class="cg c12"></td><td class="cg c13"></td><td class="cg c14"></td><td class="cg c15"></td><td class="cg c16"></td><td class="cg c17"></td><td class="cg c18"></td><td class="cg c19"></td><td class="cg c20"></td><td class="cg c21"></td><td class="cg c22"></td><td class="cg c23"></td><td class="cg c24"></td><td class="cg c25"></td><td class="cg c26"></td><td class="cg c27"></td><td class="cg c28"></td><td class="cg c29"></td></tr>
+
+      </tbody>
+    </table>
+
+
+   </div>
+  </div>
+</div>
+
+<div id="pin-overlay">
+  <div id="pin-box">
+    <img id="pin-logo" src="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo%20RECETAS.png?raw=true" alt="Logo">
+    <h2>Sanatorio Mariano Acosta</h2>
+    <p>Ingresá tu código para iniciar</p>
+    <input type="password" id="pin-input" placeholder="" oninput="pinInputChange()" onkeydown="if(event.key==='Enter')validarPin()">
+    <div id="pin-error"></div>
+    <div>
+      <button id="pin-btn-ok" onclick="validarPin()">&#10003;&nbsp; Ingresar</button>
+      <button id="pin-btn-skip" onclick="saltarPin()">Sin sello</button>
+    </div>
+  </div>
+</div>
+
+<div id="lab-modal">
+  <div id="lab-box">
+    <h2>&#128203; Insertar Orden de Prácticas en cuadrante</h2>
+    <div>
+      <button class="lab-btn-q" onclick="insertarLab(1)">Q1</button>
+      <button class="lab-btn-q" onclick="insertarLab(2)">Q2</button>
+      <button class="lab-btn-q" onclick="insertarLab(3)">Q3</button>
+      <button class="lab-btn-q" onclick="insertarLab(4)">Q4</button>
+    </div>
+    <br>
+    <button id="lab-cancel" onclick="cerrarModalLab()">&#10006; Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* ─── ENVIAR DATOS A GOOGLE SHEETS ─── */
+let _registroEnviadoASheets = false; 
+
+function enviarDatosASheets() {
+  const nombre = (document.getElementById('i-nb') || {}).value;
+  if (!nombre || _registroEnviadoASheets) return;
+
+  const url = "https://script.google.com/macros/s/AKfycbzyo6q5SqSawRNNyDaPOUnCJmu3b4lQbyKW6j122nvP84EzqIhjVAOnOLk1NqChoAzZiw/exec"; 
+
+  let medicamentosArray = [];
+  for(let i=0; i<5; i++){
+    let med = document.getElementById('mn'+i)?.value || '';
+    let ind = document.getElementById('mi'+i)?.value || '';
+    if (med) medicamentosArray.push(`${med} (${ind})`);
+  }
+
+  const payload = {
+    fecha: new Date().toLocaleString('es-AR'),
+    nombre: nombre.toUpperCase(),
+    os: (document.getElementById('i-os') || {}).value.toUpperCase() || '',
+    plan: (document.getElementById('i-pl') || {}).value.toUpperCase() || '',
+    afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
+    edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
+    idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
+    medicamentos: medicamentosArray.join(' | '),
+    ex0: (document.getElementById('ex0') || {}).value?.toUpperCase() || '',
+    ex1: (document.getElementById('ex1') || {}).value?.toUpperCase() || '',
+    ex2: (document.getElementById('ex2') || {}).value?.toUpperCase() || '',
+    ex3: (document.getElementById('ex3') || {}).value?.toUpperCase() || ''
+  };
+
+  fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error("Error al registrar en Sheets:", err));
+
+  _registroEnviadoASheets = true; 
+}
+
+
+/* ─── SISTEMA DE PIN / SELLOS ─── */
+const SELLOS = {
+  silvio:    { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLLO%20SILVIO%20ROMERO.png?raw=true', pin:'123456', nombre:'Dr. Silvio Romero' },
+  lisdellys: { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLO%20LISDELLYS.png?raw=true',       pin:'010101', nombre:'Dra. Lisdellys' },
+  ana:       { url:'https://github.com/henryajf/FILES-RECET.AR-/blob/main/SELLO%20ANA%20OROSCO.png?raw=true',    pin:'020202', nombre:'Dra. Ana Orosco' }
+};
+let _medicoSeleccionado = null;
+let _selloActivo = null; /* null = sin sello */
+
+function seleccionarMedico(btn, key){} /* no-op, mantenido por compatibilidad */
+
+function pinInputChange(){
+  const input = document.getElementById('pin-input');
+  input.classList.remove('pin-error-field','shake');
+  document.getElementById('pin-error').textContent='';
+}
+
+function validarPin(){
+  const input = document.getElementById('pin-input');
+  const pin = input.value.trim();
+  if(pin === ''){
+    saltarPin();
+    return;
+  }
+  let encontrado = null;
+  for(const key of Object.keys(SELLOS)){
+    if(SELLOS[key].pin === pin){ encontrado = SELLOS[key].url; break; }
+  }
+  if(encontrado){
+    /* Flash verde → cerrar */
+    input.classList.remove('pin-error-field','shake');
+    input.classList.add('pin-ok');
+    setTimeout(()=>{
+      _selloActivo = encontrado;
+      aplicarSello(encontrado);
+      cerrarPinModal();
+    }, 350);
+  } else {
+    /* Shake + borde rojo + mensaje genérico */
+    input.classList.remove('pin-ok');
+    input.classList.add('pin-error-field','shake');
+    document.getElementById('pin-error').textContent='Código no válido';
+    input.value='';
+    /* Quitar shake al terminar la animación */
+    input.addEventListener('animationend', function h(){
+      input.classList.remove('shake');
+      input.removeEventListener('animationend',h);
+    });
+    input.focus();
+  }
+}
+
+function saltarPin(){
+  _selloActivo = null;
+  aplicarSello(null);
+  cerrarPinModal();
+}
+
+function aplicarSello(url){
+  /* Recetas: todos los .rc-sello */
+  document.querySelectorAll('.rc-sello').forEach(img=>{
+    if(url){ img.src=url; img.style.display=''; }
+    else { img.src=''; img.style.display='none'; }
+  });
+  /* Internación */
+  const intSello = document.getElementById('int-sello-img');
+  if(intSello){
+    if(url){ intSello.src=url; intSello.style.display=''; }
+    else { intSello.src=''; intSello.style.display='none'; }
+  }
+}
+
+function cerrarPinModal(){
+  const overlay = document.getElementById('pin-overlay');
+  if(overlay) overlay.style.display='none';
+  const input = document.getElementById('pin-input');
+  input.value='';
+  input.classList.remove('pin-ok','pin-error-field','shake');
+  _medicoSeleccionado = null;
+}
+
+function abrirPinModal(){
+  const overlay = document.getElementById('pin-overlay');
+  if(overlay) overlay.style.display='flex';
+  const input = document.getElementById('pin-input');
+  document.getElementById('pin-error').textContent='';
+  input.value='';
+  input.classList.remove('pin-ok','pin-error-field','shake');
+  _medicoSeleccionado = null;
+  setTimeout(()=>input.focus(), 100);
+}
+
+/* Logo en base64 - original completo del archivo fuente */
+const LB64="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo%20RECETAS.png?raw=true";
+document.querySelectorAll('.logo-img').forEach(e=>e.src=LB64);
+const LAB_LOGO_B64="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo_lab.png?raw=true";
+
+/* ─── LOGO INTERNACIÓN ─── */
+const INT_LOGO="https://github.com/henryajf/FILES-RECET.AR-/blob/main/logo_internacion.png?raw=true";
+document.addEventListener('DOMContentLoaded',function(){
+  const el=document.getElementById('int-logo');
+  if(el) el.src=INT_LOGO;
+  /* Panel inicia colapsado */
+  const exp=document.getElementById('panel-expanded');
+  const btn=document.getElementById('btn-collapse');
+  if(exp){ exp.classList.add('collapsed'); }
+  if(btn){ btn.innerHTML='&#9660; Expandir'; }
+  _panelExpanded=false;
+  /* Sellos ocultos hasta que se ingrese PIN */
+  aplicarSello(null);
+});
+
+
+function today(){
+  const d=new Date();
+  const fecha=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  const hora=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' Hs.';
+  return fecha+' '+hora;
+}
+function refreshFechaHora(){
+  const d=new Date();const fecha=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();const hora=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' Hs.';document.querySelectorAll('.rp-date').forEach(e=>e.innerHTML='FECHA: '+fecha+' <strong>'+hora+'</strong>');
+}
+refreshFechaHora();
+
+function toUp(el){
+  const pos=el.selectionStart,len=el.value.length;
+  el.value=el.value.toUpperCase();
+  try{el.setSelectionRange(pos+(el.value.length-len),pos+(el.value.length-len));}catch(e){}
+}
+
+const N=5;
+const mrowsAlways=document.getElementById('mrows-always');
+const mrowsExtra=document.getElementById('mrows-extra');
+for(let i=0;i<N;i++){
+  const r=document.createElement('div');
+  r.className='mr';
+  const extraCell=i<4
+    ?`<input type="text" class="extra" id="ex${i}" list="estudios-especiales" autocomplete="off" placeholder="Q${i+1}: estudios / especial..." oninput="toUp(this);sync()">`
+    :`<div style="background:rgba(139,0,0,0.15);border-radius:3px;height:26px;border:1px solid rgba(198,40,40,0.3);"></div>`;
+  r.innerHTML=
+    `<span class="n">${i+1}.</span>`+
+    `<input type="text" class="farm" id="mn${i}" list="farmacos" autocomplete="off" placeholder="Farmaco / Estudio" oninput="toUp(this);sync()">`+
+    `<input type="text" class="ind" id="mi${i}" list="indicaciones" autocomplete="off" placeholder="Indicacion / posologia" oninput="toUp(this);sync()">`+
+    extraCell;
+  if(i < 2){ mrowsAlways.appendChild(r); }
+  else { mrowsExtra.appendChild(r); }
+}
+
+function checkQ34(){
+  /* Q3 se muestra solo si ex2 tiene valor o #rc-q3 tiene clase modo-lab */
+  const ex2=(document.getElementById('ex2')||{}).value||'';
+  const q3el=document.getElementById('rc-q3');
+  const q3HasData = ex2.trim()!=='' || (q3el && q3el.classList.contains('modo-lab'));
+  /* Q4 se muestra solo si ex3 tiene valor o #rc-q4 tiene clase modo-lab */
+  const ex3=(document.getElementById('ex3')||{}).value||'';
+  const q4el=document.getElementById('rc-q4');
+  const q4HasData = ex3.trim()!=='' || (q4el && q4el.classList.contains('modo-lab'));
+  if(q3el){ q3el.classList.toggle('has-data', q3HasData); }
+  if(q4el){ q4el.classList.toggle('has-data', q4HasData); }
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function st(id,v){const el=document.getElementById(id);if(el)el.textContent=v?v.toUpperCase():'';}
+
+function sync(){
+  const nb=document.getElementById('i-nb').value.toUpperCase(),
+      os=document.getElementById('i-os').value.toUpperCase(),
+      pl=document.getElementById('i-pl').value.toUpperCase(),
+      af=document.getElementById('i-af').value.toUpperCase(),
+      hc=document.getElementById('i-hc').value.toUpperCase(),
+      idx=document.getElementById('i-idx').value.toUpperCase();
+
+  for(let q=1;q<=4;q++){
+    st('q'+q+'-nb',nb);st('q'+q+'-os',os);st('q'+q+'-pl',pl);
+    st('q'+q+'-af',af);st('q'+q+'-hc',hc);st('q'+q+'-idx-mirror',idx);
+  }
+  /* Autocompletar Diagnóstico en internación si el overlay está abierto */
+  const _intOverlay = document.getElementById('int-overlay');
+  if(_intOverlay && _intOverlay.classList.contains('open')){
+    const _dxEl = document.getElementById('int-dx');
+    if(_dxEl && idx) _dxEl.textContent = idx;
+  }
+
+  const meds=[];
+  for(let i=0;i<N;i++){
+    const nm=(document.getElementById('mn'+i)||{}).value||'';
+    const ind=(document.getElementById('mi'+i)||{}).value||'';
+    if(nm.trim())meds.push({n:nm.trim().toUpperCase(),i:ind.trim().toUpperCase()});
+  }
+
+  const rH=meds.length
+    ?meds.map((m,k)=>`<div class="ml"><span class="mn">${k+1}.&nbsp;&nbsp;${esc(m.n)}</span></div>`).join('')
+    :'<div style="color:#ccc;font-size:7.5pt;font-style:italic">&#8212;</div>';
+
+  const iH=meds.length
+    ?meds.map((m,k)=>`<div class="ml"><span class="mn">${k+1}.&nbsp;&nbsp;${esc(m.n)}</span>${m.i?`<span class="mp">&#8594; ${esc(m.i)}</span>`:''}</div>`).join('')
+    :'<div style="color:#ccc;font-size:7.5pt;font-style:italic">&#8212;</div>';
+
+  document.getElementById('q1m').innerHTML=rH;
+  document.getElementById('q3m').innerHTML=rH;
+  document.getElementById('q2m').innerHTML=iH;
+  document.getElementById('q4m').innerHTML=iH;
+
+  for(let q=1;q<=4;q++){
+    const exEl=document.getElementById('ex'+(q-1));
+    const exVal=exEl?exEl.value.toUpperCase().trim():'';
+    const textEl=document.getElementById('q'+q+'-extra');
+    const rcEl=document.getElementById('rc-q'+q);
+    if(textEl)textEl.textContent=exVal;
+    if(rcEl){
+      if(exVal){rcEl.classList.add('rc-special');}
+      else{rcEl.classList.remove('rc-special');}
+    }
+  }
+
+  checkQ34();
+  _syncLabQuadrants();
+}
+
+
+
+
+/* ─── REGISTRO DE TURNO ─── */
+let _registro = [];
+let _registroOpen = false;
+/* Índice del paciente recargado desde el registro (-1 = paciente nuevo) */
+let _idxRecargado = -1;
+
+function registrarPaciente(){
+  const nb  = (document.getElementById('i-nb') ||{}).value.trim();
+  let os  = (document.getElementById('i-os') ||{}).value.trim();
+  let pl  = (document.getElementById('i-pl') ||{}).value.trim();
+  let af  = (document.getElementById('i-af') ||{}).value.trim();
+  let idx = (document.getElementById('i-idx')||{}).value.trim();
+  if(!nb) return; /* No registrar si no hay nombre */
+  /* Si el paciente fue recargado desde el registro, solo actualizar su entrada
+     existente con el diagnóstico actual — no crear una nueva */
+  if(_idxRecargado >= 0 && _registro[_idxRecargado]){
+    _registro[_idxRecargado].idx = idx.toUpperCase();
+    renderRegistro();
+    return;
+  }
+  const osPlan = [os, pl].filter(Boolean).join(' / ');
+  const now = new Date();
+  const hora = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase()});
+  renderRegistro();
+}
+
+function recargarPaciente(idx){
+  let r = _registro[idx];
+  if(!r) return;
+  /* Marcar que estamos trabajando con este paciente ya registrado */
+  _idxRecargado = idx;
+  /* Separar os y pl que se guardaron como "OS / PL" */
+  const osParts = r.os ? r.os.split(' / ') : ['',''];
+  let os = osParts[0]||'';
+  let pl = osParts[1]||'';
+  /* Cargar en el panel sin registrar */
+  const nb_el  = document.getElementById('i-nb');
+  const os_el  = document.getElementById('i-os');
+  const pl_el  = document.getElementById('i-pl');
+  const af_el  = document.getElementById('i-af');
+  const idx_el = document.getElementById('i-idx');
+  if(nb_el)  nb_el.value  = r.nb;
+  if(os_el)  os_el.value  = os;
+  if(pl_el)  pl_el.value  = pl;
+  if(af_el)  af_el.value  = r.af;
+  if(idx_el) idx_el.value = r.idx;
+  /* Limpiar medicamentos y especiales */
+  for(let i=0;i<N;i++){
+    const mn=document.getElementById('mn'+i), mi=document.getElementById('mi'+i);
+    if(mn) mn.value=''; if(mi) mi.value='';
+  }
+  for(let i=0;i<4;i++){
+    const ex=document.getElementById('ex'+i); if(ex) ex.value='';
+  }
+  /* Restaurar cuadrantes LAB a indicaciones */
+  for(let q=1;q<=4;q++){
+    if(_modoQ[q]==='lab') restaurarIndicaciones(q);
+  }
+  sync();
+  /* Cerrar dropdown */
+  _registroOpen = false;
+  const lista = document.getElementById('registro-lista');
+  if(lista) lista.style.display = 'none';
+}
+
+function renderRegistro(){
+  const body    = document.getElementById('registro-body');
+  const contador= document.getElementById('registro-contador');
+  const empty   = document.getElementById('registro-empty');
+  if(!body) return;
+  body.innerHTML = _registro.map(function(r, i){
+    const esActivo = (i === _idxRecargado);
+    const rowBg    = esActivo ? 'background:rgba(144,202,249,0.08);' : '';
+    const btnLabel = esActivo ? '&#10003; En panel' : '&#8617; Recargar';
+    const btnBg    = esActivo ? '#0d3b5e' : '#15803d';
+    const btnTitle = esActivo ? 'Este paciente ya está cargado en el panel' : 'Recargar datos del paciente';
+    return '<tr style="'+rowBg+'">'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.25);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.num+'</td>'+
+      '<td style="padding:3px 8px;color:#c4b5fd;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.hora+'</td>'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.85);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.nb+'</td>'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.os+'</td>'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.af+'</td>'+
+      '<td style="padding:3px 8px;color:#80cbc4;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.idx+'</td>'+
+      '<td style="padding:3px 6px;border-bottom:1px solid rgba(255,255,255,0.05)">'+
+        '<button onclick="recargarPaciente('+i+')" title="'+btnTitle+'" '+
+        'style="background:'+btnBg+';border:none;border-radius:3px;color:#fff;'+
+        'font-size:9px;font-weight:700;padding:2px 7px;cursor:pointer;'+
+        'font-family:Arial,sans-serif;white-space:nowrap;">'+btnLabel+'</button>'+
+      '</td>'+
+      '</tr>';
+  }).join('');
+  if(contador) contador.textContent = _registro.length;
+  if(empty) empty.style.display = _registro.length === 0 ? 'block' : 'none';
+}
+
+function toggleRegistro(){
+  _registroOpen = !_registroOpen;
+  const lista = document.getElementById('registro-lista');
+  if(lista) lista.style.display = _registroOpen ? 'block' : 'none';
+}
+/* Cerrar dropdown al hacer click fuera */
+document.addEventListener('click', function(e){
+  const wrap = document.getElementById('registro-wrap');
+  if(wrap && !wrap.contains(e.target) && _registroOpen){
+    _registroOpen = false;
+    const lista = document.getElementById('registro-lista');
+    if(lista) lista.style.display = 'none';
+  }
+});
+
+function imprimirLibro(){
+  if(_registro.length === 0){
+    alert('No hay pacientes registrados en esta guardia.');
+    return;
+  }
+  const fecha = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const hora  = new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+
+  let filas = _registro.map(p => `
+    <tr>
+      <td>${p.num}</td>
+      <td>${p.hora}</td>
+      <td>${p.nb}</td>
+      <td>${p.os||'—'}</td>
+      <td>${p.af||'—'}</td>
+      <td>${p.idx||'—'}</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Libro de Guardia — ${fecha}</title>
+  <style>
+    @page { size: A4 landscape; margin: 12mm 10mm; }
+    body { font-family: Arial, sans-serif; font-size: 9pt; color: #000; }
+    h2 { font-size: 11pt; margin: 0 0 2mm; }
+    p  { font-size: 8pt; margin: 0 0 4mm; color: #444; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #18181b; color: #fff; font-size: 8pt; padding: 4px 6px;
+         text-align: left; letter-spacing: 0.5px; }
+    td { font-size: 8.5pt; padding: 4px 6px; border-bottom: 0.4pt solid #ccc;
+         vertical-align: top; }
+    tr:nth-child(even) td { background: #f5f5f5; }
+    .total { margin-top: 6mm; font-size: 9pt; font-weight: bold; }
+    @media print { button { display: none; } }
+  </style></head><body>
+  <h2>&#128218; LIBRO DE GUARDIA — ${fecha} &nbsp; ${hora} hs.</h2>
+  <p>Sanatorio Privado Mariano Acosta &nbsp;|&nbsp; Total de pacientes: <strong>${_registro.length}</strong></p>
+  <table>
+    <thead><tr>
+      <th>#</th><th>Hora</th><th>Apellido y Nombre</th>
+      <th>O. Social / Plan</th><th>N° Afiliado</th>
+      <th>Diagnóstico (IDX)</th>
+    </tr></thead>
+    <tbody>${filas}</tbody>
+  </table>
+  <p class="total">Total atendidos: ${_registro.length} &nbsp;&nbsp; Impreso: ${fecha} ${hora} hs.</p>
+  <script>window.onload=()=>window.print();<\/script>
+  </body></html>`;
+
+  const w = window.open('','_blank','width=900,height=600');
+  if(w){ w.document.write(html); w.document.close(); }
+}
+
+function limpiarRegistro(){
+  if(_registro.length === 0){ return; }
+  if(!confirm('¿Terminar guardia y borrar el registro de '+_registro.length+' paciente(s)?')) return;
+  _registro = [];
+  _idxRecargado = -1;
+  renderRegistro();
+  _registroOpen = false;
+  const lista = document.getElementById('registro-lista');
+  if(lista) lista.style.display = 'none';
+  /* Pedir nuevo PIN para la próxima guardia */
+  aplicarSello(null);
+  _selloActivo = null;
+  setTimeout(abrirPinModal, 200);
+}
+
+/* ─── PANEL COLAPSAR/EXPANDIR ─── */
+let _panelExpanded = true;
+function togglePanel(){
+  _panelExpanded = !_panelExpanded;
+  const exp = document.getElementById('panel-expanded');
+  const btn = document.getElementById('btn-collapse');
+  if(_panelExpanded){
+    exp.classList.remove('collapsed');
+    btn.innerHTML = '&#9650; Colapsar';
+  } else {
+    exp.classList.add('collapsed');
+    btn.innerHTML = '&#9660; Expandir';
+  }
+}
+
+/* ─── INTERNACIÓN ─── */
+function abrirInternacion(){
+  const nb =(document.getElementById('i-nb') ||{}).value||'';
+  const dni=(document.getElementById('i-af') ||{}).value||'';
+  let idx=(document.getElementById('i-idx')||{}).value||'';
+
+  const nbEl =document.getElementById('int-nb');
+  const dniEl=document.getElementById('int-dni');
+  const dxEl =document.getElementById('int-dx');
+  const dietaEl=document.getElementById('int-dieta');
+
+  if(nbEl  && nb)  nbEl.textContent  = nb.toUpperCase();
+  if(dniEl && dni) dniEl.textContent = dni.toUpperCase();
+  if(dxEl  && idx) dxEl.textContent  = idx.toUpperCase();
+  if(dietaEl && !dietaEl.value) dietaEl.value='NVO';
+
+  /* Precargar medicamentos predeterminados */
+  const fluido_vals = ["SOL 0.9% 1000CC VEV A RAZÓN DE 14 GOTAS X'//", '//'];
+  const ev_vals = ['RANITIDINA 50MG VEV OD', 'DIPIRONA 1GR VEV C/8H SOS FIEBRE', 'METOCLOPRAMIDA 10MG VEV C/8H SOS NÁUSEAS/VÓMITOS', 'KETOROLAC 30MG VEV C/8H SOS DOLOR', 'BUSCAPINA 1 AMP VEV C/8H SOS DOLOR ABDOMINAL', 'PARACETAMOL 1GR VEV C/12H SOS FIEBRE', '', '', '', ''];
+  document.querySelectorAll('#int-overlay .ied-input[list="int-fluido"]').forEach(function(el,i){
+    if(!el.value && fluido_vals[i]) el.value = fluido_vals[i].toUpperCase();
+  });
+  document.querySelectorAll('#int-overlay .ied-input[list="int-ev"]').forEach(function(el,i){
+    if(!el.value && ev_vals[i]) el.value = ev_vals[i].toUpperCase();
+  });
+
+  const d=new Date();
+  const fecha=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+  const fEl=document.getElementById('int-fecha');
+  if(fEl) fEl.textContent=fecha;
+
+  document.getElementById('int-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+
+function imprimirRecetas(){
+  enviarDatosASheets(); 
+  
+  refreshFechaHora();
+  /* Inyectar @page portrait */
+  const st = document.createElement('style');
+  st.id = '__rec_page__';
+  st.textContent = '@page { size: A4 portrait; margin: 0; }';
+  document.head.appendChild(st);
+  document.body.classList.add('printing-recetas');
+  document.body.classList.remove('printing-internacion');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('printing-recetas');
+    const el = document.getElementById('__rec_page__');
+    if(el) el.parentNode.removeChild(el);
+  }, 1000);
+}
+
+function imprimirInternacion(){
+  /* Inyectar @page landscape */
+  const st = document.createElement('style');
+  st.id = '__int_page__';
+  st.textContent = '@page { size: A4 landscape; margin: 6mm; margin-top: 6mm; }';
+  document.head.appendChild(st);
+  document.body.classList.add('printing-internacion');
+  document.body.classList.remove('printing-recetas');
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('printing-internacion');
+    const el = document.getElementById('__int_page__');
+    if(el) el.parentNode.removeChild(el);
+  }, 1000);
+}
+
+function cerrarInternacion(){
+  document.getElementById('int-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+
+/* ─── GENERADOR DE FILAS EDITABLES DE INTERNACIÓN ─── */
+(function buildIntRows(){
+  const tbody = document.getElementById('int-tbody');
+  if(!tbody) return;
+
+  /* 29 celdas vacías de grilla (columnas c1..c29) */
+  function gridCells(){
+    let h='';
+    for(let n=1;n<=29;n++) h+='<td class="cg c'+n+'"></td>';
+    return h;
+  }
+
+  /* Fila editable — list, placeholder, height, fontSize, padding */
+  function buildRow(list, ph, h, fs, pad){
+    h   = h   || '4.5mm';
+    fs  = fs  || '9pt';
+    pad = pad || '0';
+    return '<tr class="tr-ed"><td class="c0" style="padding:0;height:'+h+';">'
+      +'<input type="text" class="ied-input"'
+      +(list?' list="'+list+'"':'')+' placeholder="'+(ph||'')+'"'
+      +' style="width:100%;height:100%;border:none;outline:none;padding:'+pad
+      +';box-sizing:border-box;font-size:'+fs
+      +';font-family:"Arial Narrow",Arial,sans-serif;text-transform:uppercase;background:transparent;">'
+      +'</td>'+gridCells()+'</tr>';
+  }
+
+  /* Header de sección */
+  function sec(label){
+    return '<tr class="tr-sec"><td class="c0">'+label+'</td>'+gridCells()+'</tr>';
+  }
+
+  const html = ''
+    /* FLUIDOTERAPIA — 2 filas */
+    + buildRow('int-fluido',"SOL 0.9% 1000CC VEV A RAZ\u00d3N DE 14 GOTAS X'//")
+    + buildRow('int-fluido','//')
+    /* ANTIBIOTICOTERAPIA — 4 filas */
+    + sec('ANTIBIOTICOTERAPIA:')
+    + buildRow('int-antibio','') + buildRow('int-antibio','')
+    + buildRow('int-antibio','') + buildRow('int-antibio','')
+    /* MEDICACIÓN ENDOVENOSA — 8 normales + 2 compactas */
+    + sec('MEDICACI\u00d3N ENDOVENOSA:')
+    + buildRow('int-ev','RANITIDINA 50MG VEV OD')
+    + buildRow('int-ev','DIPIRONA 1GR VEV C/8H SOS FIEBRE')
+    + buildRow('int-ev','METOCLOPRAMIDA 10MG VEV C/8H SOS N\u00c1USEAS/V\u00d3MITOS')
+    + buildRow('int-ev','KETOROLAC 30MG VEV C/8H SOS DOLOR')
+    + buildRow('int-ev','BUSCAPINA 1 AMP VEV C/8H SOS DOLOR ABDOMINAL')
+    + buildRow('int-ev','PARACETAMOL 1GR VEV C/12H SOS FIEBRE')
+    + buildRow('int-ev','') + buildRow('int-ev','') + buildRow('int-ev','')
+    + buildRow('int-ev','','4.0mm','7pt','0.1mm 1.2mm')
+    + buildRow('int-ev','','4.0mm','7pt','0.1mm 1.2mm')
+    /* MEDICACIÓN VIA ORAL — 6 normales + 2 compactas */
+    + sec('MEDICACI\u00d3N VIA ORAL:')
+    + buildRow('int-oral','') + buildRow('int-oral','')
+    + buildRow('int-oral','') + buildRow('int-oral','')
+    + buildRow('int-oral','') + buildRow('int-oral','')
+    + buildRow('int-oral','')
+    + buildRow('int-oral','','4.0mm','7pt','0.1mm 1.2mm')
+    + buildRow('int-oral','','4.0mm','7pt','0.1mm 1.2mm');
+
+  /* Insertar antes de los controles fijos */
+  const firstFixed = tbody.querySelector('.tr-fix');
+  if(firstFixed){ firstFixed.insertAdjacentHTML('beforebegin', html); }
+  else { tbody.insertAdjacentHTML('afterbegin', html); }
+
+  /* Eliminar marcadores tr-sec estáticos del HTML (ya reemplazados por JS) */
+  ['sec-antibio','sec-ev','sec-oral'].forEach(function(id){
+    const el = document.getElementById(id);
+    if(el) el.remove();
+  });
+})();
+
+function limpiarInternacion(){
+  /* Limpiar campos de cabecera */
+  ['int-nb','int-dni','int-dx','int-cama','int-fecha'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.textContent='';
+  });
+  /* Limpiar todas las celdas editables de la tabla */
+  document.querySelectorAll('#int-overlay .ied').forEach(function(el){
+    el.textContent='';
+  });
+  document.querySelectorAll('#int-overlay .ied-input').forEach(function(el){
+    el.value='';
+  });
+  /* Limpiar input dieta */
+  const dietaInput = document.getElementById('int-dieta');
+  if(dietaInput) dietaInput.value = '';
+  /* Resetear radio sonda */
+  document.querySelectorAll('input[name="int-sonda"]').forEach(function(r){ r.checked=false; });
+}
+
+/* ─── LABORATORIO ─── */
+/* Datos del laboratorio (de RECETAS_LAB_4_CUADRANTES_7) */
+const LAB_DOC = {name:'Dr. SILVIO ROMERO', cred:'M.N. 198906  M.P. 340341', esp:'MEDICO CLINICO'};
+const LAB_ESTUDIOS_FULL = [
+  {n:'Hemograma',c:'475'},{n:'Eritrosedimentacion',c:'297'},
+  {n:'Coagulograma',c:'171'},{n:'Grupo y Factor',c:'433/813'},
+  {n:'Glucemia',c:'412'},{n:'Uremia',c:'902'},
+  {n:'Creatinina',c:'192'},{n:'Ionograma',c:'546'},
+  {n:'Hepatograma Compl.',c:'481'},{n:'Colesterol HDL',c:'6171'},
+  {n:'Colesterol LDL',c:'6172'},{n:'Colesterol Total',c:'174'},
+  {n:'Trigliceridos',c:'876'},{n:'Uricemia',c:'804'},
+  {n:'TSH',c:'865'},{n:'VDRL',c:'933'},
+  {n:'Orina Completa',c:'711'},{n:'Anticuerpos VIH',c:'063'}
+];
+const LAB_OL = 3; /* líneas "otras" */
+const LAB_DL = 3; /* líneas "diagnóstico" */
+
+/* Estado de modo por cuadrante: 'ind' (indicaciones) | 'lab' (laboratorio) */
+const _modoQ = {1:'ind', 2:'ind', 3:'ind', 4:'ind'};
+
+function abrirModalLab(){
+  document.getElementById('lab-modal').classList.add('open');
+}
+function cerrarModalLab(){
+  document.getElementById('lab-modal').classList.remove('open');
+}
+
+function _labWlines(n){
+  let s=''; for(let i=0;i<n;i++) s+='<div class="lq-wl"></div>'; return s;
+}
+
+function _buildLabQuadrantHTML(q){
+  /* Datos del paciente desde los inputs del panel */
+  const nb  = (document.getElementById('i-nb') ||{}).value.toUpperCase()||'';
+  let os  = (document.getElementById('i-os') ||{}).value.toUpperCase()||'';
+  let af  = (document.getElementById('i-af') ||{}).value.toUpperCase()||'';
+  let idx = (document.getElementById('i-idx')||{}).value.toUpperCase()||'';
+  const t   = new Date();
+  const TODAY = String(t.getDate()).padStart(2,'0')+'/'+String(t.getMonth()+1).padStart(2,'0')+'/'+t.getFullYear();
+
+  /* Grilla de estudios */
+  let h = Math.ceil(LAB_ESTUDIOS_FULL.length/2);
+  const L = LAB_ESTUDIOS_FULL.slice(0,h);
+  const R = LAB_ESTUDIOS_FULL.slice(h);
+  let rows = '';
+  for(let i=0;i<L.length;i++){
+    const l=L[i], r=R[i]||null;
+    rows += '<div class="lq-sr"><span class="lq-sn">'+l.n+' <span class="lq-sc">('+l.c+')</span></span>'
+          + '<div class="lq-ck" onclick="this.classList.toggle(\'marcado\')"></div></div>';
+    rows += '<div class="lq-sr">'+(r?'<span class="lq-sn">'+r.n+' <span class="lq-sc">('+r.c+')</span></span><div class="lq-ck" onclick="this.classList.toggle(\'marcado\')"></div>':'')+'</div>';
+  }
+
+  return '<div class="lq-wrap" id="lq-wrap-q'+q+'">'
+    + '<div class="lq-hd"><img src="'+LAB_LOGO_B64+'" alt="logo"><div class="lq-tb"><div class="lq-tm">Orden de Pr&aacute;cticas</div><div class="lq-ts">Laboratorio</div></div></div>'
+    + '<div class="lq-dr"><label>Fecha:</label><div class="lq-dv">'+TODAY+'</div></div>'
+    + '<div class="lq-sb">Datos del Paciente</div>'
+    + '<div class="lq-pb">'
+    +   '<div class="lq-fr"><span class="lq-fl">Paciente:</span><div class="lq-fi" id="lq-nb-q'+q+'">'+nb+'</div></div>'
+    +   '<div class="lq-fr"><span class="lq-fl">O. Social:</span><div class="lq-fi" id="lq-os-q'+q+'">'+os+'</div></div>'
+    +   '<div class="lq-fr"><span class="lq-fl">Afiliado N&deg;:</span><div class="lq-fi" id="lq-af-q'+q+'">'+af+'</div></div>'
+    + '</div>'
+    + '<div class="lq-sb">Estudio</div>'
+    + '<div class="lq-sg"><div class="lq-gr">'+rows+'</div></div>'
+    + '<div class="lq-sb">Otras</div><div class="lq-ob">'+_labWlines(LAB_OL)+'</div>'
+    + '<div class="lq-sb">Diagnostico</div><div class="lq-ob"><div id="lq-idx-q'+q+'" class="lq-fi" style="font-size:7pt;font-weight:700;text-transform:uppercase;min-height:12px;margin-bottom:1mm;">'+idx+'</div>'+_labWlines(LAB_DL-1)+'</div>'
+    + '<div class="lq-st"><span class="lq-ss">Firma y sello Profesional</span></div>'
+  + '</div>';
+}
+
+function insertarLab(q){
+  cerrarModalLab();
+  _modoQ[q] = 'lab';
+  const rcEl = document.getElementById('rc-q'+q);
+  if(!rcEl) return;
+
+  /* Agregar clase modo-lab al cuadrante */
+  rcEl.classList.add('modo-lab');
+  rcEl.classList.remove('rc-special');
+
+  /* Limpiar o crear el contenedor lq-outer */
+  let outer = rcEl.querySelector('.lq-outer');
+  if(!outer){
+    outer = document.createElement('div');
+    outer.className = 'lq-outer';
+    rcEl.appendChild(outer);
+  }
+  outer.innerHTML = _buildLabQuadrantHTML(q);
+
+  /* Mostrar Q3/Q4 si corresponde */
+  if(q===3){ rcEl.classList.add('has-data'); }
+  if(q===4){ rcEl.classList.add('has-data'); }
+
+  /* Actualizar botón de modo en panel */
+  _actualizarBotonesModo(q);
+}
+
+function restaurarIndicaciones(q){
+  _modoQ[q] = 'ind';
+  const rcEl = document.getElementById('rc-q'+q);
+  if(!rcEl) return;
+  rcEl.classList.remove('modo-lab');
+  let outer = rcEl.querySelector('.lq-outer');
+  if(outer) outer.innerHTML = '';
+  /* Recalcular visibilidad Q3/Q4 */
+  checkQ34();
+  sync();
+  _actualizarBotonesModo(q);
+}
+
+function _actualizarBotonesModo(q){
+  const btnInd = document.getElementById('btn-modo-ind-q'+q);
+  const btnLab = document.getElementById('btn-modo-lab-q'+q);
+  if(!btnInd || !btnLab) return;
+  if(_modoQ[q]==='lab'){
+    btnInd.classList.remove('activo');
+    btnLab.classList.add('activo');
+  } else {
+    btnLab.classList.remove('activo');
+    btnInd.classList.add('activo');
+  }
+}
+
+/* Actualizar datos del paciente en cuadrantes LAB al sincronizar */
+function _syncLabQuadrants(){
+  const nb = (document.getElementById('i-nb')||{}).value.toUpperCase()||'';
+  let os = (document.getElementById('i-os')||{}).value.toUpperCase()||'';
+  let af = (document.getElementById('i-af')||{}).value.toUpperCase()||'';
+  let idx = (document.getElementById('i-idx')||{}).value.toUpperCase()||'';
+  for(let q=1;q<=4;q++){
+    if(_modoQ[q]==='lab'){
+      const nbEl=document.getElementById('lq-nb-q'+q);
+      const osEl=document.getElementById('lq-os-q'+q);
+      const afEl=document.getElementById('lq-af-q'+q);
+      const idxEl=document.getElementById('lq-idx-q'+q);
+      if(nbEl) nbEl.textContent=nb;
+      if(osEl) osEl.textContent=os;
+      if(afEl) afEl.textContent=af;
+      if(idxEl) idxEl.textContent=idx;
+    }
+  }
+}
+
+
+function resetForm(){
+  enviarDatosASheets(); 
+  
+  registrarPaciente(); /* Actualiza IDX si recargado, o registra si es nuevo */
+  _idxRecargado = -1;  /* El siguiente paciente será siempre nuevo */
+  
+  _registroEnviadoASheets = false; 
+
+  ['i-nb','i-os','i-pl','i-af','i-hc','i-idx'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  for(let i=0;i<N;i++){
+    const mn=document.getElementById('mn'+i),mi=document.getElementById('mi'+i);
+    if(mn)mn.value='';if(mi)mi.value='';
+  }
+  for(let i=0;i<4;i++){
+    const ex=document.getElementById('ex'+i);if(ex)ex.value='';
+  }
+  limpiarInternacion();
+  /* Restaurar todos los cuadrantes a modo indicaciones */
+  for(let q=1;q<=4;q++){
+    if(_modoQ[q]==='lab'){ restaurarIndicaciones(q); }
+  }
+  refreshFechaHora();
+  sync();
+  document.getElementById('i-nb').focus();
+}
+
+sync();
+
+/* ─── IMPORTAR ORDEN MÉDICA PDF (FPS / Sanatorio Figueroa Paredes) ─── */
+async function importarOrden(input){
+  const file = input.files[0];
+  if(!file) return;
+  input.value = '';
+
+  if(typeof pdfjsLib === 'undefined'){
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      s.onload=res; s.onerror=rej;
+      document.head.appendChild(s);
+    });
+    pdfjsLib.GlobalWorkerOptions.workerSrc=
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  try{
+    const ab  = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data:ab}).promise;
+
+    /* Recolectar TODOS los items con sus coordenadas reales */
+    const allWords = [];
+    for(let p=1;p<=pdf.numPages;p++){
+      const page = await pdf.getPage(p);
+      const tc   = await page.getTextContent();
+      for(const item of tc.items){
+        const x = item.transform[4];
+        const y = item.transform[5];
+        const t = item.str.trim();
+        if(t) allWords.push({x, y, t});
+      }
+    }
+
+    /* Agrupar por Y con tolerancia de 3pt → filas */
+    const rowMap = {};
+    for(const w of allWords){
+      const yk = Math.round(w.y);
+      /* buscar fila existente dentro de tolerancia ±3 */
+      let found = null;
+      for(const k of Object.keys(rowMap)){
+        if(Math.abs(yk - Number(k)) <= 3){ found = k; break; }
+      }
+      const key = found || String(yk);
+      if(!rowMap[key]) rowMap[key] = [];
+      rowMap[key].push({x: w.x, t: w.t});
+    }
+    /* Ordenar cada fila por X ascendente */
+    const rows = Object.values(rowMap).map(r => r.sort((a,b)=>a.x-b.x));
+
+    /* Helper: dado un texto de etiqueta, devuelve los tokens que le siguen
+       en la misma fila hasta encontrar otra etiqueta (termina en ':')      */
+    function valAfter(labelText){
+      const lc = labelText.toLowerCase();
+      for(const row of rows){
+        for(let i=0;i<row.length;i++){
+          if(row[i].t.toLowerCase().includes(lc)){
+            const vals=[];
+            for(let j=i+1;j<row.length;j++){
+              const nt=row[j].t;
+              /* detener si es otra etiqueta */
+              if(/^[A-ZÁÉÍÓÚÑa-záéíóúñ\/]+\.:?$/.test(nt) && nt.endsWith(':')) break;
+              vals.push(nt);
+            }
+            return vals.join(' ').trim();
+          }
+        }
+      }
+      return '';
+    }
+
+    /* ── EXTRACCIÓN DE CAMPOS ── */
+
+    /* NOMBRE: tokens entre "Paciente:" y "Carnet:" en la misma fila */
+    let nb = '';
+    for(const row of rows){
+      const iPac = row.findIndex(w=>w.t==='Paciente:');
+      const iCar = row.findIndex(w=>w.t==='Carnet:');
+      if(iPac>=0 && iCar>iPac){
+        nb = row.slice(iPac+1, iCar).map(w=>w.t).join(' ').trim();
+        break;
+      }
+    }
+
+    /* OBRA SOCIAL: fila con "Cobertura:" → preferir contenido entre paréntesis */
+    let os = '';
+    const cobRaw = valAfter('Cobertura:');
+    const mp = cobRaw.match(/\(([^)]+)\)/);
+    if(mp){
+      os = mp[1].trim();
+    } else {
+      /* sin paréntesis: tomar parte tras el guión, o todo */
+      const dash = cobRaw.indexOf(' - ');
+      os = dash>=0 ? cobRaw.slice(dash+3).trim() : cobRaw;
+    }
+
+    /* PLAN */
+    const pl = valAfter('Plan:');
+
+    /* N° AFILIADO = Carnet */
+    const af = valAfter('Carnet:');
+
+    /* H/C = Historia C.: → buscar 'C.:' en la misma fila y tomar siguiente token */
+    let hc = '';
+    for(const row of rows){
+      const iHist = row.findIndex(w=>w.t==='Historia');
+      const iC    = row.findIndex(w=>w.t==='C.:' || w.t==='C.:');
+      if(iHist>=0 && iC>iHist){
+        /* tomar los tokens entre C.: y la siguiente etiqueta */
+        const vals=[];
+        for(let j=iC+1;j<row.length;j++){
+          if(row[j].t.endsWith(':') && row[j].t.length>2) break;
+          vals.push(row[j].t);
+        }
+        hc = vals.join(' ').trim();
+        break;
+      }
+    }
+
+    /* EDAD */
+    const edad = valAfter('Edad:');
+
+    /* ── MAPEO A CAMPOS DEL PANEL ──
+       Apellido y Nombre → Paciente
+       Obra Social       → Cobertura (texto entre paréntesis)
+       Plan              → Plan
+       N° Afiliado       → Carnet
+       H/C               → Edad   (según indicación)                    */
+    const set=(id,val)=>{
+      const el=document.getElementById(id);
+      if(el && val) el.value=val.toUpperCase();
+    };
+    set('i-nb', nb);
+    set('i-os', os);
+    set('i-pl', pl);
+    set('i-af', af);
+    set('i-hc', edad);   /* H/C ← Edad, según indicación */
+    sync();
+
+    const resumen=[nb,os,pl].filter(Boolean).join(' · ')||'Orden importada';
+    _toastOrden('\u2714 '+resumen);
+
+  }catch(e){
+    alert('No se pudo leer el PDF de la orden.\n'+e.message);
+  }
+}
+
+function _toastOrden(msg){
+  let t=document.getElementById('_toast-orden');
+  if(!t){
+    t=document.createElement('div');
+    t.id='_toast-orden';
+    Object.assign(t.style,{
+      position:'fixed',bottom:'24px',left:'50%',
+      transform:'translateX(-50%) translateY(10px)',
+      background:'#15803d',color:'#fff',
+      padding:'9px 22px',borderRadius:'8px',
+      fontFamily:'Arial,sans-serif',fontSize:'12px',
+      fontWeight:'700',letterSpacing:'0.4px',
+      boxShadow:'0 4px 18px rgba(0,0,0,0.45)',
+      zIndex:'9999',opacity:'0',
+      transition:'opacity 0.25s, transform 0.25s',
+      pointerEvents:'none',whiteSpace:'nowrap'
+    });
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>{
+    t.style.opacity='0';
+    t.style.transform='translateX(-50%) translateY(10px)';
+  },3200);
+}
+
+</script>
+<script>
+const VADEMECUM = {
+  "AAS 100MG":                                  "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "AAS 325MG":                                  "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ACETILCISTEINA 600MG":                       "DISOLVER (1) SOBRE EN AGUA. TOMAR CADA 12 HORAS POR 5 DÍAS. SI ES EFERVESCENTE TOMAR (1) AL DIA",
+  "ACIDO FOLICO 1MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ACIDO FOLICO 5MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ALOPURINOL 100MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "ALOPURINOL 300MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "ALPRAZOLAM 0.25MG":                          "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "ALPRAZOLAM 0.5MG":                           "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "ALPRAZOLAM 1MG":                             "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "ALPRAZOLAM 2MG":                             "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "AMBROXOL 30MG":                              "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 7 DÍAS",
+  "AMITRIPTILINA 25MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE AL ACOSTARSE",
+  "AMLODIPINA 10MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "AMLODIPINA 5MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "AMIODARONA 200MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "AMOXICILINA 500MG":                          "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 7 DÍAS",
+  "AMOXICILINA 875MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS",
+  "AMOXICILINA-CLAVULANICO 875/125MG":          "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS CON LAS COMIDAS",
+  "ASPIRINA 100MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ASPIRINA 325MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ASPIRINA 500MG":                             "TOMAR (1-2) COMPRIMIDOS CADA 8 HORAS SEGÚN DOLOR",
+  "ATENOLOL 100MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ATENOLOL 50MG":                              "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ATORVASTATINA 10MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE",
+  "ATORVASTATINA 20MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE",
+  "ATORVASTATINA 40MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE",
+  "AZITROMICINA 250MG":                         "TOMAR (2) COMPRIMIDOS EL PRIMER DÍA, LUEGO (1) CADA 24 HORAS POR 4 DÍAS",
+  "AZITROMICINA 500MG":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 3 DÍAS",
+  "BETAMETASONA 0.5MG":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "BISMUTO SUBCITRATO 300MG":                   "TOMAR (1) COMPRIMIDO 4 VECES AL DÍA 30 MINUTOS ANTES DE LAS COMIDAS",
+  "BISOPROLOL 10MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "BISOPROLOL 5MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "BROMURO DE IPRATROPIO 20MCG":                "INHALAR (2) PUFFS CADA 8 HORAS",
+  "BUDESONIDA 200MCG":                          "INHALAR (2) PUFFS CADA 12 HORAS. ENJUAGAR LA BOCA LUEGO",
+  "BUDESONIDA PUFF 200MCG":                     "INHALAR (2) PUFFS CADA 12 HORAS. ENJUAGAR LA BOCA LUEGO",
+  "BUSCAPINA 10MG":                             "TOMAR (1) COMPRIMIDO CADA 8 HORAS SEGÚN DOLOR",
+  "CALCIO + VITAMINA D3":                       "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "CARBAMAZEPINA 200MG":                        "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CARVEDILOL 3.125MG":                         "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CARVEDILOL 6.25MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CARVEDILOL 12.5MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CARVEDILOL 25MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CEFADROXILO 500MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS",
+  "CEFALEXINA 500MG":                           "TOMAR (1) COMPRIMIDO CADA 6 HORAS POR 7 DÍAS",
+  "CELECOXIB 100MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "CELECOXIB 200MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "CETIRIZINA 10MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR LA NOCHE",
+  "CIPROFLOXACINA 500MG":                       "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS",
+  "CIPROFLOXACINA 750MG":                       "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS",
+  "CLARITROMICINA 500MG":                       "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS CON LAS COMIDAS",
+  "CLINDAMICINA 300MG":                         "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 7 DÍAS",
+  "CLINDAMICINA 600MG":                         "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS",
+  "CLONAZEPAM 0.5MG":                           "TOMAR (1) COMPRIMIDO POR LA NOCHE AL ACOSTARSE",
+  "CLONAZEPAM 1MG":                             "TOMAR (1) COMPRIMIDO POR LA NOCHE AL ACOSTARSE",
+  "CLONAZEPAM 2MG":                             "TOMAR (1) COMPRIMIDO POR LA NOCHE AL ACOSTARSE",
+  "CLOPIDOGREL 75MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "COLCHICINA 0.5MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "DABIGATRAN 110MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "DESLORATADINA 5MG":                          "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "DEXAMETASONA 4MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "DIAZEPAM 5MG":                               "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "DIAZEPAM 10MG":                              "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "DICLOFENAC 50MG":                            "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS",
+  "DICLOFENAC 75MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "DICLOFENAC 100MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "DIFENIDRAMINA 50MG":                         "TOMAR (1) COMPRIMIDO CADA 8 HORAS SEGÚN NECESIDAD",
+  "DIGOXINA 0.25MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "DIPIRONA 500MG":                             "TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS SEGÚN DOLOR. MÁXIMO 4 COMPRIMIDOS/DÍA",
+  "DOMPERIDONA 10MG":                           "TOMAR (1) COMPRIMIDO 30 MINUTOS ANTES DE LAS COMIDAS, 3 VECES AL DÍA",
+  "DOXICICLINA 100MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS CON LAS COMIDAS",
+  "EMPAGLIFLOZINA 10MG":                        "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON EL DESAYUNO",
+  "ENALAPRIL 5MG":                              "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ENALAPRIL 10MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ENALAPRIL 20MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "ENOXAPARINA 40MG":                           "APLICAR (1) AMPOLLA SUBCUTÁNEA CADA 24 HORAS",
+  "ENOXAPARINA 60MG":                           "APLICAR (1) AMPOLLA SUBCUTÁNEA CADA 24 HORAS",
+  "ESCITALOPRAM 10MG":                          "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "ESCITALOPRAM 20MG":                          "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "ESOMEPRAZOL 40MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "ESPIRONOLACTONA 25MG":                       "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "ESPIRONOLACTONA 50MG":                       "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "FAMOTIDINA 20MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS",
+  "FENITOINA 100MG":                            "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS",
+  "FEXOFENADINA 180MG":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "FLUOXETINA 20MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "FLUTICASONA 250MCG":                         "INHALAR (2) PUFFS CADA 12 HORAS. ENJUAGAR LA BOCA LUEGO",
+  "FLUTICASONA PUFF 125MCG":                    "INHALAR (2) PUFFS CADA 12 HORAS. ENJUAGAR LA BOCA LUEGO",
+  "FUROSEMIDA 40MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "GLIBENCLAMIDA 5MG":                          "TOMAR (1) COMPRIMIDO 30 MINUTOS ANTES DEL DESAYUNO",
+  "GLIMEPIRIDA 2MG":                            "TOMAR (1) COMPRIMIDO CON EL DESAYUNO",
+  "GLIMEPIRIDA 4MG":                            "TOMAR (1) COMPRIMIDO CON EL DESAYUNO",
+  "HIDROCLOROTIAZIDA 25MG":                     "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "HIERRO FERROSO 100MG":                       "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN AYUNAS",
+  "IBUPROFENO 400MG":                           "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS",
+  "IBUPROFENO 600MG":                           "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS CON LAS COMIDAS",
+  "IBUPROFENO 800MG":                           "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS CON LAS COMIDAS",
+  "INSULINA NPH 100UI/ML":                      "APLICAR SEGÚN ESQUEMA INDICADO POR EL MÉDICO",
+  "INSULINA REGULAR 100UI/ML":                  "APLICAR SEGÚN ESQUEMA INDICADO POR EL MÉDICO",
+  "IPRATROPIO PUFF 20MCG":                      "INHALAR (2) PUFFS CADA 8 HORAS",
+  "KETOROLAC 10MG":                             "TOMAR (1) COMPRIMIDO CADA 6-8 HORAS. NO MÁS DE 5 DÍAS",
+  "KETOROLAC 30MG":                             "TOMAR (1) COMPRIMIDO CADA 6-8 HORAS. NO MÁS DE 5 DÍAS",
+  "LEVOFLOXACINA 500MG":                        "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 7 DÍAS",
+  "LEVOFLOXACINA 750MG":                        "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 5 DÍAS",
+  "LEVOTIROXINA 50MCG":                         "TOMAR (1) COMPRIMIDO EN AYUNAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "LEVOTIROXINA 100MCG":                        "TOMAR (1) COMPRIMIDO EN AYUNAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "LOPERAMIDA 2MG":                             "TOMAR (2) COMPRIMIDOS INICIAL, LUEGO (1) DESPUÉS DE CADA DEPOSICIÓN. MÁXIMO 8 COMP/DÍA",
+  "LORATADINA 10MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "LORAZEPAM 1MG":                              "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "LORAZEPAM 2MG":                              "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN NECESIDAD",
+  "LOSARTAN 50MG":                              "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "LOSARTAN 100MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "MELOXICAM 7.5MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "MELOXICAM 15MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "METAMIZOL 500MG":                            "TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS SEGÚN DOLOR",
+  "METAMIZOL 1G":                               "TOMAR (1) COMPRIMIDO CADA 6-8 HORAS SEGÚN DOLOR",
+  "METFORMINA 500MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS DURANTE LAS COMIDAS",
+  "METFORMINA 850MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS DURANTE LAS COMIDAS",
+  "METFORMINA 1G":                              "TOMAR (1) COMPRIMIDO CADA 12 HORAS DURANTE LAS COMIDAS",
+  "METOCLOPRAMIDA 10MG":                        "TOMAR (1) COMPRIMIDO 30 MINUTOS ANTES DE LAS COMIDAS, 3 VECES AL DÍA",
+  "METRONIDAZOL 500MG":                         "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 7 DÍAS CON LAS COMIDAS",
+  "MONTELUKAST 10MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR LA NOCHE",
+  "NAPROXENO 250MG":                            "TOMAR (1-2) COMPRIMIDOS CADA 8-12 HORAS CON LAS COMIDAS",
+  "NAPROXENO 500MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS CON LAS COMIDAS",
+  "OMEPRAZOL 20MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "OMEPRAZOL 40MG":                             "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "ONDANSETRON 4MG":                            "TOMAR (1) COMPRIMIDO CADA 8 HORAS SEGÚN NÁUSEAS",
+  "ONDANSETRON 8MG":                            "TOMAR (1) COMPRIMIDO CADA 8 HORAS SEGÚN NÁUSEAS",
+  "PANTOPRAZOL 40MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MINUTOS ANTES DEL DESAYUNO",
+  "PARACETAMOL 500MG":                          "TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS. MÁXIMO 4G/DÍA",
+  "PARACETAMOL 1G":                             "TOMAR (1) COMPRIMIDO CADA 8 HORAS. MÁXIMO 3G/DÍA",
+  "PREDNISONA 5MG":                             "TOMAR SEGÚN ESQUEMA INDICADO CON LAS COMIDAS",
+  "PREDNISONA 20MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON EL DESAYUNO",
+  "PREDNISONA 40MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON EL DESAYUNO",
+  "PREGABALINA 75MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS",
+  "PREGABALINA 150MG":                          "TOMAR (1) COMPRIMIDO CADA 12 HORAS",
+  "RANITIDINA 150MG":                           "TOMAR (1) COMPRIMIDO CADA 12 HORAS ANTES DE LAS COMIDAS",
+  "RIVAROXABAN 20MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LA CENA",
+  "ROSUVASTATINA 10MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE",
+  "ROSUVASTATINA 20MG":                         "TOMAR (1) COMPRIMIDO POR LA NOCHE",
+  "SALBUTAMOL 2MG":                             "TOMAR (1) COMPRIMIDO CADA 8 HORAS",
+  "SALBUTAMOL 100MCG":                          "INHALAR (2) PUFFS CADA 6-8 HORAS SEGÚN NECESIDAD",
+  "SALBUTAMOL PUFF 100MCG":                     "INHALAR (2) PUFFS CADA 6-8 HORAS SEGÚN NECESIDAD",
+  "SERTRALINA 50MG":                            "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "SERTRALINA 100MG":                           "TOMAR (1) COMPRIMIDO CADA 24 HORAS EN LAS MAÑANAS",
+  "SITAGLIPTINA 100MG":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS",
+  "SUCRALFATO 1G":                              "TOMAR (1) SOBRE DISUELTO EN AGUA, 1 HORA ANTES DE LAS COMIDAS, 3 VECES AL DÍA",
+  "TICAGRELOR 90MG":                            "TOMAR (1) COMPRIMIDO CADA 12 HORAS",
+  "TRAMADOL 50MG":                              "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN DOLOR",
+  "TRAMADOL 100MG":                             "TOMAR (1) COMPRIMIDO CADA 8-12 HORAS SEGÚN DOLOR",
+  "TRIMETOPRIMA-SULFAMETOXAZOL 160/800MG":      "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7-10 DÍAS",
+  "VITAMINA D3 1000UI":                         "TOMAR (1) COMPRIMIDO CADA 24 HORAS CON LAS COMIDAS",
+  "VITAMINA D3 5000UI":                         "TOMAR (1) COMPRIMIDO POR SEMANA CON LAS COMIDAS",
+};
+
+function _tryAutocomplete(target) {
+  const m = target.id && target.id.match(/^mn(\d+)$/);
+  if (!m) return;
+  const idx = m[1];
+  const miEl = document.getElementById('mi' + idx);
+  if (!miEl || miEl.value.trim() !== '') return;
+  const val = target.value.trim().toUpperCase();
+  if (!val) return;
+  const key = Object.keys(VADEMECUM).find(k => val === k);
+  if (!key) return;
+  miEl.value = VADEMECUM[key];
+  if (typeof sync === 'function') sync();
+}
+
+document.addEventListener('blur', function(e) {
+  if (e.target && e.target.classList.contains('farm')) _tryAutocomplete(e.target);
+}, true);
+
+const _acTimers = {};
+document.addEventListener('input', function(e) {
+  const t = e.target;
+  if (!t || !t.classList.contains('farm')) return;
+  clearTimeout(_acTimers[t.id]);
+  _acTimers[t.id] = setTimeout(() => _tryAutocomplete(t), 120);
+}, true);
+
+/* ─── PROTOCOLOS DIAGNÓSTICOS CIE-11 ─── */
+const PROTOCOLOS = {
+  /* Claves: fragmentos del código o descripción que aparecen en i-idx */
+  "CA40.0": {
+    meds: [
+      { n: "AMOXICILINA / ÁCIDO CLAVULÁNICO 875/125MG", i: "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 7 DÍAS" },
+      { n: "IBUPROFENO 600MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SÓLO SI HAY DOLOR O FIEBRE)" },
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SI HAY INTOLERANCIA A AINE)" },
+      { n: "N-ACETILCISTEÍNA 600MG",                    i: "TOMAR (1) SOBRE CADA 24 HORAS POR 7 DÍAS" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN ABUNDANTE (MÍN. 2.5-3 L/DÍA). CONSULTA INMEDIATA ANTE FALTA DE AIRE O FIEBRE > 48 HS." }
+    ]
+  },
+  "CA22.0": {
+    meds: [
+      { n: "SALBUTAMOL / IPRATROPIO AEROSOL",           i: "INHALAR (2) PUFFS CADA 6 HORAS O SEGÚN NECESIDAD EN CRISIS" },
+      { n: "PREDNISONA 40MG",                           i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 5 DÍAS" },
+      { n: "AZITROMICINA 500MG",                        i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS POR 3 DÍAS (SI HAY SIGNOS DE INFECCIÓN BACTERIANA)" },
+      { n: "OXÍGENO SUPLEMENTARIO",                     i: "SI SATURACIÓN < 90%, INDICAR USO DOMICILIARIO SEGÚN PROTOCOLO" },
+      { n: "RECOMENDACIONES",                           i: "CESE TABÁQUICO, EVITAR HUMO/POLVO, HIDRATACIÓN 2 L/DÍA PARA FLUIDIFICAR SECRECIONES Y USO CORRECTO DE INHALADORES CON CÁMARA ESPACIADORA." }
+    ]
+  },
+  "1A40": {
+    meds: [
+      { n: "SALES DE REHIDRATACIÓN ORAL (SRO)",         i: "DISOLVER 1 SOBRE EN 1 LITRO DE AGUA, CONSUMIR A DEMANDA (2-3 LITROS/DÍA)" },
+      { n: "METOCLOPRAMIDA 10MG",                       i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (SI HAY VÓMITOS)" },
+      { n: "DIMEHIDRINATO 50MG",                        i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (ALTERNATIVA SI HAY MAREOS/VÓMITOS)" },
+      { n: "PROBIÓTICOS (SACCHAROMYCES BOULARDII)",     i: "TOMAR (1) CÁPSULA CADA 12 HORAS POR 5 DÍAS" },
+      { n: "RECOMENDACIONES",                           i: "DIETA BLANDA (ARROZ, POLLO HERVIDO, BANANA, MANZANA). EVITAR LÁCTEOS, GASEOSAS Y ALCOHOL. HIDRATACIÓN FRACCIONADA PARA MEJOR TOLERANCIA." }
+    ]
+  },
+  "CA01": {
+    meds: [
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS" },
+      { n: "ANTIGRIPAL (PARACETAMOL+FENILEFRINA+CLORFENAMINA)", i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 3-5 DÍAS" },
+      { n: "MIEL CON LIMÓN",                            i: "TOMAR (1) CUCHARADA CADA 8 HORAS PARA CALMAR LA TOS" },
+      { n: "SOLUCIÓN SALINA SPRAY NASAL",               i: "APLICAR (1-2) PUFFS EN CADA FOSA NASAL CADA 6 HORAS" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO, AISLAMIENTO RELATIVO (BARBIJO EN LUGARES CERRADOS), VENTILACIÓN DE AMBIENTES E HIDRATACIÓN CONSTANTE 2-3 LITROS/DÍA." }
+    ]
+  },
+  "DA62.0": {
+    meds: [
+      { n: "LACTULOSA JARABE",                          i: "TOMAR 15-30 ML EN AYUNAS (AJUSTAR SEGÚN RESPUESTA)" },
+      { n: "MACROGOL 3350",                             i: "DISOLVER (1) SOBRE EN AGUA Y TOMAR CADA 24 HORAS" },
+      { n: "FIBRA (PSYLLIUM)",                          i: "TOMAR (1) SOBRE CADA 24 HORAS CON ABUNDANTE AGUA" },
+      { n: "RECOMENDACIONES",                           i: "AUMENTAR CONSUMO DE AGUA A 2.5 L/DÍA (SIN AGUA LA FIBRA EMPEORA EL CUADRO), DIETA RICA EN FIBRAS Y ACTIVIDAD FÍSICA DIARIA." }
+    ]
+  },
+  "BE00.0": {
+    meds: [
+      { n: "SOLUCIÓN FISIOLÓGICA 0.9% 500ML",           i: "SUPERVISAR HIDRATACIÓN ORAL. REPOSO EN DECÚBITO SUPINO CON PIERNAS ELEVADAS HASTA RECUPERACIÓN COMPLETA" },
+      { n: "METOCLOPRAMIDA 10MG",                       i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS SI HAY NÁUSEAS O VÓMITOS ASOCIADOS" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS SI HAY CEFALEA POSTCAÍDA (CON LAS COMIDAS)" },
+      { n: "SALES DE REHIDRATACIÓN ORAL (SRO)",         i: "DISOLVER 1 SOBRE EN 1 LITRO DE AGUA Y CONSUMIR EN LAS PRIMERAS 2 HORAS" },
+      { n: "RECOMENDACIONES",                           i: "EVITAR BIPEDESTACIÓN BRUSCA, AUMENTAR INGESTA DE LÍQUIDOS Y SAL. NO CONDUCIR HASTA EVALUACIÓN. CONSULTA URGENTE SI SE REPITE O ASOCIA PALPITACIONES O PÉRDIDA DE CONSCIENCIA PROLONGADA." }
+    ]
+  },
+  "CA41.0": {
+    meds: [
+      { n: "AMOXICILINA 500MG",                         i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS POR 5-7 DÍAS (SOLO SI HAY SOSPECHA BACTERIANA)" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS (PARA FIEBRE Y DOLOR)" },
+      { n: "N-ACETILCISTEÍNA 600MG",                    i: "TOMAR (1) SOBRE DISUELTO EN AGUA CADA 24 HORAS POR 7 DÍAS (MUCOLÍTICO)" },
+      { n: "SALBUTAMOL PUFF 100MCG",                    i: "INHALAR (2) PUFFS CADA 6-8 HORAS SEGÚN NECESIDAD SI HAY BRONCOESPASMO" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO RELATIVO, HIDRATACIÓN 2-3 L/DÍA, EVITAR TABACO Y AMBIENTES FRÍOS. CONSULTAR SI FIEBRE > 38.5°C MÁS DE 48 HS O EXPECTORACIÓN PURULENTA." }
+    ]
+  },
+  "MD92.1": {
+    meds: [
+      { n: "PARACETAMOL 1G",                            i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS (PRIMERA LÍNEA ANALGÉSICA, SEGURA EN CARDÍACOS)" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS SI ORIGEN MUSCULOESQUELÉTICO (EVITAR EN SOSPECHA CARDÍACA)" },
+      { n: "OMEPRAZOL 20MG",                            i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS 30 MIN ANTES DEL DESAYUNO (PROTECCIÓN GÁSTRICA CON AINES)" },
+      { n: "DIAZEPAM 5MG",                              i: "TOMAR (1) COMPRIMIDO CADA 12 HORAS POR 3 DÍAS SI ORIGEN ANSIOSO O MUSCULOESQUELÉTICO" },
+      { n: "RECOMENDACIONES",                           i: "CONSULTA INMEDIATA A GUARDIA SI EL DOLOR IRRADIA A BRAZO O MANDÍBULA, SE ACOMPAÑA DE DISNEA O SUDORACIÓN FRÍA. EVITAR ESFUERZOS HASTA DESCARTAR CAUSA CARDÍACA." }
+    ]
+  },
+  "CA00.0": {
+    meds: [
+      { n: "PARACETAMOL 500MG",                         i: "TOMAR (1-2) COMPRIMIDOS CADA 6-8 HORAS SEGÚN FIEBRE O MALESTAR. MÁXIMO 4G/DÍA" },
+      { n: "LORATADINA 10MG",                           i: "TOMAR (1) COMPRIMIDO CADA 24 HORAS PARA ALIVIO DE CONGESTIÓN Y RINORREA" },
+      { n: "SOLUCIÓN SALINA SPRAY NASAL",               i: "APLICAR (2) PUFFS EN CADA FOSA NASAL CADA 6-8 HORAS PARA DESOBSTRUIR VÍA AÉREA" },
+      { n: "IBUPROFENO 400MG",                          i: "TOMAR (1) COMPRIMIDO CADA 8 HORAS CON LAS COMIDAS SI HAY DOLOR DE GARGANTA O CEFALEA" },
+      { n: "RECOMENDACIONES",                           i: "REPOSO, HIDRATACIÓN 2-3 L/DÍA, LAVADOS NASALES CON SOLUCIÓN SALINA. NO REQUIERE ANTIBIÓTICOS (CAUSA VIRAL). CONSULTAR SI FIEBRE PERSISTE MÁS DE 72 HS." }
+    ]
+  }
+};
+
+/* Mapeo adicional: códigos o fragmentos alternativos → misma clave de protocolo */
+const PROTO_ALIAS = {
+  "CA40.Z":  "CA40.0",  /* Neumonía no especificada → protocolo NAC */
+  "CA22.1":  "CA22.0",  /* EPOC con exacerbación (otra notación) */
+  "ME04.0":  "DA62.0",  /* Estreñimiento (código ICD-10 legacy) */
+  "DA62":    "DA62.0",
+  "1D00":    "CA01",    /* Gripe identificada */
+  "8B22":    "BE00.0",  /* Síncope (código legacy) */
+  "MA01":    "BE00.0",  /* Síncope vasovagal */
+  "R55":     "BE00.0",  /* Síncope (ICD-10) */
+  "CA41":    "CA41.0",  /* Bronquitis aguda sin decimal */
+  "J20":     "CA41.0",  /* Bronquitis aguda (ICD-10) */
+  "MD92":    "MD92.1",  /* Dolor torácico sin decimal */
+  "MD10":    "MD92.1",  /* Dolor torácico no especificado */
+  "R07":     "MD92.1",  /* Dolor torácico (ICD-10) */
+  "CA00":    "CA00.0",  /* Rinofaringitis sin decimal */
+  "J00":     "CA00.0",  /* Rinofaringitis aguda (ICD-10) */
+};
+
+/* Expandir panel si está colapsado */
+function _expandirPanel(){
+  const exp = document.getElementById('panel-expanded');
+  const btn = document.getElementById('btn-collapse');
+  if(exp && exp.classList.contains('collapsed')){
+    exp.classList.remove('collapsed');
+    if(btn) btn.innerHTML = '&#9650; Colapsar';
+    _panelExpanded = true;
+  }
+}
+
+/* Función principal: aplica protocolo según valor del campo IDX */
+function _aplicarProtocolo(valorIdx){
+  const val = (valorIdx || '').toUpperCase().trim();
+  if(!val) return;
+
+  /* Buscar clave directa o alias */
+  let clave = null;
+  for(const k of Object.keys(PROTOCOLOS)){
+    if(val.indexOf(k) !== -1){ clave = k; break; }
+  }
+  if(!clave){
+    for(const [alias, dest] of Object.entries(PROTO_ALIAS)){
+      if(val.indexOf(alias) !== -1){ clave = dest; break; }
+    }
+  }
+  if(!clave) return; /* Diagnóstico sin protocolo definido → no hace nada */
+
+  const proto = PROTOCOLOS[clave];
+  if(!proto || !proto.meds) return;
+
+  /* Verificar si ya hay medicamentos cargados → preguntar antes de pisar */
+  let hayMeds = false;
+  for(let i = 0; i < N; i++){
+    const el = document.getElementById('mn' + i);
+    if(el && el.value.trim() !== ''){ hayMeds = true; break; }
+  }
+  if(hayMeds){
+    if(!confirm('⚠️ Ya hay medicamentos cargados.\n¿Reemplazar con el protocolo de:\n' + val + '?')) return;
+  }
+
+  /* Limpiar todos los campos primero */
+  for(let i = 0; i < N; i++){
+    const mn = document.getElementById('mn' + i);
+    const mi = document.getElementById('mi' + i);
+    if(mn) mn.value = '';
+    if(mi) mi.value = '';
+  }
+
+  /* Cargar protocolo */
+  const meds = proto.meds.slice(0, N);
+  meds.forEach(function(med, i){
+    const mn = document.getElementById('mn' + i);
+    const mi = document.getElementById('mi' + i);
+    if(mn) mn.value = med.n;
+    if(mi) mi.value = med.i;
+  });
+
+  /* Expandir panel para que se vean todas las filas */
+  _expandirPanel();
+
+  sync();
+}
+
+/* Listener: se dispara al seleccionar/escribir en el campo IDX */
+(function(){
+  const idxEl = document.getElementById('i-idx');
+  if(!idxEl) return;
+
+  /* change: cuando el usuario selecciona de la datalist o sale del campo */
+  idxEl.addEventListener('change', function(){
+    _aplicarProtocolo(this.value);
+  });
+
+  /* También escuchar input con debounce para cuando tipea directo */
+  let _idxTimer = null;
+  idxEl.addEventListener('input', function(){
+    const v = this.value;
+    clearTimeout(_idxTimer);
+    _idxTimer = setTimeout(function(){ _aplicarProtocolo(v); }, 600);
+  });
+})();
+</script>
+</body>
+</html>
