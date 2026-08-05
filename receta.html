@@ -460,21 +460,6 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 </style>
 </head>
 <body>
-<div id="maint-overlay" style="position:fixed;inset:0;z-index:99999;background:#1a0505;display:flex;align-items:center;justify-content:center;padding:20px;">
-  <div style="max-width:440px;width:100%;background:rgba(255,255,255,0.04);border:1.5px solid #dc2626;border-radius:14px;padding:36px 28px;text-align:center;box-shadow:0 0 0 1px rgba(220,38,38,0.25),0 10px 40px rgba(0,0,0,0.6);">
-    <div style="font-size:42px;margin-bottom:10px;">&#9888;&#65039;</div>
-    <h1 style="font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:#fca5a5;letter-spacing:0.5px;margin-bottom:10px;text-transform:uppercase;">Sistema no disponible</h1>
-    <p style="font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:14px;color:#fecaca;line-height:1.55;margin-bottom:8px;">
-      Estamos realizando ajustes. En unos minutos estar&aacute; disponible nuevamente.
-    </p>
-    <p style="font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:13px;color:#fca5a5;line-height:1.55;margin-bottom:22px;">
-      Verific&aacute; tu conexi&oacute;n a internet y recarg&aacute; la p&aacute;gina.
-    </p>
-    <button onclick="location.reload()" style="background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:6px;color:#fff;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 22px;cursor:pointer;box-shadow:0 2px 8px rgba(220,38,38,0.5);">
-      Recargar p&aacute;gina
-    </button>
-  </div>
-</div>
 <datalist id="farmacos">
   <option value="AAS 100MG"><option value="AAS 325MG"><option value="ACETILCISTEINA 600MG">
   <option value="ACIDO FOLICO 1MG"><option value="ACIDO FOLICO 5MG"><option value="ALOPURINOL 100MG">
@@ -925,7 +910,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         <div id="registro-lista"
           style="display:none;position:absolute;top:calc(100% + 4px);right:0;
                  background:#0d1117;border:1px solid rgba(255,255,255,0.1);
-                 border-radius:6px;min-width:520px;max-height:200px;
+                 border-radius:6px;min-width:660px;max-height:200px;
                  overflow-y:auto;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
           <div style="display:flex;justify-content:space-between;align-items:center;
                       padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.08);">
@@ -972,6 +957,12 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
                            border-bottom:1px solid rgba(255,255,255,0.07);">Afiliado</th>
                 <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
                            font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">DNI</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
+                           border-bottom:1px solid rgba(255,255,255,0.07);">Edad</th>
+                <th style="text-align:left;padding:3px 8px;color:rgba(255,255,255,0.25);
+                           font-size:8px;letter-spacing:1px;font-weight:400;
                            border-bottom:1px solid rgba(255,255,255,0.07);">IDX</th>
                 <th style="padding:3px 8px;border-bottom:1px solid rgba(255,255,255,0.07);"></th>
               </tr>
@@ -993,6 +984,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
     <div class="fg"><label>Obra Social</label><input id="i-os" type="text" list="obras-sociales" autocomplete="off" placeholder="OSDE / PAMI" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>Plan</label><input id="i-pl" type="text" list="planes" autocomplete="off" placeholder="UNICO / ADULTO" oninput="toUp(this);sync()"></div>
     <div class="fg"><label>N&#186; Afiliado</label><input id="i-af" type="text" placeholder="123456789" oninput="toUp(this);sync()"></div>
+    <div class="fg fg-xs"><label>DNI</label><input id="i-dni" type="text" placeholder="30123456" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>Edad</label><input id="i-hc" type="text" placeholder="65 años" oninput="toUp(this);sync()"></div>
     <div class="fg fg-xs"><label>IDX</label><input id="i-idx" type="text" list="idx-cie" autocomplete="off" placeholder="J06.9 — Buscar CIE-11..." oninput="toUp(this);sync()"></div>
   </div>
@@ -1330,6 +1322,7 @@ function enviarDatosASheets() {
     os: (document.getElementById('i-os') || {}).value.toUpperCase() || '',
     plan: (document.getElementById('i-pl') || {}).value.toUpperCase() || '',
     afiliado: (document.getElementById('i-af') || {}).value.toUpperCase() || '',
+    dni: (document.getElementById('i-dni') || {}).value.toUpperCase() || '',
     edad: (document.getElementById('i-hc') || {}).value.toUpperCase() || '',
     idx: (document.getElementById('i-idx') || {}).value.toUpperCase() || '',
     medicamentos: medicamentosArray.join(' | '),
@@ -1583,19 +1576,23 @@ function registrarPaciente(){
   let os  = (document.getElementById('i-os') ||{}).value.trim();
   let pl  = (document.getElementById('i-pl') ||{}).value.trim();
   let af  = (document.getElementById('i-af') ||{}).value.trim();
+  let dni = (document.getElementById('i-dni')||{}).value.trim();
+  let ed  = (document.getElementById('i-hc') ||{}).value.trim();
   let idx = (document.getElementById('i-idx')||{}).value.trim();
   if(!nb) return; /* No registrar si no hay nombre */
   /* Si el paciente fue recargado desde el registro, solo actualizar su entrada
      existente con el diagnóstico actual — no crear una nueva */
   if(_idxRecargado >= 0 && _registro[_idxRecargado]){
     _registro[_idxRecargado].idx = idx.toUpperCase();
+    _registro[_idxRecargado].dni = dni.toUpperCase();
+    _registro[_idxRecargado].edad = ed.toUpperCase();
     renderRegistro();
     return;
   }
   const osPlan = [os, pl].filter(Boolean).join(' / ');
   const now = new Date();
   const hora = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), idx:idx.toUpperCase()});
+  _registro.push({num:_registro.length+1, hora:hora, nb:nb.toUpperCase(), os:osPlan.toUpperCase(), af:af.toUpperCase(), dni:dni.toUpperCase(), edad:ed.toUpperCase(), idx:idx.toUpperCase()});
   renderRegistro();
 }
 
@@ -1613,11 +1610,15 @@ function recargarPaciente(idx){
   const os_el  = document.getElementById('i-os');
   const pl_el  = document.getElementById('i-pl');
   const af_el  = document.getElementById('i-af');
+  const dni_el = document.getElementById('i-dni');
+  const ed_el  = document.getElementById('i-hc');
   const idx_el = document.getElementById('i-idx');
   if(nb_el)  nb_el.value  = r.nb;
   if(os_el)  os_el.value  = os;
   if(pl_el)  pl_el.value  = pl;
   if(af_el)  af_el.value  = r.af;
+  if(dni_el) dni_el.value = r.dni||'';
+  if(ed_el)  ed_el.value  = r.edad||'';
   if(idx_el) idx_el.value = r.idx;
   /* Limpiar medicamentos y especiales */
   for(let i=0;i<N;i++){
@@ -1655,6 +1656,8 @@ function renderRegistro(){
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.85);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.nb+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.os+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.af+'</td>'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+(r.dni||'—')+'</td>'+
+      '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+(r.edad||'—')+'</td>'+
       '<td style="padding:3px 8px;color:#80cbc4;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.idx+'</td>'+
       '<td style="padding:3px 6px;border-bottom:1px solid rgba(255,255,255,0.05)">'+
         '<button onclick="recargarPaciente('+i+')" title="'+btnTitle+'" '+
@@ -1698,6 +1701,8 @@ function imprimirLibro(){
       <td>${p.nb}</td>
       <td>${p.os||'—'}</td>
       <td>${p.af||'—'}</td>
+      <td>${p.dni||'—'}</td>
+      <td>${p.edad||'—'}</td>
       <td>${p.idx||'—'}</td>
     </tr>`).join('');
 
@@ -1723,6 +1728,7 @@ function imprimirLibro(){
     <thead><tr>
       <th>#</th><th>Hora</th><th>Apellido y Nombre</th>
       <th>O. Social / Plan</th><th>N° Afiliado</th>
+      <th>DNI</th><th>Edad</th>
       <th>Diagnóstico (IDX)</th>
     </tr></thead>
     <tbody>${filas}</tbody>
@@ -1768,7 +1774,7 @@ function togglePanel(){
 /* ─── INTERNACIÓN ─── */
 function abrirInternacion(){
   const nb =(document.getElementById('i-nb') ||{}).value||'';
-  const dni=(document.getElementById('i-af') ||{}).value||'';
+  const dni=(document.getElementById('i-dni')||{}).value || (document.getElementById('i-af')||{}).value || '';
   let idx=(document.getElementById('i-idx')||{}).value||'';
 
   const nbEl =document.getElementById('int-nb');
@@ -2084,7 +2090,7 @@ function resetForm(){
   
   _registroEnviadoASheets = false; 
 
-  ['i-nb','i-os','i-pl','i-af','i-hc','i-idx'].forEach(id=>{
+  ['i-nb','i-os','i-pl','i-af','i-dni','i-hc','i-idx'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
   for(let i=0;i<N;i++){
