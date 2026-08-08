@@ -197,7 +197,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 /* sub-encabezados con dígitos apilados */
 .th-s{background:#fff;font-size:6pt;font-weight:400;text-align:center;border:0.4pt solid #000;padding:0;line-height:1.1;white-space:nowrap;height:4.5mm;vertical-align:middle;}
 /* sección bold */
-.tr-sec td{font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0;background:#fff;height:3.5mm;vertical-align:middle;}
+.tr-sec td{font-size:8pt;font-weight:700;border:0.4pt solid #000;padding:0;background:#fff;height:3.5mm;vertical-align:middle;}
 /* editable */
 .tr-ed td.c0{padding:0;height:4.5mm;}
 .ied{display:block;width:100%;height:100%;min-height:4.5mm;outline:none;padding:0.1mm 1.5mm;box-sizing:border-box;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase;}
@@ -361,9 +361,20 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   background:transparent;
   color:#000;
 }
-.ied-input::placeholder{color:#bbb;font-style:italic;text-transform:none;font-size:6.5pt;}
 .ied-input:focus{background:#fffde7;}
 @media print{.ied-input:focus{background:transparent!important;}}
+
+/* ─── FLECHITAS MOVER FILA (INTERNACIÓN) — overlay, sólo visibles con foco en la celda ─── */
+.ied-row{position:relative;width:100%;height:100%;}
+.ied-row .ied-input{padding-right:0;}
+.ied-mv{display:none;position:absolute;right:0;top:0;bottom:0;width:3.2mm;flex-direction:column;
+  background:#fffde7;border-left:0.3pt solid #ccc;z-index:2;}
+.ied-row:focus-within .ied-mv{display:flex;}
+.ied-mv-btn{flex:1 1 0;border:none;background:transparent;cursor:pointer;
+  font-size:5pt;line-height:1;padding:0;color:#666;}
+.ied-mv-btn:hover{background:#dfe6ff;color:#1a3fb0;}
+.ied-mv-btn:active{background:#c7d2fe;}
+@media print{.ied-mv{display:none!important;}}
 
 /* ─── LABORATORIO CUADRANTE COMPLETO (estilos de RECETAS_LAB_4_CUADRANTES_7) ─── */
 /* Prefijo lq- para evitar colisiones */
@@ -778,6 +789,22 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   <option value="CLOPIDOGREL 300MG VO STAT">
   <option value="CLOPIDOGREL 600MG VO STAT">
   <option value="ATORVASTATINA 80MG VO STAT">
+</datalist>
+<datalist id="int-dieta-list">
+  <option value="NVO">
+  <option value="DIETA GENERAL">
+  <option value="DIETA BLANDA">
+  <option value="DIETA LÍQUIDA">
+  <option value="DIETA LÍQUIDA AMPLIA">
+  <option value="DIETA HIPOSÓDICA">
+  <option value="DIETA HIPOGRASA">
+  <option value="DIETA DIABÉTICA">
+  <option value="DIETA HEPATOPROTECTORA">
+  <option value="DIETA RICA EN FIBRAS">
+  <option value="DIETA ASTRINGENTE">
+  <option value="DIETA HIPOPROTEICA / RENAL">
+  <option value="DIETA SIN TACC (CELÍACOS)">
+  <option value="DIETA POST-QUIRÚRGICA">
 </datalist>
 
 
@@ -1218,9 +1245,9 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
         <tr>
           <td class="c0" style="padding:0;height:4.5mm;border:0.4pt solid #000;">
-            <div style="display:flex;align-items:center;width:100%;height:100%;padding:0.3mm 1.2mm;box-sizing:border-box;">
-              <span style="flex-shrink:0;font-size:8pt;font-weight:400;white-space:nowrap;">DIETA:&nbsp;</span>
-              <input type="text" id="int-dieta" placeholder="NVO / BLANDA..." value="NVO"
+            <div style="display:flex;align-items:center;width:100%;height:100%;padding:0.3mm 0;box-sizing:border-box;">
+              <span style="flex-shrink:0;font-size:8pt;font-weight:700;white-space:nowrap;">DIETA:&nbsp;</span>
+              <input type="text" id="int-dieta" list="int-dieta-list" value="NVO"
                 style="flex:1;border:none;outline:none;font-size:8pt;font-family:'Arial Narrow',Arial,sans-serif;
                        text-transform:uppercase;background:transparent;color:#000;padding:0;height:auto;">
             </div>
@@ -1230,7 +1257,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
         </tr>
 
         <tr>
-          <td class="c0" style="font-size:7.5pt;font-weight:700;border:0.4pt solid #000;padding:0.8mm 1.5mm;">FLUIDOTERAPIA:</td>
+          <td class="c0" style="font-size:8pt;font-weight:700;border:0.4pt solid #000;padding:0.8mm 0;">FLUIDOTERAPIA:</td>
           <td class="th-s c1">V</td>
           <td class="th-s c2">M</td>
           <td class="th-s c3">O</td>
@@ -1788,7 +1815,7 @@ function abrirInternacion(){
   if(dietaEl && !dietaEl.value) dietaEl.value='NVO';
 
   /* Precargar medicamentos predeterminados */
-  const fluido_vals = ["SOL 0.9% 1000CC VEV A RAZÓN DE 14 GOTAS X'//", '//'];
+  const fluido_vals = ["SOL 0.9% 1000CC VEV A RAZÓN DE 14 GOTAS X'//"];
   const ev_vals = ['RANITIDINA 50MG VEV OD', 'DIPIRONA 1GR VEV C/8H SOS FIEBRE', 'METOCLOPRAMIDA 10MG VEV C/8H SOS NÁUSEAS/VÓMITOS', 'KETOROLAC 30MG VEV C/8H SOS DOLOR', 'BUSCAPINA 1 AMP VEV C/8H SOS DOLOR ABDOMINAL', 'PARACETAMOL 1GR VEV C/12H SOS FIEBRE', '', '', '', ''];
   document.querySelectorAll('#int-overlay .ied-input[list="int-fluido"]').forEach(function(el,i){
     if(!el.value && fluido_vals[i]) el.value = fluido_vals[i].toUpperCase();
@@ -1860,17 +1887,26 @@ function cerrarInternacion(){
     return h;
   }
 
-  /* Fila editable — list, placeholder, height, fontSize, padding */
+  /* Fila editable — list (sólo datalist, sin placeholder), height, fontSize, padding.
+     Incluye flechitas ▲▼ para mover la fila, ocultas por defecto: sólo aparecen
+     como overlay al enfocar/escribir en esa celda (no ocupan espacio ni se ven
+     en impresión). */
   function buildRow(list, ph, h, fs, pad){
     h   = h   || '4.5mm';
     fs  = fs  || '9pt';
     pad = pad || '0';
     return '<tr class="tr-ed"><td class="c0" style="padding:0;height:'+h+';">'
-      +'<input type="text" class="ied-input"'
-      +(list?' list="'+list+'"':'')+' placeholder="'+(ph||'')+'"'
-      +' style="width:100%;height:100%;border:none;outline:none;padding:'+pad
-      +';box-sizing:border-box;font-size:'+fs
-      +';font-family:"Arial Narrow",Arial,sans-serif;text-transform:uppercase;background:transparent;">'
+      +'<div class="ied-row">'
+        +'<input type="text" class="ied-input"'
+        +(list?' list="'+list+'"':'')
+        +' style="width:100%;height:100%;border:none;outline:none;padding:'+pad
+        +';box-sizing:border-box;font-size:'+fs
+        +';font-family:\'Arial Narrow\',Arial,sans-serif;text-transform:uppercase;background:transparent;">'
+        +'<span class="ied-mv" contenteditable="false">'
+          +'<button type="button" tabindex="-1" class="ied-mv-btn" data-dir="up" title="Subir fila">&#9650;</button>'
+          +'<button type="button" tabindex="-1" class="ied-mv-btn" data-dir="down" title="Bajar fila">&#9660;</button>'
+        +'</span>'
+      +'</div>'
       +'</td>'+gridCells()+'</tr>';
   }
 
@@ -1880,9 +1916,9 @@ function cerrarInternacion(){
   }
 
   const html = ''
-    /* FLUIDOTERAPIA — 2 filas */
+    /* FLUIDOTERAPIA — 1 fila con dato + 1 fila en blanco */
     + buildRow('int-fluido',"SOL 0.9% 1000CC VEV A RAZ\u00d3N DE 14 GOTAS X'//")
-    + buildRow('int-fluido','//')
+    + buildRow('int-fluido','')
     /* ANTIBIOTICOTERAPIA — 4 filas */
     + sec('ANTIBIOTICOTERAPIA:')
     + buildRow('int-antibio','') + buildRow('int-antibio','')
@@ -1916,6 +1952,60 @@ function cerrarInternacion(){
   ['sec-antibio','sec-ev','sec-oral'].forEach(function(id){
     const el = document.getElementById(id);
     if(el) el.remove();
+  });
+
+  /* ─── MOVER FILAS (arriba/abajo) ───
+     Cada fila editable (tr-ed) puede subir o bajar intercambiando lugar con la
+     fila vecina, incluso cruzando encabezados de sección (tr-sec) — así se le
+     puede "robar" espacio a otra sección (ej. ANTIBIOTICOTERAPIA). Las filas
+     fijas (SONDA VESICAL, O2 HÚMEDO, HGT y tabla de insulina — clase tr-fix)
+     nunca se mueven y actúan como tope inferior. */
+  const SEC_LIST = {
+    'ANTIBIOTICOTERAPIA:': 'int-antibio',
+    'MEDICACIÓN ENDOVENOSA:': 'int-ev',
+    'MEDICACION ENDOVENOSA:': 'int-ev',
+    'MEDICACIÓN VIA ORAL:': 'int-oral',
+    'MEDICACION VIA ORAL:': 'int-oral'
+  };
+
+  function recomputeIntSections(){
+    let currentList = 'int-fluido';
+    Array.prototype.forEach.call(tbody.children, function(tr){
+      if(tr.classList.contains('tr-sec')){
+        const c0 = tr.querySelector('td.c0');
+        const txt = c0 ? c0.textContent.trim() : '';
+        if(SEC_LIST[txt]) currentList = SEC_LIST[txt];
+        return;
+      }
+      if(tr.classList.contains('tr-ed')){
+        const inp = tr.querySelector('.ied-input');
+        if(inp) inp.setAttribute('list', currentList);
+      }
+    });
+  }
+
+  tbody.addEventListener('click', function(e){
+    const btn = e.target.closest('.ied-mv-btn');
+    if(!btn) return;
+    e.preventDefault();
+    const tr = btn.closest('tr.tr-ed');
+    if(!tr) return;
+    const dir = btn.dataset.dir;
+    if(dir === 'up'){
+      const prev = tr.previousElementSibling;
+      if(prev && (prev.classList.contains('tr-ed') || prev.classList.contains('tr-sec'))){
+        tbody.insertBefore(tr, prev);
+      }
+    } else if(dir === 'down'){
+      const next = tr.nextElementSibling;
+      if(next && (next.classList.contains('tr-ed') || next.classList.contains('tr-sec'))){
+        tbody.insertBefore(next, tr);
+      }
+    }
+    recomputeIntSections();
+    /* Reenfocar el input de la fila movida para que las flechitas sigan visibles */
+    const inp = tr.querySelector('.ied-input');
+    if(inp) inp.focus();
   });
 })();
 
