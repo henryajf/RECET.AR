@@ -8,13 +8,13 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
-#panel{background:#18181b;color:#fff;padding:10px 18px 8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
+#panel{background:#0F191B;color:#fff;padding:10px 18px 8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,0.5);}
 /* ── FILA SIEMPRE VISIBLE ── */
 #panel-top{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;}
 #panel h1{width:100%;font-size:9px;letter-spacing:1.5px;text-transform:none;color:rgba(255,255,255,0.28);margin-bottom:4px;font-family:Arial,sans-serif;font-weight:400;font-style:italic;display:flex;align-items:center;justify-content:space-between;}
 /* ── BOTÓN COLAPSAR ── */
 #btn-collapse{
-  background:linear-gradient(135deg,#7c3aed,#a78bfa);
+  background:linear-gradient(135deg,#0D9488,#2DD4BF);
   border:none;
   border-radius:6px;
   color:#fff;
@@ -25,17 +25,17 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   font-family:Arial,sans-serif;
   white-space:nowrap;
   transition:all 0.2s;
-  box-shadow:0 2px 6px rgba(124,58,237,0.4);
+  box-shadow:0 2px 6px rgba(13,148,136,0.4);
   letter-spacing:0.5px;
 }
 #btn-collapse:hover{
-  background:linear-gradient(135deg,#6d28d9,#7c3aed);
-  box-shadow:0 3px 10px rgba(124,58,237,0.6);
+  background:linear-gradient(135deg,#0F766E,#0D9488);
+  box-shadow:0 3px 10px rgba(13,148,136,0.6);
   transform:translateY(-1px);
 }
 #btn-collapse:active{
   transform:translateY(0);
-  box-shadow:0 1px 4px rgba(124,58,237,0.3);
+  box-shadow:0 1px 4px rgba(13,148,136,0.3);
 }
 /* ── ZONA COLAPSABLE (medicamentos) ── */
 #panel-expanded{overflow:hidden;transition:max-height 0.35s ease, opacity 0.25s ease;max-height:500px;opacity:1;}
@@ -43,21 +43,21 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 /* ── FILAS SIEMPRE VISIBLES: datos paciente + 2 meds + especial ── */
 #panel-always{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:6px;}
 .fg{display:flex;flex-direction:column;gap:3px;min-width:90px;flex:1;}
-.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#c4b5fd;font-family:Arial,sans-serif;}
+.fg label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#5EEAD4;font-family:Arial,sans-serif;}
 .fg input{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:5px 8px;outline:none;text-transform:uppercase;}
-.fg input:focus{border-color:#a78bfa;background:rgba(255,255,255,0.15);}
+.fg input:focus{border-color:#2DD4BF;background:rgba(255,255,255,0.15);}
 .fg input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
 .fg-wide{min-width:190px;flex:3;}
 .fg-xs{max-width:90px;}
 #ms{width:100%;background:rgba(255,255,255,0.06);border-radius:4px;padding:9px 11px;margin-top:6px;}
-.mt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;margin-bottom:7px;font-family:Arial,sans-serif;}
+.mt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5EEAD4;margin-bottom:7px;font-family:Arial,sans-serif;}
 .mr{display:grid;grid-template-columns:16px 1fr 1.6fr 200px;gap:5px;margin-bottom:5px;align-items:center;}
-.mr .n{font-size:11px;color:#c4b5fd;font-family:Arial,sans-serif;text-align:center;}
+.mr .n{font-size:11px;color:#5EEAD4;font-family:Arial,sans-serif;text-align:center;}
 .mr input.farm,.mr input.ind{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
-.mr input:focus{border-color:#a78bfa;}
+.mr input:focus{border-color:#2DD4BF;}
 .mr input::placeholder{color:rgba(255,255,255,0.3);text-transform:none;}
-.mr input.extra{background:#4c1d95;border:1px solid #7c3aed;border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
-.mr input.extra:focus{border-color:#c4b5fd;background:#5b21b6;}
+.mr input.extra{background:#134E4A;border:1px solid #0D9488;border-radius:3px;color:#fff;font-family:Calibri,Arial,sans-serif;font-size:12px;padding:4px 7px;outline:none;text-transform:uppercase;width:100%;}
+.mr input.extra:focus{border-color:#5EEAD4;background:#115E59;}
 .mr input.extra::placeholder{color:rgba(255,200,200,0.5);text-transform:none;}
 
 /* Filas 3-5 ocultas en panel-expanded.collapsed (ya manejado por overflow:hidden/max-height) */
@@ -113,13 +113,13 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
 
 /* ─── BOTÓN INTERNACIÓN ─── */
-#btnint{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
-#btnint:hover{background:#6d28d9;}
+#btnint{background:#0D9488;color:#fff;border:none;border-radius:4px;padding:8px 14px;font-family:Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;white-space:nowrap;}
+#btnint:hover{background:#0F766E;}
 /* ─── OVERLAY ─── */
 #int-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#909090;z-index:500;overflow:auto;}
 #int-overlay.open{display:block;}
-#int-bar{background:#18181b;color:#fff;padding:8px 18px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:501;}
-#int-bar h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd;flex:1;font-family:Arial,sans-serif;margin:0;}
+#int-bar{background:#0F191B;color:#fff;padding:8px 18px;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:501;}
+#int-bar h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5EEAD4;flex:1;font-family:Arial,sans-serif;margin:0;}
 #btnint-print{background:#16a34a;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
 #btnint-close{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:7px 14px;font-family:Arial,sans-serif;font-size:10px;font-weight:700;cursor:pointer;text-transform:uppercase;}
 /* PÁGINA A4 HORIZONTAL */
@@ -279,10 +279,10 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 /* ─── MODAL SELECTOR CUADRANTE ─── */
 #lab-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center;}
 #lab-modal.open{display:flex;}
-#lab-box{background:#18181b;border:1px solid #a78bfa;border-radius:8px;padding:20px 28px;text-align:center;color:#fff;font-family:Arial,sans-serif;}
-#lab-box h2{font-size:11px;letter-spacing:2px;color:#c4b5fd;text-transform:uppercase;margin-bottom:14px;}
-.lab-btn-q{background:#7c3aed;color:#fff;border:none;border-radius:4px;padding:9px 18px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin:4px;text-transform:uppercase;}
-.lab-btn-q:hover{background:#6d28d9;}
+#lab-box{background:#0F191B;border:1px solid #2DD4BF;border-radius:8px;padding:20px 28px;text-align:center;color:#fff;font-family:Arial,sans-serif;}
+#lab-box h2{font-size:11px;letter-spacing:2px;color:#5EEAD4;text-transform:uppercase;margin-bottom:14px;}
+.lab-btn-q{background:#0D9488;color:#fff;border:none;border-radius:4px;padding:9px 18px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin:4px;text-transform:uppercase;}
+.lab-btn-q:hover{background:#0F766E;}
 #lab-cancel{background:#555;color:#fff;border:none;border-radius:4px;padding:7px 16px;font-family:Arial,sans-serif;font-size:10px;cursor:pointer;margin-top:10px;text-transform:uppercase;}
 #lab-cancel:hover{background:#777;}
 
@@ -303,9 +303,9 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 
 /* ─── MODAL PIN ─── */
 #pin-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(8,10,22,0.97);z-index:2000;display:flex;align-items:center;justify-content:center;}
-#pin-box{background:#0d1117;border:1px solid rgba(144,202,249,0.18);border-radius:14px;padding:36px 40px 30px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:300px;box-shadow:0 12px 60px rgba(0,0,0,0.9);}
+#pin-box{background:#0B1517;border:1px solid rgba(13,148,136,0.18);border-radius:14px;padding:36px 40px 30px;text-align:center;color:#fff;font-family:Arial,sans-serif;min-width:300px;box-shadow:0 12px 60px rgba(0,0,0,0.9);}
 #pin-logo{width:64px;height:auto;margin-bottom:18px;opacity:0.9;}
-#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#c4b5fd;margin-bottom:6px;}
+#pin-box h2{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#5EEAD4;margin-bottom:6px;}
 #pin-box p{font-size:10.5px;color:rgba(255,255,255,0.3);margin-bottom:22px;line-height:1.6;}
 #pin-input{
   background:transparent;
@@ -326,7 +326,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   margin-right:auto;
   transition:border-color 0.2s;
 }
-#pin-input:focus{border-bottom-color:#a78bfa;}
+#pin-input:focus{border-bottom-color:#2DD4BF;}
 #pin-input.pin-ok{border-bottom-color:#66bb6a;}
 #pin-input.pin-error-field{border-bottom-color:#ef5350;}
 @keyframes pinShake{
@@ -339,15 +339,15 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
   90%{transform:translateX(3px);}
 }
 #pin-input.shake{animation:pinShake 0.45s ease;}
-#pin-btn-ok{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
-#pin-btn-ok:hover{background:linear-gradient(135deg,#6d28d9,#a78bfa);}
+#pin-btn-ok{background:linear-gradient(135deg,#0D9488,#0F766E);color:#fff;border:none;border-radius:6px;padding:10px 28px;font-family:Arial,sans-serif;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:8px;transition:background 0.2s;}
+#pin-btn-ok:hover{background:linear-gradient(135deg,#0F766E,#2DD4BF);}
 #pin-btn-skip{background:transparent;color:rgba(255,255,255,0.3);border:none;border-radius:6px;padding:10px 18px;font-family:Arial,sans-serif;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;transition:color 0.2s;}
 #pin-btn-skip:hover{color:rgba(255,255,255,0.6);}
 #pin-error{color:#ef9a9a;font-size:10px;margin-top:6px;margin-bottom:16px;min-height:14px;letter-spacing:0.5px;}
 #pin-medicos{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
 .pin-medico-btn{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:rgba(255,255,255,0.6);font-family:Arial,sans-serif;font-size:10px;padding:8px 14px;cursor:pointer;text-align:left;transition:all 0.15s;}
 .pin-medico-btn:hover{background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.3);color:#fff;}
-.pin-medico-btn.seleccionado{background:rgba(124,58,237,0.3);border-color:#a78bfa;color:#fff;}
+.pin-medico-btn.seleccionado{background:rgba(13,148,136,0.3);border-color:#2DD4BF;color:#fff;}
 
 /* ─── INPUT DATALIST INTERNACIÓN ─── */
 .ied-input{
@@ -424,7 +424,7 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
 .modo-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:3px;
   color:rgba(255,255,255,0.5);font-size:9px;font-family:Arial,sans-serif;
   padding:2px 8px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
-.modo-btn.activo{background:#7c3aed;border-color:#a78bfa;color:#fff;}
+.modo-btn.activo{background:#0D9488;border-color:#2DD4BF;color:#fff;}
 
 @media print{
   .lq-ck{border:.8px solid #000!important;}
@@ -932,11 +932,11 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
                  border-radius:4px;color:rgba(255,255,255,0.45);font-size:9px;
                  padding:2px 8px;cursor:pointer;font-family:Arial,sans-serif;
                  white-space:nowrap;display:flex;align-items:center;gap:4px;">
-          &#128203; <span id="registro-contador" style="color:#c4b5fd;font-weight:700;">0</span>
+          &#128203; <span id="registro-contador" style="color:#5EEAD4;font-weight:700;">0</span>
         </button>
         <div id="registro-lista"
           style="display:none;position:absolute;top:calc(100% + 4px);right:0;
-                 background:#0d1117;border:1px solid rgba(255,255,255,0.1);
+                 background:#0B1517;border:1px solid rgba(255,255,255,0.1);
                  border-radius:6px;min-width:660px;max-height:200px;
                  overflow-y:auto;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
           <div style="display:flex;justify-content:space-between;align-items:center;
@@ -947,10 +947,10 @@ body{font-family:Calibri,"Segoe UI",Arial,sans-serif;background:#d0d0d0;}
             </span>
             <button onclick="imprimirLibro()"
               title="Imprimir registro de pacientes para el libro físico"
-              style="background:#7c3aed;border:none;
+              style="background:#0D9488;border:none;
                      border-radius:4px;color:#fff;font-size:9px;font-weight:700;
                      padding:3px 10px;cursor:pointer;font-family:Arial,sans-serif;
-                     letter-spacing:0.5px;box-shadow:0 1px 4px rgba(124,58,237,0.4);
+                     letter-spacing:0.5px;box-shadow:0 1px 4px rgba(13,148,136,0.4);
                      margin-right:4px;">
               &#128218; Imprimir libro
             </button>
@@ -1673,13 +1673,13 @@ function renderRegistro(){
   if(!body) return;
   body.innerHTML = _registro.map(function(r, i){
     const esActivo = (i === _idxRecargado);
-    const rowBg    = esActivo ? 'background:rgba(144,202,249,0.08);' : '';
+    const rowBg    = esActivo ? 'background:rgba(13,148,136,0.08);' : '';
     const btnLabel = esActivo ? '&#10003; En panel' : '&#8617; Recargar';
-    const btnBg    = esActivo ? '#0d3b5e' : '#15803d';
+    const btnBg    = esActivo ? '#115E59' : '#15803d';
     const btnTitle = esActivo ? 'Este paciente ya está cargado en el panel' : 'Recargar datos del paciente';
     return '<tr style="'+rowBg+'">'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.25);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.num+'</td>'+
-      '<td style="padding:3px 8px;color:#c4b5fd;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.hora+'</td>'+
+      '<td style="padding:3px 8px;color:#5EEAD4;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.05)">'+r.hora+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.85);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.nb+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.os+'</td>'+
       '<td style="padding:3px 8px;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.05)">'+r.af+'</td>'+
@@ -1741,7 +1741,7 @@ function imprimirLibro(){
     h2 { font-size: 11pt; margin: 0 0 2mm; }
     p  { font-size: 8pt; margin: 0 0 4mm; color: #444; }
     table { width: 100%; border-collapse: collapse; }
-    th { background: #18181b; color: #fff; font-size: 8pt; padding: 4px 6px;
+    th { background: #0F191B; color: #fff; font-size: 8pt; padding: 4px 6px;
          text-align: left; letter-spacing: 0.5px; }
     td { font-size: 8.5pt; padding: 4px 6px; border-bottom: 0.4pt solid #ccc;
          vertical-align: top; }
